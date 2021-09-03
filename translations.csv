@@ -1,0 +1,111 @@
+keys,en
+MODE_STORY_NAME,Story Mode
+MODE_STORY_DESC,Play through the game's story
+MODE_STANDARD_NAME,Standard Mode
+MODE_STANDARD_DESC,Standard drilling situations
+MODE_TIME_NAME,Time Attack
+MODE_TIME_DESC,Dig under a certain time
+HUD_SCORE,Score
+HUD_TIME,Time
+HUD_LIVES,Lives
+HUD_DEPTH,Depth
+NAME_UNKNOWN,???
+NAME_MOLE,Mola
+NAME_PRAIRIE,Prar
+NAME_BADGUY,Asshole
+NAME_TORTOISE,Cake
+NAME_JERBOA,Jarb
+NAME_WOMBAT,Zombo
+NAME_ROBOT,FYI
+NAME_PANGOLIN,Pango
+NAME_OWL,Owl Pun
+NAME_SPIDER,Ayudame
+CHAPTER_1,The Beginning
+LEVEL_S1-1,Welcome to Terratrum
+LEVEL_S1-1_DESC,Drill down 100m
+TEXT_S1-1_0,"[color=red]Terratrum: the living planet.[/color] Just as trees grow fruit to spread their seeds, [color=red]Terratrum[/color] grows [color=red]Blocks[/color] full of [color=red]Pollen[/color]."
+TEXT_S1-1_1,"[color=red]Miners[/color] like me mine these [color=red]Blocks[/color] to get the [color=red]Terra Energy[/color] inside them, and this, in turn, spreads their [color=red]Pollen[/color] into the air, ensuring the planet lives on."
+TEXT_S1-1_2,We use the [color=red]Terra Energy[/color] as food source and as energy for our technology.
+TEXT_S1-1_3,"But little did I know, today's dig would take some unexpected turns."
+LEVEL_S1-2,Mola and Prar
+LEVEL_S1-2_DESC,Drill down 200m
+TEXT_S1-2_0,"Oh hey, [color=red]Prar[/color], how're you doing?"
+TEXT_S1-2_1,Bad! Bad bad! Bad! I just saw some right proper bullshit down there! Some sort of [color=red]giant machine[/color]!
+TEXT_S1-2_2,Oh sick does it shoot lasers?
+TEXT_S1-2_3,No! It doesn't! Probably! But it was big and scary! You gotta see it!
+TEXT_S1-2_4,"Alright, fine, lead the way, [color=red]Prar[/color]."
+LEVEL_S1-3,Mole vs Machine
+LEVEL_S1-3_DESC,Drill down 200m in under 4 minutes!
+TEXT_S1-3_0,"Woah, that thing is huge!"
+TEXT_S1-3_1,Why hello there! I see you're admiring my [color=red]Turbo Drill[/color]!
+TEXT_S1-3_2,A drill? Something that big sure looks like it'll help a lot with mining!
+TEXT_S1-3_3,"More than you could ever imagine, my friend! It will soon be the fastest way to get [color=red]Terra Energy[/color]!"
+TEXT_S1-3_4,"Heh, faster than me? I don't think so!"
+TEXT_S1-3_5,"There's only one way to find out, my friend! The race is on!"
+TEXT_S1-3_end_0,"Hmmm, it seems there is much work to be done if you could outmine my drill so easily!"
+TEXT_S1-3_end_1,"Looks like the machines won't be taking our jorbs any time soon, ha ha!"
+LEVEL_S1-4,Cave-In!
+LEVEL_S1-4_DESC,Drill down 200m and avoid debris
+TEXT_S1-4_0,"This has been fun, but I must be going; as you can see there is much more work to be done! Ta-ta for now!"
+TEXT_S1-4_1,[i]*drill drill drill*[/i]
+TEXT_S1-4_2,[color=red]Mola[/color]! That big drill is shaking everything up! [color=red]Debris[/color] is falling everywhere!
+TEXT_S1-4_3,"Look out! We gotta get out of here, fast!"
+TEXT_S1-4_end_0,That was a close one...
+TEXT_S1-4_end_1,Yeah... I have a bad feeling about that drill. We should warn our friends about it.
+CHAPTER_2,Rise of the Fuckers
+LEVEL_S2-1,Friendly Competition
+LEVEL_S2-1_DESC,Drill down 300m
+TEXT_S2-1_0,Finally... the last drill of the day.
+TEXT_S2-1_1,Wrapping things up?
+TEXT_S2-1_2,"Yup, just [color=red]300 meters[/color] left and I'm clocking out."
+TEXT_S2-1_3,Me too! Race you to the bottom?
+TEXT_S2-1_4,I'll see you down there!
+LEVEL_S2-2,Blowing Off Steam
+LEVEL_S2-2_DESC,Drill down 400m
+TEXT_S2-2_0,"That was fun. Hey, who's that running over here?"
+TEXT_S2-2_1,"Hey gang, there's some guy with a big drill around that's fuckin' shit up."
+TEXT_S2-2_2,"Oh, the [color=red]big drill dude[/color]? He's over there talking to [color=red]Zombo[/color] right now."
+TEXT_S2-2_3,"For the last time, we don't need any dang machines at our mining site, and that's final!"
+TEXT_S2-2_4,You don't understand what you're saying no to! You'll regret this!
+TEXT_S2-2_5,That guy was a real piece of work. I need to do some digging to calm myself down.
+LEVEL_S2-3,Drill Problems
+LEVEL_S2-3_DESC,Destroy the 6 Drill Cores
+TEXT_S2-3_0,"Howdy y'all, what're you all doin' here?"
+TEXT_S2-3_1,"We came to warn you about that drill dude, but it looks like you've already been acquainted."
+TEXT_S2-3_2,"Yeah, he wanted to peddle his scrap here, but this is a valuable mining site! We won't just let any goon use their fancy toys here; it could be dangerous!"
+TEXT_S2-3_3,"Well I've got some bad news for you, because it looks like he just started drilling over there."
+TEXT_S2-3_4,Son of a fuck! We gotta stop that piece of shit!
+LEVEL_S2-4,Problem Drill
+LEVEL_S2-4_DESC,Avoid and Destroy the Turbo Drill
+TEXT_S2-4_0,What are you doing to my [color=red]Turbo Drill[/color]?!
+TEXT_S2-4_1,I told you we didn't want you drilling here! So either get out of here or we'll throw you out of here!
+TEXT_S2-4_2,"Ha ha ha, you think YOU can stop ME? Let's turn the tables here. Try outdigging my drill THIS TIME!"
+CHAPTER_3,A Problem Emerge
+LEVEL_S3-1,Red Alert
+LEVEL_S3-1_DESC,Drill down 500m
+LEVEL_S3-1_0,YO YO PANGO WE GOT A PROBLEM.
+LEVEL_S3-1_1,"What is it, FYI?"
+LEVEL_S3-1_2,I'VE DETECTED A STATISTICALLY SIGNIFICANT DOWNWARD DEVIATION IN POLLEN PRODUCTION IN THE AREA
+LEVEL_S3-1_3,...
+LEVEL_S3-1_4,I MEAN UH THERE'S NOT AS MUCH POLLEN AS THERE SHOULD BE GOING AROUND. IT MAY BE RELATED TO ANOTHER ANOMOLY I'M DETECTING IN THE EAST.
+LEVEL_S3-1_5,Well let's go check it out then!
+LEVEL_S3-2,The Gang Shits Itself
+LEVEL_S3-2_DESC,"Fuckin' uhhh I dunno, drill 500m but wide"
+LEVEL_S3-2_0,"Oh hey Pango, hey FYI. What's up?"
+LEVEL_S3-2_1,THE RATIO OF POLLEN PRODUCED TO BLOCKS MINED IS TOO LOW.
+LEVEL_S3-2_2,"Oh, uh, is it? Okay, uh... what does that mean?"
+LEVEL_S3-2_3,NO CONCLUSIONS YET. IF I CAN GET SOME SOIL SAMPLES I CAN DO SOME CALCULATIONS TO DETERMINE A POTENTIAL CAUSE OF THIS BEHAVIOR.
+LEVEL_S3-2_4,"So you want us to start digging. Ok, we can do that!"
+LEVEL_S3-3,Confronting the Asshole
+LEVEL_S3-3_DESC,"Drill down 500m, avoiding Hazard Blocks"
+LEVEL_S3-3_0,IT APPEARS [i]*cough*[/i] excuse me. Have... have I been yelling this whole time?
+LEVEL_S3-3_1,Yes.
+LEVEL_S3-3_2,"Oh geez, I'm sorry. Anyway, it appears that something that mined here didn't just harvest Terra Energy from the Blocks, but the pollen as well."
+LEVEL_S3-3_3,It was probably that fuckin' honkey with the tiny-dick drill.
+LEVEL_S3-3_4,"I think he went north, but if we want to get to him soon, the quickest way is through the volcano region."
+LEVEL_S3-3_5,Then let's pack some ice packs and get going!
+LEVEL_S3-4,Entering the Asshole Lair
+LEVEL_S3-4_DESC,Unlock the entrance to the Lair
+LEVEL_S3-4_0,Looks like that little fucker didn't skimp on security. This entrance is locked.
+LEVEL_S3-4_1,"If it's locked, then it can be unlocked, so let's slap a le fuckign key in there!"
+LEVEL_S3-4_2,Yeah okay sounds good bro fuck off.

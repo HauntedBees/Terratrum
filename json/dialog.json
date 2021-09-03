@@ -1,0 +1,40 @@
+{
+	"S1-1": [
+		{ "key": "TEXT_S1-1_0", "speaker": "Unknown", "speaker_highlight": "", "left_img": "", "right_img": "", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-1_1", "speaker": "Unknown", "speaker_highlight": "", "left_img": "", "right_img": "", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-1_2", "speaker": "Mole", "speaker_highlight": "R", "left_img": "", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-1_3", "speaker": "Mole", "speaker_highlight": "R", "left_img": "", "right_img": "moleR1", "bg_img": "bg1" }
+	],
+	"S1-2": [
+		{ "key": "TEXT_S1-2_0", "speaker": "Mole", "speaker_highlight": "R", "left_img": "", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-2_1", "speaker": "Prairie", "speaker_highlight": "L", "left_img": "prairieL1", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-2_2", "speaker": "Mole", "speaker_highlight": "R", "left_img": "prairieL1", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-2_3", "speaker": "Prairie", "speaker_highlight": "L", "left_img": "prairieL1", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-2_4", "speaker": "Mole", "speaker_highlight": "R", "left_img": "prairieL1", "right_img": "moleR1", "bg_img": "bg1" }
+	],
+	"S1-3": [
+		{ "key": "TEXT_S1-3_0", "speaker": "Mole", "speaker_highlight": "R", "left_img": "", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-3_1", "speaker": "BadGuy", "speaker_highlight": "L", "left_img": "badguyL1", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-3_2", "speaker": "Mole", "speaker_highlight": "R", "left_img": "badguyL1", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-3_3", "speaker": "BadGuy", "speaker_highlight": "L", "left_img": "badguyL1", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-3_4", "speaker": "Mole", "speaker_highlight": "R", "left_img": "badguyL1", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-3_5", "speaker": "BadGuy", "speaker_highlight": "L", "left_img": "badguyL1", "right_img": "moleR1", "bg_img": "bg1" }
+	],
+	"S1-3_end": [
+		{ "key": "TEXT_S1-3_end_0", "speaker": "BadGuy", "speaker_highlight": "L", "left_img": "badguyL1", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-3_end_1", "speaker": "Mole", "speaker_highlight": "R", "left_img": "badguyL1", "right_img": "moleR1", "bg_img": "bg1" }
+	],
+	"S1-4": [
+		{ "key": "TEXT_S1-4_0", "speaker": "BadGuy", "speaker_highlight": "L", "left_img": "badguyL1", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-4_2", "speaker": "Unknown", "speaker_highlight": "", "left_img": "", "right_img": "", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-4_3", "speaker": "Prairie", "speaker_highlight": "L", "left_img": "prairieL1", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-4_4", "speaker": "Mole", "speaker_highlight": "R", "left_img": "prairieL1", "right_img": "moleR1", "bg_img": "bg1" }
+	],
+	"S1-4_end": [
+		{ "key": "TEXT_S1-3_end_0", "speaker": "Prairie", "speaker_highlight": "L", "left_img": "prairieL1", "right_img": "moleR1", "bg_img": "bg1" },
+		{ "key": "TEXT_S1-3_end_1", "speaker": "Mole", "speaker_highlight": "R", "left_img": "prairieL1", "right_img": "moleR1", "bg_img": "bg1" }
+	],
+	"S2-1": [
+		{ "key": "TEXT_S2-1_0", "speaker": "Unknown", "speaker_highlight": "", "left_img": "", "right_img": "", "bg_img": "bg1" }
+	]
+}

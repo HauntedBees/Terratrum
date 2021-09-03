@@ -1,0 +1,112 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://code/input/FullScreenTouch.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 136.129, 148.353 )
+
+[node name="FullScreenTouch" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Bottom" type="Area2D" parent="."]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Polygon2D" type="Polygon2D" parent="Bottom"]
+color = Color( 0.109804, 0.219608, 0.921569, 0.231373 )
+polygon = PoolVector2Array( -1.90259, 644.409, 98.1481, 540.583, 375.647, 540.583, 475.698, 648.184, 481.361, 853.949, -5.6781, 857.724 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Bottom"]
+polygon = PoolVector2Array( -3.64099, 641.53, 97.1527, 540.736, 375.595, 541.996, 481.429, 652.869, 480.169, 853.197, -2.38104, 855.716 )
+
+[node name="Left" type="Area2D" parent="."]
+position = Vector2( -213.316, -345.458 )
+
+[node name="Polygon2D" type="Polygon2D" parent="Left"]
+position = Vector2( 787.02, 504.029 )
+rotation = 1.5708
+scale = Vector2( 1, 0.880952 )
+color = Color( 0.109804, 0.219608, 0.921569, 0.231373 )
+polygon = PoolVector2Array( -1.90259, 644.409, 98.1481, 540.583, 375.647, 540.583, 475.698, 648.184, 481.361, 853.949, -5.6781, 857.724 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Left"]
+position = Vector2( 853.262, 503.519 )
+rotation = 1.5708
+scale = Vector2( 1.02189, 1 )
+polygon = PoolVector2Array( -3.64099, 641.53, 97.1527, 540.736, 375.595, 541.996, 481.429, 652.869, 480.169, 853.197, -2.38104, 855.716 )
+
+[node name="Right" type="Area2D" parent="."]
+position = Vector2( 681.398, 1134.52 )
+rotation = 3.14159
+
+[node name="Polygon2D" type="Polygon2D" parent="Right"]
+position = Vector2( 787.02, 504.029 )
+rotation = 1.5708
+scale = Vector2( 1, 0.880952 )
+color = Color( 0.109804, 0.219608, 0.921569, 0.231373 )
+polygon = PoolVector2Array( -1.90259, 644.409, 98.1481, 540.583, 375.647, 540.583, 475.698, 648.184, 481.361, 853.949, -5.6781, 857.724 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Right"]
+position = Vector2( 853.262, 497.782 )
+rotation = 1.5708
+scale = Vector2( 1.03405, 1 )
+polygon = PoolVector2Array( -3.64099, 641.53, 97.1527, 540.736, 375.595, 541.996, 481.429, 652.869, 480.169, 853.197, -2.38104, 855.716 )
+
+[node name="Up" type="Area2D" parent="."]
+position = Vector2( 979.162, -53.6218 )
+rotation = 1.5708
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Polygon2D" type="Polygon2D" parent="Up"]
+position = Vector2( 787.02, 504.029 )
+rotation = 1.5708
+scale = Vector2( 1, 0.880952 )
+color = Color( 0.109804, 0.219608, 0.921569, 0.231373 )
+polygon = PoolVector2Array( -1.90259, 644.409, 98.1481, 540.583, 375.647, 540.583, 475.698, 648.184, 481.361, 853.949, -5.6781, 857.724 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Up"]
+position = Vector2( 853.262, 505.917 )
+rotation = 1.5708
+polygon = PoolVector2Array( -3.64099, 641.53, 97.1527, 540.736, 375.595, 541.996, 481.429, 652.869, 480.169, 853.197, -2.38104, 855.716 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 168.0
+margin_bottom = 27.0
+text = "AAAAA"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Center" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Center"]
+position = Vector2( 234.081, 403.978 )
+shape = SubResource( 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+margin_right = 478.0
+margin_bottom = 850.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="input_event" from="Bottom" to="." method="_on_Bottom_input_event"]
+[connection signal="mouse_entered" from="Bottom" to="." method="_on_Bottom_mouse_entered"]
+[connection signal="mouse_exited" from="Bottom" to="." method="_on_Bottom_mouse_exited"]
+[connection signal="input_event" from="Left" to="." method="_on_Left_input_event"]
+[connection signal="mouse_entered" from="Left" to="." method="_on_Left_mouse_entered"]
+[connection signal="mouse_exited" from="Left" to="." method="_on_Left_mouse_exited"]
+[connection signal="input_event" from="Right" to="." method="_on_Right_input_event"]
+[connection signal="mouse_entered" from="Right" to="." method="_on_Right_mouse_entered"]
+[connection signal="mouse_exited" from="Right" to="." method="_on_Right_mouse_exited"]
+[connection signal="input_event" from="Up" to="." method="_on_Up_input_event"]
+[connection signal="mouse_entered" from="Up" to="." method="_on_Up_mouse_entered"]
+[connection signal="mouse_exited" from="Up" to="." method="_on_Up_mouse_exited"]
+[connection signal="input_event" from="Center" to="." method="_on_Center_input_event"]
+[connection signal="mouse_entered" from="Center" to="." method="_on_Center_mouse_entered"]
+[connection signal="mouse_exited" from="Center" to="." method="_on_Center_mouse_exited"]

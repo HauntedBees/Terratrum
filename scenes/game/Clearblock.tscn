@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://code/Clearblock.gd" type="Script" id=1]
+[ext_resource path="res://assets/tiles/all_clears/100.png" type="Texture" id=2]
+[ext_resource path="res://assets/fonts/Hezaedrus-Black.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 226.125, 125.398 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 48
+outline_size = 2
+outline_color = Color( 0.792157, 0.631373, 0.364706, 1 )
+font_data = ExtResource( 3 )
+
+[node name="Clearblock" type="Node2D"]
+scale = Vector2( 1, 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+visible = false
+scale = Vector2( 0.625, 0.625 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+visible = false
+position = Vector2( 222.708, 125.415 )
+shape = SubResource( 1 )
+
+[node name="Clearblock" type="Sprite" parent="."]
+scale = Vector2( 1.25, 1.25 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Label" type="Label" parent="."]
+margin_left = 4.0
+margin_top = 2.0
+margin_right = 555.0
+margin_bottom = 319.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.894118, 0.827451, 0.568627, 1 )
+custom_colors/font_color_shadow = Color( 0.596078, 0.568627, 0.501961, 1 )
+text = "100m"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

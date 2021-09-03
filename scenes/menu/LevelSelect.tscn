@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://code/LevelSelect.gd" type="Script" id=1]
+[ext_resource path="res://scenes/menu/MenuGoBack.tscn" type="PackedScene" id=2]
+
+[node name="LevelSelect" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Overlay" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Overlay"]
+light_mask = 524288
+margin_right = 720.0
+margin_bottom = 1080.0
+color = Color( 0, 0, 0, 0.388235 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="Overlay"]
+
+[node name="ClickLayer" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="ClickLayer"]
+margin_right = 720.0
+margin_bottom = 1080.0
+color = Color( 1, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuGoBack" parent="." instance=ExtResource( 2 )]
+
+[connection signal="gui_input" from="ClickLayer/ColorRect" to="." method="_on_outer_input"]
+[connection signal="back_select" from="MenuGoBack" to="." method="_on_MenuGoBack_back_select"]

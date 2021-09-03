@@ -1,0 +1,72 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/mononoki/mononoki-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/hud/textarea.png" type="Texture" id=2]
+[ext_resource path="res://code/HUDText.gd" type="Script" id=3]
+[ext_resource path="res://assets/mononoki/mononoki-BoldItalic.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://assets/hud/infoarea.png" type="Texture" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 1 )
+
+[node name="HUDText" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 2 )
+
+[node name="infoarea" type="Sprite" parent="."]
+scale = Vector2( 0.328438, 0.266037 )
+texture = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -67.9186
+margin_top = -25.7688
+margin_right = -12.4186
+margin_bottom = -6.76881
+custom_fonts/font = SubResource( 1 )
+text = "Time:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MaxDepth" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -37.7401
+margin_top = 8.25992
+margin_right = 69.2599
+margin_bottom = 27.2599
+custom_fonts/font = SubResource( 1 )
+text = "/500m"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Value" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -67.2202
+margin_top = -8.37003
+margin_right = 66.7798
+margin_bottom = 10.63
+rect_pivot_offset = Vector2( -237.5, 132.5 )
+custom_fonts/font = SubResource( 2 )
+text = "05:05:05"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}

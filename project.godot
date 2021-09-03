@@ -1,0 +1,117 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "Block",
+"language": "GDScript",
+"path": "res://code/Block.gd"
+}, {
+"base": "Node2D",
+"class": "BlockHandler",
+"language": "GDScript",
+"path": "res://code/game/BlockHandler.gd"
+}, {
+"base": "AnimatedSprite",
+"class": "CharSel",
+"language": "GDScript",
+"path": "res://code/CharSel.gd"
+}, {
+"base": "Node",
+"class": "Consts",
+"language": "GDScript",
+"path": "res://code/Consts.gd"
+}, {
+"base": "Node2D",
+"class": "FullScreenTouch",
+"language": "GDScript",
+"path": "res://code/input/FullScreenTouch.gd"
+}, {
+"base": "Node2D",
+"class": "HUDText",
+"language": "GDScript",
+"path": "res://code/HUDText.gd"
+}, {
+"base": "Node2D",
+"class": "LevelBuilder",
+"language": "GDScript",
+"path": "res://code/game/LevelBuilder.gd"
+}, {
+"base": "Node2D",
+"class": "Menu",
+"language": "GDScript",
+"path": "res://code/Menu.gd"
+}, {
+"base": "Node2D",
+"class": "MenuLevel",
+"language": "GDScript",
+"path": "res://code/MenuLevel.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://code/Player.gd"
+} ]
+_global_script_class_icons={
+"Block": "",
+"BlockHandler": "",
+"CharSel": "",
+"Consts": "",
+"FullScreenTouch": "",
+"HUDText": "",
+"LevelBuilder": "",
+"Menu": "",
+"MenuLevel": "",
+"Player": ""
+}
+
+[application]
+
+config/name="Terratrum"
+run/main_scene="res://scenes/menu/MainMenu.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+SceneSwitcher="*res://scenes/SceneSwitcher.tscn"
+Levels="*res://gamedata/Levels.gd"
+PlayerData="*res://gamedata/PlayerData.gd"
+
+[debug]
+
+gdscript/warnings/return_value_discarded=false
+gdscript/warnings/integer_division=false
+
+[display]
+
+window/size/width=720
+window/size/height=1080
+window/size/test_width=480
+window/size/test_height=720
+window/handheld/orientation="portrait"
+window/stretch/mode="2d"
+window/stretch/aspect="keep_width"
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
+[locale]
+
+translations=PoolStringArray( "res://translations.en.translation" )
+
+[physics]
+
+common/enable_pause_aware_picking=true
+2d/default_gravity=120
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

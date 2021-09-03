@@ -1,0 +1,131 @@
+{
+	"standard": [
+		{
+			"level": 1,
+			"depth": 200,
+			"characters": ["Tortoise", "Jerboa"],
+			"chunks": [
+				{ "colors": 4, "air_rate": 0, "x_rate": 0.0 },
+				{ "colors": 3, "air_rate": 0, "x_rate": 0.0 }
+			],
+			"gimmicks": []
+		}, {
+			"level": 2,
+			"depth": 300,
+			"characters": ["Wombat", "Owl"],
+			"chunks": [
+				{ "colors": 3, "air_rate": 1, "x_rate": 0.0 },
+				{ "colors": 4, "air_rate": 2, "x_rate": 0.0 },
+				{ "colors": 4, "air_rate": 2, "x_rate": 0.0 }
+			],
+			"gimmicks": []
+		}
+	],
+	"story": [
+		{
+			"chapter": 1,
+			"levels": [
+				{
+					"level": 1,
+					"depth": 100,
+					"characters": ["Mole"],
+					"chunks": [
+						{ "colors": 4, "air_rate": 0, "x_rate": 0.0 }
+					],
+					"gimmicks": []
+				}, {
+					"level": 2,
+					"depth": 200,
+					"characters": ["Mole", "Prairie"],
+					"chunks": [
+						{ "colors": 3, "air_rate": 0, "x_rate": 0.0 },
+						{ "colors": 4, "air_rate": 0, "x_rate": 0.0 }
+					],
+					"gimmicks": []
+				}, {
+					"level": 3,
+					"depth": 200,
+					"characters": ["Mole", "Prairie"],
+					"chunks": [
+						{ "colors": 4, "air_rate": 0, "x_rate": 0.0 },
+						{ "colors": 2, "air_rate": 0, "x_rate": 0.0 }
+					],
+					"gimmicks": [
+						{ "type": "TIME_TRIAL", "limit": 240 }
+					]
+				}, {
+					"level": 4,
+					"depth": 200,
+					"characters": ["Mole", "Prairie"],
+					"chunks": [
+						{ "colors": 3, "air_rate": 0, "x_rate": 0.0 },
+						{ "colors": 2, "air_rate": 0, "x_rate": 0.0 }
+					],
+					"gimmicks": [
+						{ "type": "DEBRIS", "intensity": 0.25 }
+					]
+				}
+			]
+		}, {
+			"chapter": 2,
+			"levels": [
+				{
+					"level": 1,
+					"depth": 300,
+					"characters": ["Tortoise", "Jerboa"],
+					"chunks": [
+						{ "colors": 4, "air_rate": 0, "x_rate": 0.0 },
+						{ "colors": 2, "air_rate": 0, "x_rate": 0.0 },
+						{ "colors": 3, "air_rate": 0, "x_rate": 0.0 }
+					],
+					"gimmicks": []
+				}, {
+					"level": 2,
+					"depth": 300,
+					"characters": ["Wombat"],
+					"chunks": [
+						{ "colors": 3, "air_rate": 1, "x_rate": 0.0 },
+						{ "colors": 4, "air_rate": 2, "x_rate": 0.0 },
+						{ "colors": 4, "air_rate": 2, "x_rate": 0.0 }
+					],
+					"gimmicks": []
+				}, {
+					"level": 3,
+					"depth": 0,
+					"characters": ["Mole", "Prairie", "Tortoise", "Jerboa", "Wombat"],
+					"chunks": [
+						{ "colors": 4, "air_rate": 0, "x_rate": 0.0 },
+						{ "colors": 2, "air_rate": 0, "x_rate": 0.5 },
+						{ "colors": 3, "air_rate": 1, "x_rate": 0.5 }
+					],
+					"gimmicks": [
+						{ "type": "DESTROY_CORES", "count": 6 }
+					]
+				}, {
+					"level": 4,
+					"depth": 0,
+					"characters": ["Mole", "Prairie", "Tortoise", "Jerboa", "Wombat"],
+					"chunks": [
+						{ "colors": 4, "air_rate": 0, "x_rate": 0.0 },
+						{ "colors": 2, "air_rate": 0, "x_rate": 0.5 },
+						{ "colors": 3, "air_rate": 1, "x_rate": 0.5 }
+					],
+					"gimmicks": [
+						{ "type": "TURBO_DRILL", "health": 3, "speed": 0.125 }
+					]
+				}
+			]
+		}
+	],
+	"debug": [
+		{
+			"level": 1,
+			"depth": 100,
+			"characters": ["Mole"],
+			"chunks": [
+				{ "colors": 4, "air_rate": 0, "x_rate": 0.0 }
+			],
+			"gimmicks": []
+		}
+	]
+}

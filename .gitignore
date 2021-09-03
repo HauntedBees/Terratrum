@@ -1,0 +1,9 @@
+.import/
+.vscode/
+export.cfg
+export_presets.cfg
+*.keystore
+*.translation
+.mono/
+data_*/
+*.csv#

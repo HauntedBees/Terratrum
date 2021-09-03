@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://VInput/btn.png" type="Texture" id=1]
+[ext_resource path="res://VInput/btnPressed.png" type="Texture" id=2]
+[ext_resource path="res://assets/fonts/Hezaedrus-Medium.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://VInput/VBtn.gd" type="Script" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="DynamicFont" id=2]
+size = 72
+font_data = ExtResource( 3 )
+
+[node name="VBtn" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="Btn" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+
+[node name="TextContainer" type="Node2D" parent="."]
+
+[node name="Text" type="Label" parent="TextContainer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 2.0
+margin_left = -129.0
+margin_top = -59.0
+margin_right = 129.0
+margin_bottom = 27.0
+custom_fonts/font = SubResource( 2 )
+text = "DRILL"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

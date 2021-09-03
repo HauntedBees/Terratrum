@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://code/MainMenu.gd" type="Script" id=1]
+[ext_resource path="res://scenes/menu/MenuSelect.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/menu/ChapterSelect.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/menu/LevelSelect.tscn" type="PackedScene" id=4]
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="MenuSelect" parent="." instance=ExtResource( 2 )]
+
+[node name="ChapterSelect" parent="." instance=ExtResource( 3 )]
+position = Vector2( 730, 0 )
+
+[node name="LevelSelect" parent="." instance=ExtResource( 4 )]
+position = Vector2( 730, 0 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="selected_option" from="MenuSelect" to="." method="_on_MenuSelect_selected_option"]
+[connection signal="back_press" from="ChapterSelect" to="." method="_on_ChapterSelect_back_press"]
+[connection signal="selected_chapter" from="ChapterSelect" to="." method="_on_ChapterSelect_selected_chapter"]
+[connection signal="back_press" from="LevelSelect" to="." method="_on_LevelSelect_back_press"]

@@ -1,0 +1,103 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/fonts/Hezaedrus-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/fonts/Hezaedrus-Black.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://code/Cutscene.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 36
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 24
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 20
+font_data = ExtResource( 2 )
+
+[node name="Cutscene" type="Node2D"]
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="bg" type="Sprite" parent="."]
+centered = false
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="left" type="Sprite" parent="."]
+position = Vector2( 150, 450 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="right" type="Sprite" parent="."]
+position = Vector2( 570, 450 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = 19.0
+margin_top = 631.0
+margin_right = 694.0
+margin_bottom = 1057.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+margin_left = 57.2888
+margin_top = 601.991
+margin_right = 188.288
+margin_bottom = 635.991
+color = Color( 0.729412, 0.254902, 0.254902, 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Text" type="RichTextLabel" parent="."]
+margin_left = 35.0
+margin_top = 647.986
+margin_right = 680.0
+margin_bottom = 1042.99
+custom_fonts/mono_font = SubResource( 1 )
+custom_fonts/normal_font = SubResource( 2 )
+bbcode_enabled = true
+bbcode_text = "We chodin'"
+text = "We chodin'"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Label" parent="."]
+margin_left = 62.3294
+margin_top = 606.519
+margin_right = 182.329
+margin_bottom = 630.519
+custom_fonts/font = SubResource( 3 )
+text = "Anus"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="SkipButton" type="Button" parent="."]
+margin_left = 618.231
+margin_top = 9.00674
+margin_right = 693.231
+margin_bottom = 41.0067
+text = "Skip"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="SkipButton" to="." method="end_cutscene"]
