@@ -1,12 +1,11 @@
 extends Node2D
-
 const SHIFT_X := 730
 
 onready var menu_sel := $MenuSelect
 onready var chapter_sel := $ChapterSelect
 onready var level_sel := $LevelSelect
+onready var char_sel := $CharSelect
 onready var tween := $Tween
-var all_levels := {}
 
 func _ready():
 	var from_info = SceneSwitcher.get_carried_scene_data()
@@ -20,56 +19,42 @@ func _ready():
 func _on_MenuSelect_selected_option(option: String):
 	if tween.is_active(): return
 	if option == "STORY":
-		menu_sel.blur()
-		chapter_sel.blur()
-		tween.interpolate_property(menu_sel, "position:x", 0, -SHIFT_X, 0.5, Tween.TRANS_LINEAR)
-		tween.interpolate_property(chapter_sel, "position:x", SHIFT_X, 0, 0.5, Tween.TRANS_LINEAR)
-		tween.start()
-		yield(tween, "tween_completed")
-		menu_sel.unblur()
-		chapter_sel.unblur()
+		switch_areund(menu_sel, chapter_sel, false)
 	if option == "STANDARD":
 		if tween.is_active(): return
 		level_sel.set_mode("standard")
-		menu_sel.blur()
-		level_sel.blur()
-		tween.interpolate_property(menu_sel, "position:x", 0, -SHIFT_X, 0.5, Tween.TRANS_LINEAR)
-		tween.interpolate_property(level_sel, "position:x", SHIFT_X, 0, 0.5, Tween.TRANS_LINEAR)
-		tween.start()
-		yield(tween, "tween_completed")
-		level_sel.unblur()
-		menu_sel.unblur()
-
+		switch_areund(menu_sel, level_sel, false)
+		
 func _on_ChapterSelect_selected_chapter(chapter_idx: int):
 	if tween.is_active(): return
 	level_sel.set_chapter(chapter_idx)
-	chapter_sel.blur()
-	level_sel.blur()
-	tween.interpolate_property(chapter_sel, "position:x", 0, -SHIFT_X, 0.5, Tween.TRANS_LINEAR)
-	tween.interpolate_property(level_sel, "position:x", SHIFT_X, 0, 0.5, Tween.TRANS_LINEAR)
-	tween.start()
-	yield(tween, "tween_completed")
-	level_sel.unblur()
-	chapter_sel.unblur()
+	switch_areund(chapter_sel, level_sel, false)
+
+func _on_LevelSelect_level_select(level: Levels.LevelInfo, metadata: Dictionary):
+	if tween.is_active(): return
+	char_sel.set_level(level, metadata)
+	switch_areund(level_sel, char_sel, false)
 
 func _on_ChapterSelect_back_press():
 	if tween.is_active(): return
-	menu_sel.blur()
-	chapter_sel.blur()
-	tween.interpolate_property(menu_sel, "position:x", -SHIFT_X, 0, 0.5, Tween.TRANS_LINEAR)
-	tween.interpolate_property(chapter_sel, "position:x", 0, SHIFT_X, 0.5, Tween.TRANS_LINEAR)
-	tween.start()
-	yield(tween, "tween_completed")
-	menu_sel.unblur()
-	chapter_sel.unblur()
-
+	switch_areund(menu_sel, chapter_sel, true)
 func _on_LevelSelect_back_press():
 	if tween.is_active(): return
-	level_sel.blur()
-	chapter_sel.blur()
-	tween.interpolate_property(chapter_sel, "position:x", -SHIFT_X, 0, 0.5, Tween.TRANS_LINEAR)
-	tween.interpolate_property(level_sel, "position:x", 0, SHIFT_X, 0.5, Tween.TRANS_LINEAR)
+	switch_areund(chapter_sel, level_sel, true)
+func _on_CharSelect_back_press():
+	if tween.is_active(): return
+	switch_areund(level_sel, char_sel, true)
+
+func switch_areund(old, new, is_back: bool):
+	old.blur()
+	new.blur()
+	var old_from := -SHIFT_X if is_back else 0
+	var old_to := 0 if is_back else -SHIFT_X
+	var new_from := 0 if is_back else SHIFT_X
+	var new_to := SHIFT_X if is_back else 0
+	tween.interpolate_property(old, "position:x", old_from, old_to, 0.5, Tween.TRANS_LINEAR)
+	tween.interpolate_property(new, "position:x", new_from, new_to, 0.5, Tween.TRANS_LINEAR)
 	tween.start()
 	yield(tween, "tween_completed")
-	level_sel.unblur()
-	chapter_sel.unblur()
+	old.unblur()
+	new.unblur()

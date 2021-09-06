@@ -1,5 +1,6 @@
 extends Node2D
 signal back_press
+signal level_select(level, metadata)
 
 const level_sel = preload("res://scenes/menu/MenuLevel.tscn")
 onready var overlay := $Overlay
@@ -58,38 +59,7 @@ func clean_up():
 	level_nodes = []
 	levels = []
 
-func _on_level_selected(sel: MenuLevel):
-	if is_animating: return
-	if selected_idx >= 0:
-		close_open_level()
-		return
-	is_animating = true
-	sel.z_index = 2
-	sel.show_additional_details(450)
-	tween.interpolate_property(overlay, "modulate:a", 0, 1, 0.25, Tween.TRANS_LINEAR)
-	tween.start()
-	yield(tween, "tween_completed")
-	selected_idx = level_nodes.find(sel)
-	click_layer.show()
-	is_animating = false
-
-func _on_outer_input(event):
-	if event is InputEventMouseButton && event.button_index == 1 && selected_idx >= 0:
-		close_open_level()
-
-func close_open_level():
-	if is_animating: return
-	is_animating = true
-	var sel: MenuLevel = level_nodes[selected_idx]
-	sel.hide_additional_details()
-	sel.z_index = 0
-	selected_idx = -1
-	tween.interpolate_property(overlay, "modulate:a", 1, 0, Consts.LEVEL_OPEN_TIME, Tween.TRANS_LINEAR)
-	tween.start()
-	yield(tween, "tween_completed")
-	click_layer.hide()
-	is_animating = false
-
+func _on_level_selected(sel: MenuLevel): emit_signal("level_select", sel.level, sel.get_metadata())
 func _on_MenuGoBack_back_select(): emit_signal("back_press")
 
 func blur():

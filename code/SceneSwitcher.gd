@@ -2,6 +2,7 @@ extends Node2D
 onready var container: VBoxContainer = $Loader/Container
 onready var percent_text: Label = $Loader/Container/PercentText
 const BLOCK_MSECS := 100
+const DEBUG := true
 
 var queue = null
 var current_scene = null
@@ -13,6 +14,7 @@ func _ready():
 	var root := get_tree().get_root()
 	current_scene = root.get_child(root.get_child_count() - 1)
 func get_carried_scene_data():
+	#if DEBUG && next_scene_data == null: return Levels.FullLevelInfo.new(Levels.get_specific_level("debug", 0), "Mole")
 	return next_scene_data
 	#var response = next_scene_data
 	#next_scene_data = null

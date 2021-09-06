@@ -31,5 +31,4 @@ __meta__ = {
 
 [node name="MenuGoBack" parent="." instance=ExtResource( 2 )]
 
-[connection signal="gui_input" from="ClickLayer/ColorRect" to="." method="_on_outer_input"]
 [connection signal="back_select" from="MenuGoBack" to="." method="_on_MenuGoBack_back_select"]
