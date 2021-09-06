@@ -5,6 +5,7 @@ signal update_ui_value(key, value)
 signal set_camera_max_height(y)
 signal set_max_depth(depth)
 
+const INFO_BEEP = preload("res://scenes/game/InfoBeep.tscn")
 onready var lb: LevelBuilder = $LevelBuilder
 onready var bh: BlockHandler = $BlockHandler
 onready var clear_block: Node2D = $Clearblock
@@ -46,7 +47,8 @@ func _on_Player_drill(v: Vector2, is_air: bool = false):
 		var target_block := (potential_target as Block)
 		if !target_block.damage_block_return_if_destroyed(): return
 		if target_block.type == "hard":
-			player.unbreathe()
+			var score_loss := player.unbreathe()
+			add_info_text(-score_loss, target_block.position + Vector2(32.0, 16.0))
 			bh.separate_from_family(target_block)
 			steps = 0
 		var blocks_to_clear := target_block.family
@@ -72,10 +74,19 @@ func handle_player():
 	if potential_block == null: return
 	var b: Block = (potential_block as Block)
 	if b.type == "air":
-		player.breathe()
+		var score_bonus := player.breathe()
+		add_info_text(score_bonus, player.position)
 		_on_Player_drill(Vector2(0, 0), true)
 	elif b.state != Block.BlockState.DROPPING && !player.immune:
 		player_did_died(pos)
+
+func add_info_text(val: int, position: Vector2):
+	var info := INFO_BEEP.instance()
+	info.msg = ("+%s" if val >= 0 else "%s") % val
+	info.mode = 0 if val >= 0 else 1
+	info.position = position
+	info.z_index = 10
+	add_child(info)
 
 func player_did_died(player_pos: Vector2):
 	if player.dead: return

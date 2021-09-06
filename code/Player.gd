@@ -74,12 +74,17 @@ func _ready():
 	sprite = sprite_asset.instance()
 	add_child(sprite)
 
-func breathe():
+func breathe() -> int:
 	air = min(air + stats.air_get_mult * 20, 100)
 	play_info.air_collected += 1
-	add_score(play_info.air_collected * Consts.AIR_MULTIPLIER)
+	var new_score := play_info.air_collected * Consts.AIR_MULTIPLIER
+	add_score(new_score)
+	return new_score
 
-func unbreathe(): air = max(air - stats.air_damage_mult * 20, 0)
+func unbreathe() -> int:
+	var air_lost := int(stats.air_damage_mult * 20)
+	air = max(air - air_lost, 0)
+	return air_lost
 
 func do_a_died():
 	dead = true
