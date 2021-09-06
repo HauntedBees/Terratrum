@@ -216,14 +216,14 @@ func climb_wall(dir: int):
 	input_frozen = true
 	immune = true
 	var up_pos = Vector2(position.x, position.y - dy * block_size)
-	tween.interpolate_property(self, "position", position, up_pos, stats.speed_mult * Consts.CLIMB_STEP_TIME, Tween.TRANS_LINEAR)
+	tween.interpolate_property(self, "position", position, up_pos, Consts.CLIMB_STEP_TIME / stats.speed_mult, Tween.TRANS_LINEAR)
 	tween.start()
 	yield(tween, "tween_completed")
 	animating = true
 	sprite.animation = "walk_left" if direction.x < 0 else "walk_right"
 	sprite.playing = true
 	var forward_pos = Vector2(position.x + dir * block_size, position.y)
-	tween.interpolate_property(self, "position", position, forward_pos, stats.speed_mult * Consts.CLIMB_STEP_TIME, Tween.TRANS_LINEAR)
+	tween.interpolate_property(self, "position", position, forward_pos, Consts.CLIMB_STEP_TIME / stats.speed_mult, Tween.TRANS_LINEAR)
 	tween.start()
 	yield(tween, "tween_completed")
 	input_frozen = false

@@ -8,7 +8,7 @@ var chapter_nodes := []
 var selected_idx := -1
 
 func _ready():
-	$MenuGoBack/Label.text = "Chapter Select"
+	$MenuGoBack.text = "Chapter Select"
 	chapters = Levels.get_available_story_chapters()
 	for i in range(0, chapters.size()):
 		var chapter: Levels.ChapterInfo = chapters[i]

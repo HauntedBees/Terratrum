@@ -40,6 +40,7 @@ func _ready():
 		sprite.animation = "2"
 		var color = color_xref[type]
 		sprite.modulate = color
+	sprite.material = sprite.material.duplicate()
 
 func can_be_stuck_to(): # TODO: wiggle may be a problem? maybe not but worth double checking
 	return state == BlockState.INERT # || state == BlockState.WIGGLING
@@ -52,7 +53,7 @@ func drop_family():
 		b.state = BlockState.DROPPING
 func dissipate_family():
 	for b in family:
-		b.dissipate()
+		b.dissipate(true)
 
 func stop(): state = BlockState.INERT
 
@@ -76,9 +77,22 @@ func wiggle():
 	position = initial_pos
 	state = BlockState.DROPPING
 
-func dissipate():
+func dissipate(long: bool = false):
 	state = BlockState.FADING
-	tween.interpolate_property(self, "modulate:a", 1, 0, Consts.ACTION_TIME, Tween.TRANS_LINEAR)
+	if long:
+		tween.interpolate_property(self, "modulate:a", 1, 0, Consts.FLICKER_PART_TIME, Tween.TRANS_LINEAR)
+		tween.start()
+		yield(tween, "tween_completed")
+		tween.interpolate_property(self, "modulate:a", 0, 1, Consts.FLICKER_PART_TIME, Tween.TRANS_LINEAR)
+		tween.start()
+		yield(tween, "tween_completed")
+		tween.interpolate_property(self, "modulate:a", 1, 0, Consts.FLICKER_PART_TIME, Tween.TRANS_LINEAR)
+		tween.start()
+		yield(tween, "tween_completed")
+		tween.interpolate_property(self, "modulate:a", 0, 1, Consts.FLICKER_PART_TIME, Tween.TRANS_LINEAR)
+		tween.start()
+		yield(tween, "tween_completed")
+	tween.interpolate_property(sprite.get_material(), "shader_param/offset:y", 0, 1, Consts.ACTION_TIME, Tween.TRANS_LINEAR)
 	tween.start()
 	yield(tween, "tween_completed")
 	state = BlockState.FADED
@@ -86,7 +100,7 @@ func dissipate():
 func permanent_dissipation():
 	if collider != null: collider.queue_free()
 	state = BlockState.FADING
-	tween.interpolate_property(self, "modulate:a", 1, 0, Consts.ACTION_TIME, Tween.TRANS_LINEAR)
+	tween.interpolate_property(sprite.get_material(), "shader_param/offset:y", 0, 1, Consts.ACTION_TIME, Tween.TRANS_LINEAR)
 	tween.start()
 	yield(tween, "tween_completed")
 	state = BlockState.FADED

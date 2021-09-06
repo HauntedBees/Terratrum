@@ -74,7 +74,7 @@ func destroy_family(family: Array, by_player: bool):
 		lowest_depth = int(max(lowest_depth, b.grid_pos.y))
 		#highest_x = int(max(highest_x, b.grid_pos.x))
 		#lowest_x = int(min(lowest_x, b.grid_pos.x))
-		wipe_block(b)
+		wipe_block(b, by_player)
 	var already_processed_families := []
 	for y in range(lowest_depth + 1, -1, -1):
 		for x in level.width:#range(lowest_x - 1, highest_x + 2):
@@ -193,7 +193,10 @@ func wipe_range(x_min: int, x_max: int, y_min: int, y_max: int):
 		if can_drop(air):
 			air.state = Block.BlockState.DROPPING
 			dropping_families.append(air.family)
-func wipe_block(b: Block):
+func wipe_block(b: Block, pop_first: bool = false):
 	level.current_level[b.grid_pos.x][b.grid_pos.y] = null
 	b.family = []
-	b.queue_free()
+	if pop_first:
+		b.permanent_dissipation()
+	else:
+		b.queue_free()

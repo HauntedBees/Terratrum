@@ -4,7 +4,7 @@ class_name Consts
 # Menu Stuff
 const LEVEL_OPEN_TIME := 0.25
 const LEVEL_CLOSE_TIME := 0.125
-const MENU_TOP_HEIGHT := 40.0
+const MENU_TOP_HEIGHT := 80.0
 const MENULEVEL_HEIGHT := 120.0
 
 # Game Stuff
@@ -16,6 +16,7 @@ const CLIMB_DELAY := 0.25
 const WALK_SPEED := 300 * BLOCK_SIZE
 
 const ACTION_TIME := 1.0/3.0
+const FLICKER_PART_TIME := ACTION_TIME / 6.0
 const NUM_WIGGLES := 3
 const CLIMB_STEP_TIME := ACTION_TIME / 2
 const WIGGLE_TIME := 0.5 / (NUM_WIGGLES * 2)
