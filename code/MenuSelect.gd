@@ -12,7 +12,7 @@ func _ready():
 		l.mode = MenuLevel.DisplayMode.StoryChapter
 		l.label_text = tr("MODE_%s_NAME" % option)
 		l.subtitle_text = tr("MODE_%s_DESC" % option)
-		l.position.y = Consts.MENULEVEL_HEIGHT * i
+		l.position.y = Consts.MENU_TOP_HEIGHT + Consts.MENULEVEL_HEIGHT * i
 		add_child(l)
 
 func _on_mode_selected(sel: MenuLevel, idx: int):
@@ -21,8 +21,10 @@ func _on_mode_selected(sel: MenuLevel, idx: int):
 
 func blur():
 	for n in get_children():
+		if n.name == "Top": continue
 		n.blur()
 
 func unblur():
 	for n in get_children():
+		if n.name == "Top": continue
 		n.unblur()

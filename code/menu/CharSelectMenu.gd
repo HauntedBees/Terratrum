@@ -40,6 +40,8 @@ func set_characters(characters: Array):
 		charsel.connect("char_change", self, "on_char_change", [charsel])
 		charsels.append(charsel)
 		add_child(charsel)
+	on_char_change(charsels[0])
+
 func on_char_change(c: CharSel):
 	selected_char = c.character
 	selected_icon.position = c.position
@@ -47,7 +49,7 @@ func on_char_change(c: CharSel):
 func set_level(l: Levels.LevelInfo, m: Dictionary):
 	level = l
 	metadata = m
-	$MenuGoBack/Label.text = l.name # TODO: CHAPTERNUM-LEVELNUM prefix for story mode
+	$MenuGoBack.text = l.name # TODO: CHAPTERNUM-LEVELNUM prefix for story mode
 	set_characters(l.available_characters)
 
 func _on_MenuGoBack_back_select(): emit_signal("back_press")

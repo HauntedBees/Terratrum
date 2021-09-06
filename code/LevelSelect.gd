@@ -15,7 +15,7 @@ func _ready(): set_chapter(0)
 
 func set_mode(mode: String):
 	clean_up()
-	$MenuGoBack/Label.text = mode
+	$MenuGoBack.text = mode
 	levels = Levels.get_available_mode_levels(mode)
 	overlay.z_index = 1
 	click_layer.z_index = 999
@@ -35,7 +35,7 @@ func set_mode(mode: String):
 
 func set_chapter(chapter: int):
 	clean_up()
-	$MenuGoBack/Label.text = "Chapter %s - %s" % [chapter + 1, "ASS"]
+	$MenuGoBack.text = "Chapter %s - %s" % [chapter + 1, "ASS"]
 	levels = Levels.get_available_story_levels(chapter)
 	overlay.z_index = 1
 	click_layer.z_index = 999

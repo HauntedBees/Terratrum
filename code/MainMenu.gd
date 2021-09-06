@@ -1,5 +1,5 @@
 extends Node2D
-const SHIFT_X := 730
+const SHIFT_X := 720
 
 onready var menu_sel := $MenuSelect
 onready var chapter_sel := $ChapterSelect
