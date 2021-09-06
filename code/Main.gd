@@ -71,7 +71,7 @@ func handle_player():
 		player_did_died(pos)
 		return
 	var potential_block = lb.get_block_v(pos)
-	if potential_block == null: return
+	if potential_block == null || !is_instance_valid(potential_block): return
 	var b: Block = (potential_block as Block)
 	if b.type == "air":
 		var score_bonus := player.breathe()

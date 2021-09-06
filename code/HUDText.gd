@@ -35,6 +35,7 @@ func update_value():
 
 func int_str(i) -> String:
 	if i == null: return "0"
+	if i < 0: return "-%s" % int_str(i)
 	var num_val := int(min(i, 99999))
 	var output := ""
 	while num_val > 999:
