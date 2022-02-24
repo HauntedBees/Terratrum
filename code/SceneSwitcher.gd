@@ -21,7 +21,7 @@ func get_carried_scene_data():
 	#return response
 func go_to_cutscene(details):
 	next_scene_data = details
-	load_scene("res://scenes/Cutscene.tscn")
+	load_scene("res://Cutscene/Cutscene.tscn")
 func go_to_game(details): # Levels.FullLevelInfo; godot really doesn't like me saying that, though
 	next_scene_data = details
 	load_scene("res://scenes/game/Main.tscn")

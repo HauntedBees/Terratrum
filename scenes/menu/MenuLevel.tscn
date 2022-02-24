@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://code/MenuLevel.gd" type="Script" id=1]
-[ext_resource path="res://assets/fonts/Hezaedrus-Light.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://assets/fonts/Hezaedrus-Medium.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://assets_old/fonts/Hezaedrus-Light.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets_old/fonts/Hezaedrus-Medium.ttf" type="DynamicFontData" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32

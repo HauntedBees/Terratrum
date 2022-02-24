@@ -116,6 +116,7 @@ func continue_making_level(level: Array, level_info, delayed: bool = true):
 		2: potential_types = ["blue", "yellow"]
 	var top_chunk = [] if delayed else get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
 	var special_occasions := get_air_sections()
+	#var special_occasions := get_fake_shit()#get_air_sections()
 	for y in height:
 		#var air_x := randi() % width if y % air_every_x_rows == 0 else -1
 		for x in width:
@@ -162,6 +163,30 @@ func get_level_top(num_colors: int) -> Array:
 			row[width - 1] = xx
 		res.append(row)
 	return res
+
+func get_fake_shit() -> Dictionary: # TODO: find out what actually fucks up the thing still
+	var ooo = [
+		"GGGGGGB",
+		"RRRGGGB",
+		"RRRGGGB",
+		"RGGGGGB",
+		"RRRRRRG",
+		"BBBBBBB",
+		"RRRGGGB",
+		"RRRGGGB"
+	]
+	var fake_shit := {}
+	for y in ooo.size():
+		var aaa:String = ooo[y]
+		for x in aaa.length():
+			var bbb:String = aaa[x]
+			var key := "%s,%s" % [x, y + 4]
+			match bbb:
+				"R": fake_shit[key] = "red"
+				"G": fake_shit[key] = "green"
+				"B": fake_shit[key] = "blue"
+	return fake_shit
+
 func get_air_sections() -> Dictionary:
 	var relevant_tiles := {}
 	var x_chance := bad_block_percent * 4.0

@@ -5,6 +5,8 @@ onready var menu_sel := $MenuSelect
 onready var chapter_sel := $ChapterSelect
 onready var level_sel := $LevelSelect
 onready var char_sel := $CharSelect
+onready var special_sel := $SpecialSelect
+onready var background := $BG
 onready var tween := $Tween
 
 func _ready():
@@ -20,11 +22,18 @@ func _on_MenuSelect_selected_option(option: String):
 	if tween.is_active(): return
 	if option == "STORY":
 		switch_areund(menu_sel, chapter_sel, false)
-	if option == "STANDARD":
+	elif option == "STANDARD":
 		if tween.is_active(): return
 		level_sel.set_mode("standard")
 		switch_areund(menu_sel, level_sel, false)
-		
+	elif option == "SPECIAL":
+		switch_areund(menu_sel, special_sel, false)
+
+func _on_SpecialSelect_selected_option(option):
+	if tween.is_active(): return
+	if option == "CUSTOM":
+		pass
+
 func _on_ChapterSelect_selected_chapter(chapter_idx: int):
 	if tween.is_active(): return
 	level_sel.set_chapter(chapter_idx)
@@ -44,6 +53,9 @@ func _on_LevelSelect_back_press():
 func _on_CharSelect_back_press():
 	if tween.is_active(): return
 	switch_areund(level_sel, char_sel, true)
+func _on_SpecialSelect_back_press():
+	if tween.is_active(): return
+	switch_areund(menu_sel, special_sel, true)
 
 func switch_areund(old, new, is_back: bool):
 	old.blur()
@@ -52,6 +64,7 @@ func switch_areund(old, new, is_back: bool):
 	var old_to := 0 if is_back else -SHIFT_X
 	var new_from := 0 if is_back else SHIFT_X
 	var new_to := SHIFT_X if is_back else 0
+	tween.interpolate_property(background, "position:x", background.position.x, background.position.x + (720 if is_back else -720), 0.5, Tween.TRANS_LINEAR)
 	tween.interpolate_property(old, "position:x", old_from, old_to, 0.5, Tween.TRANS_LINEAR)
 	tween.interpolate_property(new, "position:x", new_from, new_to, 0.5, Tween.TRANS_LINEAR)
 	tween.start()

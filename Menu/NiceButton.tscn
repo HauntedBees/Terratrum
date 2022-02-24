@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Menu/UITheme.tres" type="Theme" id=1]
+[ext_resource path="res://Menu/NiceButton.gd" type="Script" id=2]
+[ext_resource path="res://Menu/Animations/MenuSelect.tres" type="Animation" id=3]
+[ext_resource path="res://Menu/Animations/MenuHover.tres" type="Animation" id=4]
+
+[node name="NiceButton" type="Button"]
+margin_right = 307.0
+margin_bottom = 53.0
+theme = ExtResource( 1 )
+text = "Chungus Amongus"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/hover = ExtResource( 4 )
+anims/select = ExtResource( 3 )
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="." to="." method="_on_NiceButton_pressed"]

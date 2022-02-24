@@ -5,6 +5,18 @@ MODE_STANDARD_NAME,Standard Mode
 MODE_STANDARD_DESC,Standard drilling situations
 MODE_TIME_NAME,Time Attack
 MODE_TIME_DESC,Dig under a certain time
+MODE_SPECIAL_NAME,Special Digs
+MODE_SPECIAL_DESC,Unique challenges for fun and profit
+MODE_CORES_NAME,Core Destruction
+MODE_CORES_DESC,Destroy the Drill Cores
+MODE_BOSS_NAME,Drill Battle
+MODE_BOSS_DESC,Fight against the Turbo Drill!
+MODE_KEY_NAME,Key Trials
+MODE_KEY_DESC,Unlock passages with keys to advance
+MODE_MACHINE_NAME,Inside the Machine
+MODE_MACHINE_DESC,Dig while dodging dangerous attacks
+MODE_CUSTOM_NAME,Custom Dig
+MODE_CUSTOM_DESC,Build your own perfect drilling challenge
 HUD_SCORE,Score
 HUD_TIME,Time
 HUD_LIVES,Lives

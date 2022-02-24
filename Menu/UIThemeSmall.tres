@@ -1,0 +1,51 @@
+[gd_resource type="Theme" load_steps=10 format=2]
+
+[ext_resource path="res://Assets/HiLo-Deco.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Menu/UIFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Menu/Assets/ButtonTexture.png" type="Texture" id=3]
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 3 )
+region_rect = Rect2( 0, 0, 128, 128 )
+margin_left = 36.0
+margin_right = 36.0
+modulate_color = Color( 1, 0.772549, 0.619608, 1 )
+
+[sub_resource type="StyleBoxTexture" id=5]
+texture = ExtResource( 3 )
+region_rect = Rect2( 0, 0, 128, 128 )
+margin_left = 36.0
+margin_right = 36.0
+modulate_color = Color( 0.909804, 0.556863, 0.556863, 1 )
+
+[sub_resource type="StyleBoxTexture" id=6]
+texture = ExtResource( 3 )
+region_rect = Rect2( 0, 0, 128, 128 )
+margin_left = 36.0
+margin_right = 36.0
+
+[sub_resource type="StyleBoxTexture" id=7]
+texture = ExtResource( 3 )
+region_rect = Rect2( 0, 0, 128, 128 )
+margin_left = 36.0
+margin_right = 36.0
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+[sub_resource type="DynamicFont" id=9]
+size = 26
+outline_size = 1
+outline_color = Color( 0, 0, 0, 0.466667 )
+extra_spacing_top = 5
+extra_spacing_bottom = 5
+font_data = ExtResource( 1 )
+
+[resource]
+Button/fonts/font = ExtResource( 2 )
+Button/styles/disabled = SubResource( 3 )
+Button/styles/hover = SubResource( 5 )
+Button/styles/normal = SubResource( 6 )
+Button/styles/pressed = SubResource( 7 )
+HSeparator/constants/separation = 24
+HSeparator/styles/separator = SubResource( 8 )
+Label/fonts/font = SubResource( 9 )

@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://assets/mononoki/mononoki-Regular.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://assets/hud/textarea.png" type="Texture" id=2]
+[ext_resource path="res://assets_old/mononoki/mononoki-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets_old/hud/textarea.png" type="Texture" id=2]
 [ext_resource path="res://code/HUDText.gd" type="Script" id=3]
-[ext_resource path="res://assets/mononoki/mononoki-BoldItalic.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://assets/hud/infoarea.png" type="Texture" id=5]
+[ext_resource path="res://assets_old/mononoki/mononoki-BoldItalic.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://assets_old/hud/infoarea.png" type="Texture" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 4 )

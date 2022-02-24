@@ -2,7 +2,7 @@ extends Node2D
 signal selected_option(option)
 
 const level_sel = preload("res://scenes/menu/MenuLevel.tscn")
-const options := ["STORY", "STANDARD", "TIME"]
+const options := ["STORY", "STANDARD", "TIME", "SPECIAL"]
 
 func _ready():
 	for i in range(0, options.size()):

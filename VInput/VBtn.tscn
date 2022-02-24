@@ -2,7 +2,7 @@
 
 [ext_resource path="res://VInput/btn.png" type="Texture" id=1]
 [ext_resource path="res://VInput/btnPressed.png" type="Texture" id=2]
-[ext_resource path="res://assets/fonts/Hezaedrus-Medium.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets_old/fonts/Hezaedrus-Medium.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://VInput/VBtn.gd" type="Script" id=4]
 
 [sub_resource type="SpriteFrames" id=1]

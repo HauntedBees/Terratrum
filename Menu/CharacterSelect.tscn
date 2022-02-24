@@ -1,0 +1,112 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Menu/UITheme.tres" type="Theme" id=1]
+[ext_resource path="res://Menu/CharacterSelect.gd" type="Script" id=2]
+[ext_resource path="res://Menu/CharSelButton.tscn" type="PackedScene" id=3]
+
+[node name="CharacterSelect" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Characters" type="VBoxContainer" parent="."]
+margin_right = 720.0
+margin_bottom = 392.0
+
+[node name="Top" type="HBoxContainer" parent="Characters"]
+margin_right = 720.0
+margin_bottom = 128.0
+alignment = 1
+
+[node name="TextureButton" parent="Characters/Top" instance=ExtResource( 3 )]
+margin_left = 164.0
+margin_right = 292.0
+
+[node name="TextureButton2" parent="Characters/Top" instance=ExtResource( 3 )]
+margin_left = 296.0
+margin_right = 424.0
+
+[node name="TextureButton3" parent="Characters/Top" instance=ExtResource( 3 )]
+margin_left = 428.0
+margin_right = 556.0
+
+[node name="Middle" type="HBoxContainer" parent="Characters"]
+margin_top = 132.0
+margin_right = 720.0
+margin_bottom = 260.0
+alignment = 1
+
+[node name="TextureButton" parent="Characters/Middle" instance=ExtResource( 3 )]
+margin_left = 164.0
+margin_right = 292.0
+
+[node name="TextureButton2" parent="Characters/Middle" instance=ExtResource( 3 )]
+margin_left = 296.0
+margin_right = 424.0
+
+[node name="TextureButton3" parent="Characters/Middle" instance=ExtResource( 3 )]
+margin_left = 428.0
+margin_right = 556.0
+
+[node name="Bottom" type="HBoxContainer" parent="Characters"]
+margin_top = 264.0
+margin_right = 720.0
+margin_bottom = 392.0
+alignment = 1
+
+[node name="TextureButton" parent="Characters/Bottom" instance=ExtResource( 3 )]
+margin_left = 164.0
+margin_right = 292.0
+
+[node name="TextureButton2" parent="Characters/Bottom" instance=ExtResource( 3 )]
+margin_left = 296.0
+margin_right = 424.0
+
+[node name="TextureButton3" parent="Characters/Bottom" instance=ExtResource( 3 )]
+margin_left = 428.0
+margin_right = 556.0
+
+[node name="CharInfo" type="HBoxContainer" parent="."]
+margin_top = 396.0
+margin_right = 720.0
+margin_bottom = 1023.0
+size_flags_vertical = 3
+
+[node name="CharInfoText" type="RichTextLabel" parent="CharInfo"]
+margin_right = 400.0
+margin_bottom = 627.0
+rect_min_size = Vector2( 400, 100 )
+theme = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "[center]Glunkus[/center]
+    The mightiest warrior in all of Chodepolis, Glunkus spends his time fucking shit and licking clit. Not necessarily in that order."
+text = "Glunkus
+    The mightiest warrior in all of Chodepolis, Glunkus spends his time fucking shit and licking clit. Not necessarily in that order."
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+margin_top = 1027.0
+margin_right = 720.0
+margin_bottom = 1080.0
+
+[node name="BackButton" type="Button" parent="Buttons"]
+modulate = Color( 1, 0.890196, 0, 1 )
+margin_right = 133.0
+margin_bottom = 53.0
+theme = ExtResource( 1 )
+text = "Back"
+
+[node name="StartButton" type="Button" parent="Buttons"]
+margin_left = 137.0
+margin_right = 720.0
+margin_bottom = 53.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+text = "Begin"
+
+[connection signal="pressed" from="Buttons/BackButton" to="." method="_on_BackButton_pressed"]
+[connection signal="pressed" from="Buttons/StartButton" to="." method="_on_StartButton_pressed"]

@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://code/Clearblock.gd" type="Script" id=1]
-[ext_resource path="res://assets/tiles/all_clears/100.png" type="Texture" id=2]
-[ext_resource path="res://assets/fonts/Hezaedrus-Black.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets_old/tiles/all_clears/100.png" type="Texture" id=2]
+[ext_resource path="res://assets_old/fonts/Hezaedrus-Black.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 226.125, 125.398 )

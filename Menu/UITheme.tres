@@ -1,0 +1,70 @@
+[gd_resource type="Theme" load_steps=12 format=2]
+
+[ext_resource path="res://Menu/Assets/ButtonTexture.png" type="Texture" id=1]
+[ext_resource path="res://Assets/HiLo-Deco.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Menu/UIFont.tres" type="DynamicFont" id=3]
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 128, 128 )
+margin_left = 36.0
+margin_right = 36.0
+modulate_color = Color( 1, 0.772549, 0.619608, 1 )
+
+[sub_resource type="StyleBoxTexture" id=5]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 128, 128 )
+margin_left = 36.0
+margin_right = 36.0
+modulate_color = Color( 0.909804, 0.556863, 0.556863, 1 )
+
+[sub_resource type="StyleBoxTexture" id=6]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 128, 128 )
+margin_left = 36.0
+margin_right = 36.0
+
+[sub_resource type="StyleBoxTexture" id=7]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 128, 128 )
+margin_left = 36.0
+margin_right = 36.0
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+[sub_resource type="DynamicFont" id=9]
+size = 36
+outline_size = 1
+outline_color = Color( 0, 0, 0, 0.466667 )
+extra_spacing_top = 5
+extra_spacing_bottom = 5
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.482353, 0.133333, 0.133333, 1 )
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0.345098, 0.0431373, 0.0431373, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.784314, 0.0784314, 0.0784314, 1 )
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[resource]
+Button/fonts/font = ExtResource( 3 )
+Button/styles/disabled = SubResource( 3 )
+Button/styles/hover = SubResource( 5 )
+Button/styles/normal = SubResource( 6 )
+Button/styles/pressed = SubResource( 7 )
+HSeparator/constants/separation = 24
+HSeparator/styles/separator = SubResource( 8 )
+Label/fonts/font = SubResource( 9 )
+Panel/styles/panel = SubResource( 10 )
+PanelContainer/styles/panel = SubResource( 11 )
+RichTextLabel/fonts/normal_font = ExtResource( 3 )

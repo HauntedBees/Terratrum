@@ -10,6 +10,7 @@ class ChunkInfo:
 		bad_increase = b
 
 class LevelInfo:
+	var key := ""
 	var name := ""
 	var desc := ""
 	var difficulty_set := []
@@ -21,10 +22,14 @@ class LevelInfo:
 	var level_width := 7
 	var play_info = null
 	var modifiers := []
+	var story_chapter := 0
+	var story_level := 0
 	func _init(mode: String, level_json: Dictionary, chapter: int = 0):
-		var key := ""
 		match mode:
-			"STORY": key = "S%s-%s" % [chapter + 1, level_json["level"]]
+			"STORY":
+				key = "S%s-%s" % [chapter + 1, level_json["level"]]
+				story_chapter = chapter + 1
+				story_level = level_json["level"]
 			_: key = "%s%s" % [mode, level_json["level"]]
 		name = tr("LEVEL_%s" % key)
 		desc = tr("LEVEL_%s_DESC" % key)

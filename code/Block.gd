@@ -1,7 +1,7 @@
 extends Node2D
 class_name Block
 
-const sprites = preload("res://assets/tiles/Tiles.tscn")
+const sprites = preload("res://assets_old/tiles/Tiles.tscn")
 enum BlockState {
 	INERT,
 	WIGGLING,

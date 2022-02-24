@@ -1,6 +1,6 @@
 extends Node2D
 
-const IMG_PATH = "res://assets/dialog/%s.png"
+const IMG_PATH = "res://assets_old/dialog/%s.png"
 onready var background := $bg
 onready var left_character := $left
 onready var right_character := $right

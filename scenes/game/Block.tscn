@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://assets/tiles/Tiles.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets_old/tiles/Tiles.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/tile_sprites.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://code/Block.gd" type="Script" id=3]
 [ext_resource path="res://shaders/mask.gdshader" type="Shader" id=4]
-[ext_resource path="res://assets/tiles/dither.png" type="Texture" id=5]
+[ext_resource path="res://assets_old/tiles/dither.png" type="Texture" id=5]
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 4 )
