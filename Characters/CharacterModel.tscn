@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Characters/Models/character.glb" type="PackedScene" id=1]
+[ext_resource path="res://Characters/CharacterModel.gd" type="Script" id=2]
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.470601, 0.167256, 0.243995 )
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.366955
+height = 0.203537
+
+[node name="CharacterModel" type="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.192436, 0 )
+script = ExtResource( 2 )
+
+[node name="character" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, -0.149973, 0 )
+
+[node name="FrontChecker" type="Area" parent="character"]
+transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0.85466, 2.46116 )
+monitorable = false
+
+[node name="CollisionShape" type="CollisionShape" parent="character/FrontChecker"]
+shape = SubResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.266876, 0 )
+shape = SubResource( 1 )
+
+[connection signal="body_entered" from="character/FrontChecker" to="." method="_on_FrontChecker_entered"]
+[connection signal="body_exited" from="character/FrontChecker" to="." method="_on_FrontChecker_exited"]

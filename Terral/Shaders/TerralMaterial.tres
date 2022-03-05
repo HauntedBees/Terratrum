@@ -1,0 +1,148 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=2]
+
+[ext_resource path="res://scenes/test/shader_mask_4.png" type="Texture" id=1]
+[ext_resource path="res://Terral/TerralBody.gdshader" type="Shader" id=2]
+
+[sub_resource type="Shader" id=4]
+code = "shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_front,diffuse_toon,specular_toon,unshaded;
+/*
+MIT License
+
+Copyright (c) 2021 John Wigg
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the \"Software\"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+//render_mode ambient_light_disabled;
+
+const float PI = 3.1415926536f;
+
+uniform vec4 albedo : hint_color = vec4(1.0f);
+uniform sampler2D mask_texture:hint_albedo;
+uniform vec4 albedo_a:hint_color = vec4(1.0f);
+uniform sampler2D texture_a:hint_albedo;
+uniform vec4 albedo_b:hint_color = vec4(1.0f);
+uniform sampler2D texture_b:hint_albedo;
+uniform bool clamp_diffuse_to_max = false;
+
+uniform int cuts : hint_range(1, 8) = 3;
+uniform float wrap : hint_range(-2.0f, 2.0f) = 0.0f;
+uniform float steepness : hint_range(1.0f, 8.0f) = 1.0f;
+
+uniform bool use_attenuation = true;
+
+uniform bool use_specular = true;
+uniform float specular_strength : hint_range(0.0f, 1.0f) = 1.0f;
+uniform float specular_shininess : hint_range(0.0f, 32.0f) = 16.0f;
+uniform sampler2D specular_map : hint_albedo;
+
+uniform bool use_rim = true;
+uniform float rim_width : hint_range(0.0f, 16.0f) = 8.0f;
+uniform vec4 rim_color : hint_color = vec4(1.0f);
+
+uniform bool use_ramp = false;
+uniform sampler2D ramp : hint_albedo;
+
+uniform bool use_borders = false;
+uniform float border_width = 0.03f;
+
+varying vec3 vertex_pos;
+varying vec3 normal;
+
+uniform float grow = 0.05f;
+uniform sampler2D sun_texture:hint_albedo;
+uniform float sun_intensity = 0.0f;
+uniform sampler2D sea_texture:hint_albedo;
+uniform float sea_intensity = 0.0f;
+uniform sampler2D stone_texture:hint_albedo;
+uniform float stone_intensity = 0.0f;
+uniform sampler2D shock_texture:hint_albedo;
+uniform float shock_intensity = 0.0f;
+uniform sampler2D plant_texture:hint_albedo;
+uniform float plant_intensity = 0.0f;
+
+void vertex() {
+	float sun = sun_intensity * texture(sun_texture, UV).r;
+	float sea = sea_intensity * texture(sea_texture, UV).r;
+	float stone = stone_intensity * texture(stone_texture, UV).r;
+	float shock = shock_intensity * texture(shock_texture, UV).r;
+	float plant = plant_intensity * texture(plant_texture, UV).r;
+	vertex_pos = VERTEX;
+	normal = NORMAL;
+	VERTEX += NORMAL * grow;
+	VERTEX *= 1.0 + sun + sea + stone + shock + plant;
+}
+
+void fragment() {
+	ALBEDO = vec3(0.0, 0.0, 0.0);
+}"
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 4 )
+shader_param/albedo = Color( 1, 1, 1, 1 )
+shader_param/albedo_a = Color( 1, 1, 1, 1 )
+shader_param/albedo_b = Color( 1, 1, 1, 1 )
+shader_param/clamp_diffuse_to_max = false
+shader_param/cuts = 3
+shader_param/wrap = 0.0
+shader_param/steepness = 1.0
+shader_param/use_attenuation = true
+shader_param/use_specular = false
+shader_param/specular_strength = 1.0
+shader_param/specular_shininess = 16.0
+shader_param/use_rim = true
+shader_param/rim_width = 8.0
+shader_param/rim_color = Color( 1, 1, 1, 1 )
+shader_param/use_ramp = false
+shader_param/use_borders = false
+shader_param/border_width = 0.01
+shader_param/grow = 0.1
+shader_param/sun_intensity = 0.0
+shader_param/sea_intensity = 0.0
+shader_param/stone_intensity = 0.0
+shader_param/shock_intensity = 0.0
+shader_param/plant_intensity = 0.0
+
+[resource]
+next_pass = SubResource( 5 )
+shader = ExtResource( 2 )
+shader_param/albedo = Color( 1, 1, 1, 1 )
+shader_param/albedo_a = Color( 0, 0, 0, 1 )
+shader_param/albedo_b = Color( 0.752941, 0.443137, 0, 1 )
+shader_param/clamp_diffuse_to_max = false
+shader_param/cuts = 3
+shader_param/wrap = 0.0
+shader_param/steepness = 1.0
+shader_param/use_attenuation = true
+shader_param/use_specular = true
+shader_param/specular_strength = 1.0
+shader_param/specular_shininess = 16.0
+shader_param/use_rim = false
+shader_param/rim_width = 8.0
+shader_param/rim_color = Color( 1, 1, 1, 1 )
+shader_param/use_ramp = false
+shader_param/use_borders = false
+shader_param/border_width = 0.01
+shader_param/sun_intensity = 0.0
+shader_param/sea_intensity = 0.0
+shader_param/stone_intensity = 0.0
+shader_param/shock_intensity = 0.0
+shader_param/plant_intensity = 0.0
+shader_param/mask_texture = ExtResource( 1 )

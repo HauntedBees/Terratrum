@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets_old/models/mole.gltf" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Node2D
+
+func _process(_delta):
+	if Input.is_key_pressed(KEY_LEFT):
+		$Viewport/mole.rotation_degrees.y += 5
+	elif Input.is_key_pressed(KEY_RIGHT):
+		$Viewport/mole.rotation_degrees.y -= 5
+"
+
+[sub_resource type="ViewportTexture" id=1]
+viewport_path = NodePath("Viewport")
+
+[node name="Node2D" type="Node2D"]
+script = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 330, 135 )
+texture = SubResource( 1 )
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 100, 100 )
+transparent_bg = true
+render_target_v_flip = true
+
+[node name="Camera" type="Camera" parent="Viewport"]
+transform = Transform( 1, 0, 0, 0, 0.972362, 0.233479, 0, -0.233479, 0.972362, 0, 0.542272, 3.08369 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.50331 )
+light_specular = 0.0
+
+[node name="mole" parent="Viewport" instance=ExtResource( 1 )]
+transform = Transform( 0.659923, 0, -0.751333, 0, 1, 0, 0.751333, 0, 0.659923, 0, 0, 0 )

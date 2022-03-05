@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Menu/UITheme.tres" type="Theme" id=1]
+[ext_resource path="res://Terral/UI/TextContainer.gd" type="Script" id=2]
+
+[node name="TextContainer" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -1006.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 713.0
+margin_bottom = 67.0
+rect_min_size = Vector2( 0, 60 )
+theme = ExtResource( 1 )
+bbcode_enabled = true
+bbcode_text = "[center]aaaaaa[/center]"
+text = "aaaaaa"

@@ -39,6 +39,46 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://code/input/FullScreenTouch.gd"
 }, {
+"base": "Control",
+"class": "GASContainer",
+"language": "GDScript",
+"path": "res://addons/gas/GASContainer.gd"
+}, {
+"base": "GASVirtualMovementControl",
+"class": "GASVirtualAnalogStick",
+"language": "GDScript",
+"path": "res://addons/gas/GASVirtualGamepad/GASVirtualAnalogStick.gd"
+}, {
+"base": "GASVirtualControl",
+"class": "GASVirtualButton",
+"language": "GDScript",
+"path": "res://addons/gas/GASVirtualGamepad/GASVirtualButton.gd"
+}, {
+"base": "Control",
+"class": "GASVirtualControl",
+"language": "GDScript",
+"path": "res://addons/gas/GASVirtualGamepad/GASVirtualControl.gd"
+}, {
+"base": "GASVirtualMovementControl",
+"class": "GASVirtualDPad",
+"language": "GDScript",
+"path": "res://addons/gas/GASVirtualGamepad/GASVirtualDPad.gd"
+}, {
+"base": "Control",
+"class": "GASVirtualGamepad",
+"language": "GDScript",
+"path": "res://addons/gas/GASVirtualGamepad/GASVirtualGamepad.gd"
+}, {
+"base": "Control",
+"class": "GASVirtualGizmo",
+"language": "GDScript",
+"path": "res://addons/gas/GASVirtualGamepad/GASVirtualGizmo.gd"
+}, {
+"base": "GASVirtualControl",
+"class": "GASVirtualMovementControl",
+"language": "GDScript",
+"path": "res://addons/gas/GASVirtualGamepad/GASVirtualMovementControl.gd"
+}, {
 "base": "Node2D",
 "class": "HUDText",
 "language": "GDScript",
@@ -63,6 +103,16 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://code/Player.gd"
+}, {
+"base": "Node",
+"class": "TerralData",
+"language": "GDScript",
+"path": "res://Terral/TerralData.gd"
+}, {
+"base": "RigidBody",
+"class": "TerralEgg",
+"language": "GDScript",
+"path": "res://Terral/TerralEgg.gd"
 } ]
 _global_script_class_icons={
 "Block": "",
@@ -71,11 +121,21 @@ _global_script_class_icons={
 "Consts": "",
 "DualButton": "",
 "FullScreenTouch": "",
+"GASContainer": "",
+"GASVirtualAnalogStick": "",
+"GASVirtualButton": "",
+"GASVirtualControl": "",
+"GASVirtualDPad": "",
+"GASVirtualGamepad": "",
+"GASVirtualGizmo": "",
+"GASVirtualMovementControl": "",
 "HUDText": "",
 "LevelBuilder": "",
 "Menu": "",
 "MenuLevel": "",
-"Player": ""
+"Player": "",
+"TerralData": "",
+"TerralEgg": ""
 }
 
 [application]
@@ -89,6 +149,8 @@ config/icon="res://icon.png"
 SceneSwitcher="*res://scenes/SceneSwitcher.tscn"
 Levels="*res://gamedata/Levels.gd"
 PlayerData="*res://gamedata/PlayerData.gd"
+GASConfig="*res://addons/gas/GASConfig.gd"
+GASInput="*res://addons/gas/GASInput.gd"
 
 [debug]
 
@@ -102,6 +164,10 @@ window/size/height=1080
 window/size/test_width=480
 window/size/test_height=720
 window/handheld/orientation="portrait"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/gas/plugin.cfg" )
 
 [input]
 

@@ -1,0 +1,115 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Terral/Models/Maps/terralgarden1.glb" type="PackedScene" id=1]
+[ext_resource path="res://Characters/CharacterModel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Terral/TerralEgg.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/gas/GASVirtualGamepad/GASVirtualGamepad.gd" type="Script" id=4]
+[ext_resource path="res://addons/gas/GASVirtualGamepad/GASVirtualAnalogStick.gd" type="Script" id=5]
+[ext_resource path="res://addons/gas/GASVirtualGamepad/GASVirtualButton.gd" type="Script" id=6]
+[ext_resource path="res://Terral/UI/TextContainer.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Terral/Test/TestScene.gd" type="Script" id=8]
+[ext_resource path="res://Terral/Terral.tscn" type="PackedScene" id=9]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 13.09, 0.234705, 13.1893 )
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 13.09, 5.38286, 3.13456 )
+
+[sub_resource type="NavigationMesh" id=3]
+vertices = PoolVector3Array( -10.7433, 8.39918, -14.7668, -10.4433, 8.39918, -13.5668, -9.24332, 8.39918, -12.6668, -6.54332, 8.39918, -14.1668, -6.84332, 8.39918, -15.9668, -7.74332, 8.39918, -16.5668, -9.24332, 8.39918, -12.6668, -7.44332, 8.39918, -12.9668, -6.54332, 8.39918, -14.1668, -7.74332, 8.39918, -16.5668, -10.1433, 8.39918, -16.2668, -10.7433, 8.39918, -14.7668, -5.34332, 6.19918, -13.5668, -5.94332, 6.19918, -12.9668, -4.44332, 6.19918, -12.6668, -4.14332, 6.19918, -13.2668, 3.05668, 6.19918, -13.2668, 2.75668, 6.19918, -13.8668, 2.15668, 6.19918, -14.7668, -3.84332, 6.19918, -14.4668, -5.34332, 6.19918, -15.3668, -5.34332, 6.19918, -13.5668, -4.14332, 6.19918, -13.2668, -2.94332, 6.19918, -13.2668, -0.243323, 6.19918, -12.3668, 3.05668, 6.19918, -13.2668, 2.15668, 6.19918, -14.7668, -0.243323, 6.19918, -15.3668, -3.84332, 6.19918, -14.4668, -2.94332, 6.19918, -13.2668, 3.05668, 6.19918, -13.2668, 3.95668, 6.19918, -12.0668, 5.45668, 6.19918, -12.0668, 6.95668, 6.19918, -12.9668, 6.65668, 6.19918, -15.0668, 2.75668, 6.19918, -13.8668, 11.7567, 7.99918, -12.6668, 10.8567, 7.99918, -15.3668, 8.15668, 7.99918, -14.4668, 8.15668, 7.99918, -12.6668, 9.05668, 7.99918, -11.7668, 10.8567, 7.99918, -11.7668, 10.8567, 7.99918, -15.3668, 9.05668, 7.99918, -15.3668, 8.15668, 7.99918, -14.4668, 11.7567, 7.99918, -12.6668, 11.7567, 7.99918, -14.4668, 10.8567, 7.99918, -15.3668, -9.84332, 0.399177, -11.4668, -10.7433, 0.399177, -12.0668, -11.3433, 0.399177, -11.4668, 12.9567, 0.399177, -11.1668, 11.7567, 0.399177, -11.1668, 11.4567, 0.399177, -10.5668, 12.9567, 0.399177, 0.833183, 8.45668, 0.399177, -10.5668, 7.55668, 0.399177, -11.7668, 6.05668, 0.399177, -10.8668, 3.35668, 0.399177, -10.8668, 2.45668, 0.399177, -11.7668, -1.14332, 0.399177, -11.1668, 8.45668, 0.399177, -10.5668, 6.05668, 0.399177, -10.8668, 3.35668, 0.399177, -10.8668, 12.9567, 0.399177, 0.833183, -1.14332, 0.399177, -11.1668, -2.64332, 0.399177, -11.7668, -9.84332, 0.399177, -11.4668, -12.8433, 0.399177, 6.53318, -12.8433, 0.399177, 12.8332, -6.54332, 0.399177, 12.8332, -1.14332, 0.399177, -11.1668, -9.84332, 0.399177, -11.4668, -11.3433, 0.399177, -11.4668, -12.8433, 0.399177, 0.533184, -6.54332, 0.399177, 12.8332, 0.0566769, 0.399177, 12.8332, 12.9567, 0.399177, 0.833183, 3.35668, 0.399177, -10.8668, -12.8433, 0.399177, -11.4668, -1.14332, 0.399177, -11.1668, -11.3433, 0.399177, -11.4668, -12.8433, 0.399177, -11.4668, 3.35668, 0.399177, -10.8668, 12.9567, 0.399177, 0.833183, 11.4567, 0.399177, -10.5668, 8.45668, 0.399177, -10.5668, 6.35668, 0.399177, 12.8332, 12.9567, 0.399177, 12.8332, 12.9567, 0.399177, 0.833183, -12.8433, 0.399177, 0.533184, -12.8433, 0.399177, 6.53318, -6.54332, 0.399177, 12.8332, 0.0566769, 0.399177, 12.8332, 6.35668, 0.399177, 12.8332, 12.9567, 0.399177, 0.833183 )
+polygons = [ PoolIntArray( 2, 1, 0 ), PoolIntArray( 5, 4, 3 ), PoolIntArray( 7, 6, 8 ), PoolIntArray( 8, 6, 11 ), PoolIntArray( 8, 11, 10 ), PoolIntArray( 8, 10, 9 ), PoolIntArray( 15, 14, 12 ), PoolIntArray( 12, 14, 13 ), PoolIntArray( 18, 17, 16 ), PoolIntArray( 23, 22, 19 ), PoolIntArray( 19, 22, 21 ), PoolIntArray( 19, 21, 20 ), PoolIntArray( 26, 25, 27 ), PoolIntArray( 27, 25, 24 ), PoolIntArray( 27, 24, 29 ), PoolIntArray( 27, 29, 28 ), PoolIntArray( 30, 35, 31 ), PoolIntArray( 31, 35, 32 ), PoolIntArray( 32, 35, 33 ), PoolIntArray( 33, 35, 34 ), PoolIntArray( 41, 40, 36 ), PoolIntArray( 36, 40, 39 ), PoolIntArray( 36, 39, 38 ), PoolIntArray( 36, 38, 37 ), PoolIntArray( 44, 43, 42 ), PoolIntArray( 47, 46, 45 ), PoolIntArray( 48, 50, 49 ), PoolIntArray( 52, 51, 53 ), PoolIntArray( 53, 51, 54 ), PoolIntArray( 57, 56, 55 ), PoolIntArray( 60, 59, 58 ), PoolIntArray( 62, 61, 63 ), PoolIntArray( 63, 61, 64 ), PoolIntArray( 67, 66, 65 ), PoolIntArray( 70, 69, 68 ), PoolIntArray( 73, 72, 71 ), PoolIntArray( 75, 74, 76 ), PoolIntArray( 76, 74, 79 ), PoolIntArray( 76, 79, 78 ), PoolIntArray( 76, 78, 77 ), PoolIntArray( 81, 80, 82 ), PoolIntArray( 82, 80, 83 ), PoolIntArray( 86, 85, 84 ), PoolIntArray( 89, 88, 87 ), PoolIntArray( 92, 91, 90 ), PoolIntArray( 95, 94, 93 ) ]
+
+[node name="TestScene" type="Spatial"]
+script = ExtResource( 8 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.900857, 0.434115, 0, -0.434115, 0.900857, 0, 6.50272, 8.73587 )
+light_specular = 0.0
+shadow_enabled = true
+
+[node name="CharacterModel" parent="." instance=ExtResource( 2 )]
+
+[node name="Camera" type="Camera" parent="CharacterModel"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.222, 4.728 )
+
+[node name="TerralEgg" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.37346, 0, 1.46033 )
+
+[node name="TerralEgg2" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.22508, 0, 0.491299 )
+
+[node name="TerralEgg3" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.12458, 0, 1.8931 )
+
+[node name="Ground" type="StaticBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="Ground"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.232703, 0 )
+shape = SubResource( 1 )
+
+[node name="Back" type="StaticBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="Back"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.232703, -14.9126 )
+shape = SubResource( 2 )
+
+[node name="HUD" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GASVirtualGamepad" type="Control" parent="HUD"]
+visible = false
+modulate = Color( 1, 1, 1, 0.392157 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GASVirtualAnalogStick" type="Control" parent="HUD/GASVirtualGamepad"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 22.0
+margin_top = -271.0
+margin_right = 182.0
+margin_bottom = -111.0
+rect_scale = Vector2( 1.5, 1.5 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GASVirtualButton" type="Control" parent="HUD/GASVirtualGamepad"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -194.0
+margin_top = -206.0
+margin_right = -114.0
+margin_bottom = -126.0
+rect_scale = Vector2( 2, 2 )
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextContainer" parent="HUD" instance=ExtResource( 7 )]
+visible = false
+
+[node name="Terral" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.907, 0, 0 )
+
+[node name="Navigation" type="Navigation" parent="."]
+
+[node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Navigation"]
+navmesh = SubResource( 3 )
+
+[node name="terralgarden1" parent="Navigation/NavigationMeshInstance" instance=ExtResource( 1 )]
+
+[connection signal="checking_body" from="CharacterModel" to="." method="_on_CharacterModel_checking_body"]

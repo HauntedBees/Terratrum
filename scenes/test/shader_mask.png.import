@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/bg1.png-f27850d85a59b8be2d20783fe2063c47.s3tc.stex"
-path.etc2="res://.import/bg1.png-f27850d85a59b8be2d20783fe2063c47.etc2.stex"
+path.s3tc="res://.import/shader_mask.png-db731623cfc0619de49bb535bd1f2a97.s3tc.stex"
+path.etc2="res://.import/shader_mask.png-db731623cfc0619de49bb535bd1f2a97.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets_old/dialog/bg1.png"
-dest_files=[ "res://.import/bg1.png-f27850d85a59b8be2d20783fe2063c47.s3tc.stex", "res://.import/bg1.png-f27850d85a59b8be2d20783fe2063c47.etc2.stex" ]
+source_file="res://scenes/test/shader_mask.png"
+dest_files=[ "res://.import/shader_mask.png-db731623cfc0619de49bb535bd1f2a97.s3tc.stex", "res://.import/shader_mask.png-db731623cfc0619de49bb535bd1f2a97.etc2.stex" ]
 
 [params]
 

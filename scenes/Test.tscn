@@ -1,15 +1,80 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scenes/game/Block.tscn" type="PackedScene" id=1]
 [ext_resource path="res://code/Test.gd" type="Script" id=2]
+[ext_resource path="res://scenes/test/shader_mask.png" type="Texture" id=3]
+[ext_resource path="res://scenes/test/texture_b.png" type="Texture" id=4]
+[ext_resource path="res://scenes/test/texture_a.png" type="Texture" id=5]
+[ext_resource path="res://scenes/blend_shader.gdshader" type="Shader" id=6]
+[ext_resource path="res://scenes/test/shader_mask_2.png" type="Texture" id=7]
+[ext_resource path="res://scenes/test/DoubleShaderBlend.tres" type="Material" id=8]
+[ext_resource path="res://scenes/test/shader_mask_4.png" type="Texture" id=9]
+[ext_resource path="res://assets_old/dialog/bg1.png" type="Texture" id=10]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="SphereMesh" id=1]
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 6 )
+shader_param/albedo_a = Color( 1, 1, 1, 1 )
+shader_param/albedo_b = Color( 1, 1, 1, 1 )
+shader_param/mask_texture = ExtResource( 3 )
+shader_param/texture_a = ExtResource( 5 )
+shader_param/texture_b = ExtResource( 4 )
+
+[sub_resource type="CubeMesh" id=3]
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 6 )
+shader_param/albedo_a = Color( 1, 0, 0, 1 )
+shader_param/albedo_b = Color( 0.0784314, 0, 1, 1 )
+shader_param/mask_texture = ExtResource( 7 )
+
+[sub_resource type="PlaneMesh" id=5]
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = ExtResource( 6 )
+shader_param/albedo_a = Color( 1, 1, 1, 1 )
+shader_param/albedo_b = Color( 1, 1, 1, 1 )
+shader_param/mask_texture = ExtResource( 9 )
+shader_param/texture_a = ExtResource( 10 )
+shader_param/texture_b = ExtResource( 5 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Node2D" type="Node2D" parent="."]
+visible = false
 script = ExtResource( 2 )
 
-[node name="Block" parent="." instance=ExtResource( 1 )]
+[node name="Block" parent="Node2D" instance=ExtResource( 1 )]
 
-[node name="Block2" parent="." instance=ExtResource( 1 )]
+[node name="Block2" parent="Node2D" instance=ExtResource( 1 )]
 position = Vector2( 84.757, -3.70811 )
 
-[node name="Block3" parent="." instance=ExtResource( 1 )]
+[node name="Block3" parent="Node2D" instance=ExtResource( 1 )]
 position = Vector2( 82.1084, 77.8705 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -0.828784, 0.559569, 0, -0.559569, -0.828784, -3.98805, 1.08426, 0 )
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.686225, -0.72739, 0, 0.72739, 0.686225, 2.90505, 1.08426, 0 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 8 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.52, 1.503, 2.765 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.838756, 0, 0.544507, 0, 1, 0, -0.544507, 0, 0.838756, 1.9423, 1.75062, 0.0467484 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="."]
+transform = Transform( 0.867375, 0, -0.497655, -0.242649, 0.873075, -0.422919, 0.434491, 0.487585, 0.757284, -8.19124, 0.862529, -1.53952 )
+mesh = SubResource( 3 )
+material/0 = SubResource( 4 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -0.0579822, -0.998318, 0, 0.998318, -0.0579822, 0, 0.961051, -0.575605 )
+mesh = SubResource( 5 )
+material/0 = SubResource( 6 )

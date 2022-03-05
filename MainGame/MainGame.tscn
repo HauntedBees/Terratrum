@@ -1,0 +1,40 @@
+[gd_scene format=2]
+
+[node name="MainGame" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Game" type="HBoxContainer" parent="MarginContainer"]
+margin_right = 720.0
+margin_bottom = 1080.0
+
+[node name="GameStuff" type="MarginContainer" parent="MarginContainer/Game"]
+margin_right = 358.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/Game/GameStuff"]
+margin_right = 358.0
+margin_bottom = 1080.0
+color = Color( 0.72549, 0.101961, 0.101961, 1 )
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/Game"]
+margin_left = 362.0
+margin_right = 720.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+color = Color( 0.709804, 0.486275, 0.0941176, 1 )
+
+[node name="VirtualGamepad" type="HBoxContainer" parent="MarginContainer"]
+margin_right = 720.0
+margin_bottom = 1080.0
