@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/game/GameBG.tscn" type="PackedScene" id=1]
 [ext_resource path="res://code/game/BackgroundPart.gd" type="Script" id=2]
 [ext_resource path="res://code/game/BGHandler.gd" type="Script" id=3]
+[ext_resource path="res://scenes/game/bg_spriteframes.tres" type="SpriteFrames" id=4]
 
 [node name="BGHandler" type="Node2D"]
 script = ExtResource( 3 )
@@ -11,6 +12,7 @@ script = ExtResource( 3 )
 
 [node name="GameBG2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 0, 300 )
+frames = ExtResource( 4 )
 frame = 1
 script = ExtResource( 2 )
 

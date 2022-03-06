@@ -1,0 +1,128 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://addons/gas/GASVirtualGamepad/GASVirtualGamepad.gd" type="Script" id=1]
+[ext_resource path="res://addons/gas/GASVirtualGamepad/GASVirtualButton.gd" type="Script" id=2]
+[ext_resource path="res://addons/gas/GASVirtualGamepad/GASVirtualAnalogStick.gd" type="Script" id=3]
+[ext_resource path="res://MainGame/Game.tscn" type="PackedScene" id=4]
+[ext_resource path="res://MainGame/GameContainer.gd" type="Script" id=5]
+[ext_resource path="res://MainGame/HUD/HUDValue.tscn" type="PackedScene" id=6]
+
+[node name="GameContainer" type="Node"]
+script = ExtResource( 5 )
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Game" type="HBoxContainer" parent="HUD/MarginContainer"]
+margin_right = 720.0
+margin_bottom = 1080.0
+
+[node name="LeftSide" type="ColorRect" parent="HUD/MarginContainer/Game"]
+margin_right = 67.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+color = Color( 0.709804, 0.486275, 0.0941176, 1 )
+
+[node name="GameSpace" type="ViewportContainer" parent="HUD/MarginContainer/Game"]
+margin_left = 71.0
+margin_right = 516.0
+margin_bottom = 1080.0
+rect_min_size = Vector2( 445, 0 )
+stretch = true
+
+[node name="Viewport" type="Viewport" parent="HUD/MarginContainer/Game/GameSpace"]
+size = Vector2( 720, 1080 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="Game" parent="HUD/MarginContainer/Game/GameSpace/Viewport" instance=ExtResource( 4 )]
+
+[node name="RightSide" type="ColorRect" parent="HUD/MarginContainer/Game"]
+margin_left = 520.0
+margin_right = 720.0
+margin_bottom = 1080.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+color = Color( 0.709804, 0.486275, 0.0941176, 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/MarginContainer/Game/RightSide"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 100.0
+margin_right = -10.0
+margin_bottom = -10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/MarginContainer/Game/RightSide/MarginContainer"]
+margin_right = 180.0
+margin_bottom = 970.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Depth" parent="HUD/MarginContainer/Game/RightSide/MarginContainer/VBoxContainer" instance=ExtResource( 6 )]
+anchor_right = 0.0
+margin_right = 180.0
+key = "Depth"
+val = "0m"
+
+[node name="Score" parent="HUD/MarginContainer/Game/RightSide/MarginContainer/VBoxContainer" instance=ExtResource( 6 )]
+anchor_right = 0.0
+margin_top = 104.0
+margin_right = 180.0
+margin_bottom = 204.0
+
+[node name="Time" parent="HUD/MarginContainer/Game/RightSide/MarginContainer/VBoxContainer" instance=ExtResource( 6 )]
+anchor_right = 0.0
+margin_top = 208.0
+margin_right = 180.0
+margin_bottom = 308.0
+key = "Time"
+val = "00:00:00"
+
+[node name="Lives" parent="HUD/MarginContainer/Game/RightSide/MarginContainer/VBoxContainer" instance=ExtResource( 6 )]
+anchor_right = 0.0
+margin_top = 312.0
+margin_right = 180.0
+margin_bottom = 412.0
+key = "Lives"
+val = "3"
+
+[node name="GASVirtualGamepad" type="Control" parent="HUD"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+mobile_only = false
+
+[node name="GASVirtualAnalogStick" type="Control" parent="HUD/GASVirtualGamepad"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_top = -204.0
+margin_right = 200.0
+margin_bottom = -44.0
+script = ExtResource( 3 )
+
+[node name="GASVirtualButton" type="Control" parent="HUD/GASVirtualGamepad"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -137.0
+margin_top = -156.0
+margin_right = -57.0
+margin_bottom = -76.0
+script = ExtResource( 2 )

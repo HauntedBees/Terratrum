@@ -12,12 +12,27 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "Block",
 "language": "GDScript",
-"path": "res://code/Block.gd"
+"path": "res://MainGame/Block.gd"
+}, {
+"base": "Reference",
+"class": "BlockFamily",
+"language": "GDScript",
+"path": "res://MainGame/BlockFamily.gd"
 }, {
 "base": "Node2D",
 "class": "BlockHandler",
 "language": "GDScript",
 "path": "res://code/game/BlockHandler.gd"
+}, {
+"base": "Node2D",
+"class": "BlockManager",
+"language": "GDScript",
+"path": "res://MainGame/BlockManager.gd"
+}, {
+"base": "Node2D",
+"class": "BlockOld",
+"language": "GDScript",
+"path": "res://code/Block.gd"
 }, {
 "base": "AnimatedSprite",
 "class": "CharSel",
@@ -90,6 +105,11 @@ _global_script_classes=[ {
 "path": "res://code/game/LevelBuilder.gd"
 }, {
 "base": "Node2D",
+"class": "LevelManager",
+"language": "GDScript",
+"path": "res://MainGame/LevelManager.gd"
+}, {
+"base": "Node2D",
 "class": "Menu",
 "language": "GDScript",
 "path": "res://code/Menu.gd"
@@ -116,7 +136,10 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Block": "",
+"BlockFamily": "",
 "BlockHandler": "",
+"BlockManager": "",
+"BlockOld": "",
 "CharSel": "",
 "Consts": "",
 "DualButton": "",
@@ -131,6 +154,7 @@ _global_script_class_icons={
 "GASVirtualMovementControl": "",
 "HUDText": "",
 "LevelBuilder": "",
+"LevelManager": "",
 "Menu": "",
 "MenuLevel": "",
 "Player": "",
@@ -141,7 +165,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Terratrum"
-run/main_scene="res://Menu/MainMenu.tscn"
+run/main_scene="res://MainGame/GameContainer.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -154,6 +178,7 @@ GASInput="*res://addons/gas/GASInput.gd"
 
 [debug]
 
+gdscript/warnings/narrowing_conversion=false
 gdscript/warnings/return_value_discarded=false
 gdscript/warnings/integer_division=false
 
@@ -161,8 +186,8 @@ gdscript/warnings/integer_division=false
 
 window/size/width=720
 window/size/height=1080
-window/size/test_width=480
-window/size/test_height=720
+window/size/test_width=720
+window/size/test_height=1080
 window/handheld/orientation="portrait"
 
 [editor_plugins]

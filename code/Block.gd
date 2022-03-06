@@ -1,5 +1,5 @@
 extends Node2D
-class_name Block
+class_name BlockOld
 
 const sprites = preload("res://assets_old/tiles/Tiles.tscn")
 enum BlockState {

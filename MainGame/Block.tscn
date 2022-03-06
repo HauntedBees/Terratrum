@@ -1,0 +1,106 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://MainGame/Tiles.png" type="Texture" id=1]
+[ext_resource path="res://MainGame/TileMask.png" type="Texture" id=2]
+[ext_resource path="res://MainGame/Block.gd" type="Script" id=3]
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+uniform sampler2D main_texture:hint_albedo;
+uniform sampler2D mask_texture:hint_albedo;
+uniform vec2 tile_offset = vec2(0, 0); // TODO: actually add these
+uniform vec2 mask_offset = vec2(0, 0);
+
+void fragment() {
+	vec4 tile = texture(main_texture, UV).rgba;
+	vec4 mask = texture(mask_texture, (UV + mask_offset) / 4.0).rgba;
+	COLOR.rgb = tile.rgb;
+	COLOR.a = mask.a;
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+shader_param/tile_offset = Vector2( 0, 0 )
+shader_param/mask_offset = Vector2( 0, 0 )
+shader_param/main_texture = ExtResource( 1 )
+shader_param/mask_texture = ExtResource( 2 )
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 14, 29 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 15, 28.5 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 20, 10 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 20, 10 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 32, 32 )
+
+[node name="Block" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( -32, -32, 32, -32, 32, 32, -32, 32 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = SubResource( 3 )
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+
+[node name="Left" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left"]
+position = Vector2( -49, 1 )
+shape = SubResource( 4 )
+
+[node name="Right" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Right"]
+position = Vector2( 49, 1.5 )
+shape = SubResource( 5 )
+
+[node name="Below" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Below"]
+position = Vector2( 0, 45 )
+shape = SubResource( 6 )
+
+[node name="Above" type="Area2D" parent="."]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Above"]
+position = Vector2( 0, -44 )
+shape = SubResource( 7 )
+
+[node name="Center" type="Area2D" parent="."]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Center"]
+shape = SubResource( 8 )
+
+[connection signal="area_entered" from="Left" to="." method="_on_Left_area_entered"]
+[connection signal="area_exited" from="Left" to="." method="_on_Left_area_exited"]
+[connection signal="area_entered" from="Right" to="." method="_on_Right_area_entered"]
+[connection signal="area_exited" from="Right" to="." method="_on_Right_area_exited"]
+[connection signal="area_entered" from="Below" to="." method="_on_Below_area_entered"]
+[connection signal="area_exited" from="Below" to="." method="_on_Below_area_exited"]
+[connection signal="area_entered" from="Above" to="." method="_on_Above_area_entered"]
+[connection signal="area_exited" from="Above" to="." method="_on_Above_area_exited"]

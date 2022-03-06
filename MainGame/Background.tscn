@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://MainGame/Backgrounds/01_top.png" type="Texture" id=1]
+[ext_resource path="res://MainGame/Backgrounds/01_bottom.png" type="Texture" id=2]
+[ext_resource path="res://MainGame/Background.gd" type="Script" id=3]
+
+[node name="Background" type="ParallaxBackground"]
+scroll_base_scale = Vector2( 1, 0.5 )
+script = ExtResource( 3 )
+
+[node name="BottomLayer" type="ParallaxLayer" parent="."]
+motion_offset = Vector2( 0, 600 )
+motion_mirroring = Vector2( 0, 1800 )
+
+[node name="BottomSprite" type="Sprite" parent="BottomLayer"]
+position = Vector2( 0, 600 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 560, 1800 )
+
+[node name="TopLayer" type="ParallaxLayer" parent="."]
+
+[node name="TopSprite" type="Sprite" parent="TopLayer"]
+texture = ExtResource( 1 )
