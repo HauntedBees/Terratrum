@@ -22,10 +22,10 @@ const COLOR_XREF = {
 
 func _ready():
 	#if type == "hard" || type == "air": return
-	if type == "air": return
-	sprite.modulate = COLOR_XREF[type]
 	shader = shader.duplicate()
 	sprite.material = shader
+	if type == "air": return
+	sprite.modulate = COLOR_XREF[type]
 
 func try_link(neighbor:Block) -> bool:
 	if type == "air": return false

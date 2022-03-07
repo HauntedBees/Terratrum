@@ -20,6 +20,7 @@ func _physics_process(delta):
 		Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	)
 	if direction != Vector2.ZERO:
+		if direction.x != 0: direction.y = 0 # no diagonals allowed!
 		model.look_at(model.global_transform.origin - 10 * Vector3(direction.x, 0, direction.y), Vector3.UP)
 		active_direction = Vector2(round(direction.x), round(direction.y))
 	
@@ -27,7 +28,7 @@ func _physics_process(delta):
 	velocity = velocity.normalized()
 	velocity = walk_speed * delta * velocity
 	#var is_moving:bool = velocity.length() > 0.1
-	if !is_on_floor(): velocity.y += Consts.BLOCK_SIZE * Consts.BLOCK_SIZE * delta
+	if !is_on_floor(): velocity.y += Consts.BLOCK_SIZE * Consts.DROP_SPEED * delta
 	move_and_slide(velocity, Vector2.UP)
 
 func _on_Above_area_entered(area:Area2D): _on_body_entered(area, 1)
