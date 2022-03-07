@@ -2,6 +2,7 @@ extends Reference
 class_name BlockFamily
 
 var family := []
+var falling := false
 func _init(starter): family.append(starter)
 func list() -> Array: return family
 func size() -> int: return family.size()
@@ -17,3 +18,7 @@ func potentially_affected(max_y:int) -> bool:
 		if b.grid_pos.y <= max_y: return true
 	return false
 func clone() -> Array: return family.duplicate()
+
+func prepare_to_die():
+	for b in family:
+		b.flicker()

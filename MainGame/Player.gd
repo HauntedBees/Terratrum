@@ -21,7 +21,7 @@ func _physics_process(delta):
 	)
 	if direction != Vector2.ZERO:
 		model.look_at(model.global_transform.origin - 10 * Vector3(direction.x, 0, direction.y), Vector3.UP)
-		active_direction = direction
+		active_direction = Vector2(round(direction.x), round(direction.y))
 	
 	var velocity := Vector2(direction.x, 0)
 	velocity = velocity.normalized()

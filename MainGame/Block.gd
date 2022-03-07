@@ -28,6 +28,7 @@ func _ready():
 	sprite.material = shader
 
 func try_link(neighbor:Block) -> bool:
+	if type == "air": return false
 	if neighbor == null: return false
 	if neighbor.type != type: return false
 	if neighbor.family == family: return false
@@ -36,11 +37,13 @@ func try_link(neighbor:Block) -> bool:
 
 func try_join_neighbors():
 	if above != null && try_link(above): above.redraw_block()
-	if right != null && try_link(right): right.redraw_block()
+	if right != null && _aligned(right) && try_link(right): right.redraw_block()
 	if below != null && try_link(below): below.redraw_block()
-	if left != null && try_link(left): left.redraw_block()
+	if left != null && _aligned(left) && try_link(left): left.redraw_block()
 	redraw_block()
+func _aligned(neighbor:Block) -> bool: return round(neighbor.global_position.y) == round(global_position.y)
 
+func flicker(): $AnimationPlayer.play("flicker")
 func redraw_block():
 	if type == "air": return
 	var final_value := 0

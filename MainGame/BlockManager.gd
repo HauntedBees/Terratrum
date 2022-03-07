@@ -6,6 +6,7 @@ onready var bc:Node2D = get_parent().get_node("BlockContainer")
 var min_y := 0
 var falling_families := []
 
+# TODO: this fucks up if a block joins a dying family
 func destroy_family_return_info(f:BlockFamily) -> Dictionary:
 	var info := {
 		"lowest_y": 0,
@@ -30,10 +31,12 @@ func set_potential_falls(max_y:int):
 		if falling_families.find(bf) < 0:
 			falling_families.append(bf)
 
-func _physics_process(delta):
+# TODO: there's *something* fucky that happens sometimes
+func _physics_process(delta:float):
 	# Get all families that can fall, and all families that cannot
 	var can_drops := []
 	var blockers := {}
+	var families_to_destroy := []
 	for f in falling_families:
 		var my_blockers := []
 		for b in f.family:
@@ -75,6 +78,9 @@ func _physics_process(delta):
 				# TODO double check
 				pass
 			else:
+				if f.falling && f.size() >= 4 && families_to_destroy.find(f) < 0:
+					families_to_destroy.append(f)
+				f.falling = false
 				falling_families.erase(f)
 				blockers.erase(f)
 		blocked_families = blockers.keys()
@@ -91,5 +97,19 @@ func _physics_process(delta):
 				if dropped_one_tile.find(f) < 0:
 					dropped_one_tile.append(f)
 	for f in dropped_one_tile:
+		f.falling = true
 		for b in f.clone():
 			b.move_down()
+	
+	# Clear anything that got fuckied during this whole deal
+	#var lowest_y := -1
+	for f in families_to_destroy:
+		f.prepare_to_die()
+		get_tree().create_timer(Consts.ACTION_TIME).connect("timeout", self, "_on_family_flickered", [f])
+		#var info := destroy_family_return_info(f)
+		#lowest_y = max(info["lowest_y"], lowest_y)
+	#if lowest_y > -1: set_potential_falls(lowest_y)
+
+func _on_family_flickered(f:BlockFamily):
+	var info := destroy_family_return_info(f)
+	set_potential_falls(info["lowest_y"])

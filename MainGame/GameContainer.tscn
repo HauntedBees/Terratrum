@@ -2,7 +2,7 @@
 
 [ext_resource path="res://addons/gas/GASVirtualGamepad/GASVirtualGamepad.gd" type="Script" id=1]
 [ext_resource path="res://addons/gas/GASVirtualGamepad/GASVirtualButton.gd" type="Script" id=2]
-[ext_resource path="res://addons/gas/GASVirtualGamepad/GASVirtualAnalogStick.gd" type="Script" id=3]
+[ext_resource path="res://addons/gas/GASVirtualGamepad/GASVirtualDPad.gd" type="Script" id=3]
 [ext_resource path="res://MainGame/Game.tscn" type="PackedScene" id=4]
 [ext_resource path="res://MainGame/GameContainer.gd" type="Script" id=5]
 [ext_resource path="res://MainGame/HUD/HUDValue.tscn" type="PackedScene" id=6]
@@ -107,22 +107,24 @@ __meta__ = {
 }
 mobile_only = false
 
-[node name="GASVirtualAnalogStick" type="Control" parent="HUD/GASVirtualGamepad"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 40.0
-margin_top = -204.0
-margin_right = 200.0
-margin_bottom = -44.0
-script = ExtResource( 3 )
-
 [node name="GASVirtualButton" type="Control" parent="HUD/GASVirtualGamepad"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -137.0
-margin_top = -156.0
-margin_right = -57.0
-margin_bottom = -76.0
+margin_left = -200.0
+margin_top = -208.0
+margin_right = -120.0
+margin_bottom = -128.0
+rect_scale = Vector2( 2, 2 )
 script = ExtResource( 2 )
+
+[node name="GASVirtualDPad" type="Control" parent="HUD/GASVirtualGamepad"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 25.0
+margin_top = -354.0
+margin_right = 186.0
+margin_bottom = -193.0
+rect_scale = Vector2( 2, 2 )
+script = ExtResource( 3 )

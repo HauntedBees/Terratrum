@@ -21,6 +21,7 @@ var level_number := 0
 var current_level := []
 var next_level := []
 var next_level_builder = null
+var level_seed := 0
 
 func _ready():
 	var level_info := full_level_info.level
@@ -30,9 +31,10 @@ func _ready():
 	difficulty_curve = level_info.difficulty_set if level_info != null else [Menu.DifficultyInfo.new(4, 0, 0)]
 	max_depth = level_info.max_depth if level_info != null else 0
 	randomize()
-	var wow_real_seed = 5674432#level_info.level_seed if level_info != null && level_info.level_seed != 0 else randi() % 10000000
-	seed(wow_real_seed)
-	print(wow_real_seed)
+	#level_seed = level_info.level_seed if level_info != null && level_info.level_seed != 0 else randi() % 10000000
+	level_seed = 9102156
+	seed(level_seed)
+	print(level_seed)
 	current_level = get_2d_array(width, height)
 	continue_making_level(current_level, get_difficulty_info(0), false)
 	current_potential_types = potential_types
