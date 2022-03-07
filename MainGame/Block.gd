@@ -43,7 +43,7 @@ func try_join_neighbors():
 	redraw_block()
 func _aligned(neighbor:Block) -> bool: return round(neighbor.global_position.y) == round(global_position.y)
 
-func flicker(): $AnimationPlayer.play("flicker")
+func flicker(): $AnimationPlayer.play("fade")
 func redraw_block():
 	if type == "air": return
 	var final_value := 0

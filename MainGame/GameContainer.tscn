@@ -99,6 +99,7 @@ key = "Lives"
 val = "3"
 
 [node name="GASVirtualGamepad" type="Control" parent="HUD"]
+modulate = Color( 1, 1, 1, 0.490196 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -128,3 +129,7 @@ margin_right = 186.0
 margin_bottom = -193.0
 rect_scale = Vector2( 2, 2 )
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+diagonals_enabled = false

@@ -5,22 +5,6 @@ onready var lm:LevelManager = get_parent().get_node("LevelManager")
 onready var bc:Node2D = get_parent().get_node("BlockContainer")
 var falling_families := []
 
-func destroy_family_return_info(f:BlockFamily) -> Dictionary:
-	var info := {
-		"lowest_y": 0,
-		"blocks_cleared": 0
-	}
-	for b in f.list():
-		if b == null || !is_instance_valid(b): continue
-		var by:int = b.grid_pos.y
-		if by > info["lowest_y"]: info["lowest_y"] = by
-		info["blocks_cleared"] += 1
-		b.family = null
-		b.unlink_neighbors()
-		b.queue_free()
-	falling_families.erase(f)
-	return info
-
 func set_potential_falls(max_y:int):
 	for vb in bc.get_children():
 		if !(vb is Block): continue
@@ -100,11 +84,52 @@ func _physics_process(delta:float):
 		for b in f.clone():
 			b.move_down()
 	
-	# Clear anything that got fuckied during this whole deal
-	for f in families_to_destroy:
-		f.prepare_to_die()
-		get_tree().create_timer(Consts.ACTION_TIME).connect("timeout", self, "_on_family_flickered", [f])
+	# Clear anything that got wiped out during this whole deal
+	for f in families_to_destroy: queue_destroy_family_return_info(f)
+
+func destroy_family_return_max_y(f:BlockFamily) -> int:
+	var max_y := 0
+	for b in f.list():
+		if b == null || !is_instance_valid(b): continue
+		var by:int = b.grid_pos.y
+		if by > max_y: max_y = by
+		b.family = null
+		b.unlink_neighbors()
+		b.queue_free()
+	falling_families.erase(f)
+	return max_y
+	
+func destroy_family_return_info(f:BlockFamily) -> Dictionary:
+	var info := {
+		"lowest_y": 0,
+		"blocks_cleared": 0
+	}
+	for b in f.list():
+		if b == null || !is_instance_valid(b): continue
+		var by:int = b.grid_pos.y
+		if by > info["lowest_y"]: info["lowest_y"] = by
+		info["blocks_cleared"] += 1
+		b.family = null
+		b.unlink_neighbors()
+		b.queue_free()
+	falling_families.erase(f)
+	return info
+
+func queue_destroy_family_return_info(f:BlockFamily) -> Dictionary:
+	var info := {
+		"lowest_y": 0,
+		"blocks_cleared": 0
+	}
+	for b in f.list():
+		if b == null || !is_instance_valid(b): continue
+		var by:int = b.grid_pos.y
+		if by > info["lowest_y"]: info["lowest_y"] = by
+		info["blocks_cleared"] += 1
+	falling_families.erase(f)
+	f.prepare_to_die()
+	get_tree().create_timer(Consts.ACTION_TIME).connect("timeout", self, "_on_family_flickered", [f])
+	return info
 
 func _on_family_flickered(f:BlockFamily):
-	var info := destroy_family_return_info(f)
-	set_potential_falls(info["lowest_y"])
+	var max_y := destroy_family_return_max_y(f)
+	set_potential_falls(max_y)
