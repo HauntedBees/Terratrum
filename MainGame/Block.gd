@@ -27,30 +27,27 @@ func _ready():
 	shader = shader.duplicate()
 	sprite.material = shader
 
-func try_link(neighbor:Block):
-	if neighbor == null: return
-	if neighbor.type != type: return
-	if neighbor.family == family: return
+func try_link(neighbor:Block) -> bool:
+	if neighbor == null: return false
+	if neighbor.type != type: return false
+	if neighbor.family == family: return false
 	family.join(neighbor.family)
+	return true
+
+func try_join_neighbors():
+	if above != null && try_link(above): above.redraw_block()
+	if right != null && try_link(right): right.redraw_block()
+	if below != null && try_link(below): below.redraw_block()
+	if left != null && try_link(left): left.redraw_block()
+	redraw_block()
 
 func redraw_block():
 	if type == "air": return
-	var positions = [0, 0, 0, 0]
-	for f in family.list():
-		if self == f: continue
-		var xdir: float = grid_pos.x - f.grid_pos.x # positive = left
-		var ydir: float = grid_pos.y - f.grid_pos.y # positive = above
-		if grid_pos.distance_to(f.grid_pos) != 1: continue
-		if ydir < 0: # bottom
-			positions[0] = 4
-		elif ydir > 0: # top
-			positions[1] = 1
-		elif xdir < 0: # right
-			positions[2] = 2
-		elif xdir > 0: # left
-			positions[3] = 8
 	var final_value := 0
-	for v in positions: final_value += v
+	if above != null && above.family == family: final_value += 1
+	if right != null && right.family == family: final_value += 2
+	if below != null && below.family == family: final_value += 4
+	if left != null && left.family == family: final_value += 8
 	shader.set_shader_param("mask_offset", Vector2(final_value % 4, final_value / 4))
 
 func get_class(): return "Block"
@@ -60,36 +57,53 @@ func unlink_neighbors():
 	if above != null && is_instance_valid(above): above.below = null
 	if below != null && is_instance_valid(below): below.above = null
 
-func _on_Above_body_entered(body:Node): _on_body_entered(body, 1)
-func _on_Right_body_entered(body:Node): _on_body_entered(body, 2)
-func _on_Below_body_entered(body:Node): _on_body_entered(body, 4)
-func _on_Left_body_entered(body:Node): _on_body_entered(body, 8)
+func move_down():
+	grid_pos.y += 1
+	try_join_neighbors()
+
+func _on_Above_area_entered(area:Area2D): _on_body_entered(area, 1)
+func _on_Right_area_entered(area:Area2D): _on_body_entered(area, 2)
+func _on_Below_area_entered(area:Area2D): _on_body_entered(area, 4)
+func _on_Left_area_entered(area:Area2D): _on_body_entered(area, 8)
 func _on_body_entered(body:Node, dir:int):
 	var parent := body.get_parent()
 	if parent == null: return
+	if parent == self: return
 	if parent.get_class() != "Block": return
+	#if parent.family == family: return
 	match dir:
-		1: above = parent
-		2: right = parent
-		4: below = parent
-		8: left = parent
+		1:
+			if above != null: above.below = null
+			above = parent
+			parent.below = self
+			try_link(parent)
+			redraw_block()
+			parent.redraw_block()
+		2:
+			if right != null: right.left = null
+			right = parent
+			parent.left = self
+		4:
+			if below != null: below.above = null
+			below = parent
+			parent.above = self
+			try_link(parent)
+			redraw_block()
+			parent.redraw_block()
+		8:
+			if left != null: left.right = null
+			left = parent
+			parent.right = self
 
-func _on_Above_body_exited(body:Node): pass#_on_body_exited(body, 1)
-func _on_Right_body_exited(body:Node): pass#_on_body_exited(body, 2)
-func _on_Below_body_exited(body:Node): pass#_on_body_exited(body, 4)
-func _on_Left_body_exited(body:Node): pass#_on_body_exited(body, 8)
+func _on_Above_area_exited(area:Area2D): _on_body_exited(area, 1)
+func _on_Right_area_exited(area:Area2D): _on_body_exited(area, 2)
+func _on_Below_area_exited(area:Area2D): _on_body_exited(area, 4)
+func _on_Left_area_exited(area:Area2D): _on_body_exited(area, 8)
 func _on_body_exited(body:Node, dir:int):
 	var parent := body.get_parent()
 	if parent == null: return
+	if parent == self: return
 	if parent.get_class() != "Block": return
-#	match dir:
-#		1: above = null
-#		2: right = null
-#		4: below = null
-#		8: left = null
-#	var parent := body.get_parent()
-#	if parent == null: return
-#	if parent.get_class() != "Block": return
 	var current_neighbor:Block = null
 	match dir:
 		1: current_neighbor = above
@@ -102,16 +116,14 @@ func _on_body_exited(body:Node, dir:int):
 			2: right = null
 			4: below = null
 			8: left = null
-#	else:
-#		print("this shouldn't happen I don't think")
-#		print("%s / %s" % [current_neighbor, parent])
 
-func _on_Above_area_entered(area:Area2D): _on_body_entered(area, 1)
-func _on_Right_area_entered(area:Area2D): _on_body_entered(area, 2)
-func _on_Below_area_entered(area:Area2D): _on_body_entered(area, 4)
-func _on_Left_area_entered(area:Area2D): _on_body_entered(area, 8)
-
-func _on_Above_area_exited(area:Area2D): _on_body_exited(area, 1)
-func _on_Right_area_exited(area:Area2D): _on_body_exited(area, 2)
-func _on_Below_area_exited(area:Area2D): _on_body_exited(area, 4)
-func _on_Left_area_exited(area:Area2D): _on_body_exited(area, 8)
+signal debug_kill
+var mouse := false
+func _on_Center_mouse_entered(): mouse = true
+func _on_Center_mouse_exited(): mouse = false
+func _input(e:InputEvent):
+	if mouse && e is InputEventMouseButton && e.button_index == 2 && e.pressed:
+		if Input.is_key_pressed(KEY_SHIFT):
+			print(name)
+		else:
+			emit_signal("debug_kill")

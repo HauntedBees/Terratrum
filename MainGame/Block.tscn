@@ -35,16 +35,16 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 14, 29 )
+extents = Vector2( 9, 29 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 15, 28.5 )
+extents = Vector2( 9, 28.5 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 20, 10 )
+extents = Vector2( 20, 0.5 )
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 20, 10 )
+extents = Vector2( 20, 0.5 )
 
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 32, 32 )
@@ -66,28 +66,28 @@ frames = SubResource( 1 )
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Left"]
-position = Vector2( -49, 1 )
+position = Vector2( -42, 1 )
 shape = SubResource( 4 )
 
 [node name="Right" type="Area2D" parent="."]
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Right"]
-position = Vector2( 49, 1.5 )
+position = Vector2( 42, 1 )
 shape = SubResource( 5 )
 
 [node name="Below" type="Area2D" parent="."]
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Below"]
-position = Vector2( 0, 45 )
+position = Vector2( 0, 32.5 )
 shape = SubResource( 6 )
 
 [node name="Above" type="Area2D" parent="."]
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Above"]
-position = Vector2( 0, -44 )
+position = Vector2( 0, -32.5 )
 shape = SubResource( 7 )
 
 [node name="Center" type="Area2D" parent="."]
@@ -104,3 +104,5 @@ shape = SubResource( 8 )
 [connection signal="area_exited" from="Below" to="." method="_on_Below_area_exited"]
 [connection signal="area_entered" from="Above" to="." method="_on_Above_area_entered"]
 [connection signal="area_exited" from="Above" to="." method="_on_Above_area_exited"]
+[connection signal="mouse_entered" from="Center" to="." method="_on_Center_mouse_entered"]
+[connection signal="mouse_exited" from="Center" to="." method="_on_Center_mouse_exited"]

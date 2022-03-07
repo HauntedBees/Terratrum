@@ -30,7 +30,7 @@ func _ready():
 	difficulty_curve = level_info.difficulty_set if level_info != null else [Menu.DifficultyInfo.new(4, 0, 0)]
 	max_depth = level_info.max_depth if level_info != null else 0
 	randomize()
-	var wow_real_seed = level_info.level_seed if level_info != null && level_info.level_seed != 0 else randi() % 10000000
+	var wow_real_seed = 5674432#level_info.level_seed if level_info != null && level_info.level_seed != 0 else randi() % 10000000
 	seed(wow_real_seed)
 	print(wow_real_seed)
 	current_level = get_2d_array(width, height)
@@ -67,8 +67,14 @@ func create_block(type:String, x:int, y:int) -> Block:
 	return b
 
 func try_linking_with_above_and_left(level: Array, block: Block):
-	if block.grid_pos.x > 0: block.try_link(get_block_from(level, block.grid_pos.x - 1, block.grid_pos.y))
-	if block.grid_pos.y > 0: block.try_link(get_block_from(level, block.grid_pos.x, block.grid_pos.y - 1))
+	var left:Block = get_block_from(level, block.grid_pos.x - 1, block.grid_pos.y)
+	if block.grid_pos.x > 0 && block.try_link(left):
+		block.left = left
+		left.right = block
+	var above:Block = get_block_from(level, block.grid_pos.x, block.grid_pos.y - 1)
+	if block.grid_pos.y > 0 && block.try_link(above):
+		block.above = above
+		above.below = block
 
 func clear_level():
 	for x in width:
