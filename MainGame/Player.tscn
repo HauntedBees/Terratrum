@@ -16,10 +16,10 @@ extents = Vector2( 14, 15 )
 extents = Vector2( 15, 14 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 20, 5 )
+extents = Vector2( 8, 10 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 20, 7 )
+extents = Vector2( 7, 10 )
 
 [node name="Player" type="KinematicBody2D"]
 script = ExtResource( 2 )
@@ -63,14 +63,14 @@ shape = SubResource( 4 )
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Below"]
-position = Vector2( 0, 37 )
+position = Vector2( 0, 42 )
 shape = SubResource( 5 )
 
 [node name="Above" type="Area2D" parent="."]
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Above"]
-position = Vector2( 0, -40 )
+position = Vector2( 0, -43 )
 shape = SubResource( 6 )
 
 [connection signal="area_entered" from="Left" to="." method="_on_Left_area_entered"]

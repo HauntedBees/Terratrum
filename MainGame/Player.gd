@@ -27,9 +27,8 @@ func _physics_process(delta):
 	velocity = velocity.normalized()
 	velocity = walk_speed * delta * velocity
 	#var is_moving:bool = velocity.length() > 0.1
-	if !is_on_floor(): velocity.y += 10000.0 * delta
+	if !is_on_floor(): velocity.y += Consts.BLOCK_SIZE * Consts.BLOCK_SIZE * delta
 	move_and_slide(velocity, Vector2.UP)
-	#move_and_collide(Vector2(0.0, 500.0 * delta))
 
 func _on_Above_area_entered(area:Area2D): _on_body_entered(area, 1)
 func _on_Right_area_entered(area:Area2D): _on_body_entered(area, 2)

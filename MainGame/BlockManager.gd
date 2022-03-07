@@ -101,13 +101,9 @@ func _physics_process(delta:float):
 			b.move_down()
 	
 	# Clear anything that got fuckied during this whole deal
-	#var lowest_y := -1
 	for f in families_to_destroy:
 		f.prepare_to_die()
 		get_tree().create_timer(Consts.ACTION_TIME).connect("timeout", self, "_on_family_flickered", [f])
-		#var info := destroy_family_return_info(f)
-		#lowest_y = max(info["lowest_y"], lowest_y)
-	#if lowest_y > -1: set_potential_falls(lowest_y)
 
 func _on_family_flickered(f:BlockFamily):
 	var info := destroy_family_return_info(f)
