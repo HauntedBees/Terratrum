@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://MainGame/Tiles.png" type="Texture" id=1]
 [ext_resource path="res://MainGame/Shaders/BlockShader.tres" type="Material" id=2]
@@ -74,6 +74,22 @@ tracks/0/keys = {
 "values": [ 1.0, 0.0, 1.0, 0.0 ]
 }
 
+[sub_resource type="Animation" id=12]
+resource_name = "wiggle"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -8, 0 ), Vector2( 8, 0 ), Vector2( 0, 0 ) ]
+}
+
 [node name="Block" type="Node2D"]
 script = ExtResource( 3 )
 
@@ -125,6 +141,7 @@ frames = SubResource( 1 )
 anims/RESET = SubResource( 10 )
 anims/fade = SubResource( 11 )
 anims/flicker = SubResource( 9 )
+anims/wiggle = SubResource( 12 )
 
 [connection signal="area_entered" from="Left" to="." method="_on_Left_area_entered"]
 [connection signal="area_exited" from="Left" to="." method="_on_Left_area_exited"]

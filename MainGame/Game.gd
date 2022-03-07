@@ -39,7 +39,7 @@ var debug_dels := []
 func _debug_kill(block:Block):
 	if block == null: return
 	debug_dels.append(block.name)
-	bm.queue_destroy_family_return_info(block.family)
+	bm.queue_destroy_family_return_info(block.family, true)
 
 func _player_drill():
 	var drill_dir:Vector2 = player.active_direction
@@ -52,5 +52,5 @@ func _player_drill():
 		Vector2(0, -1): block = player.above
 	if block == null: return
 	debug_dels.append(block.name)
-	var info := bm.queue_destroy_family_return_info(block.family)
+	var info := bm.queue_destroy_family_return_info(block.family, true)
 	# TODO: scoring

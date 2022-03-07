@@ -4,8 +4,9 @@ class_name BlockManager
 onready var lm:LevelManager = get_parent().get_node("LevelManager")
 onready var bc:Node2D = get_parent().get_node("BlockContainer")
 var falling_families := []
+var wiggling_families := []
 
-func set_potential_falls(max_y:int):
+func set_potential_falls(max_y:int, from_player:bool):
 	for vb in bc.get_children():
 		if !(vb is Block): continue
 		var bf:BlockFamily = vb.family
@@ -13,6 +14,7 @@ func set_potential_falls(max_y:int):
 		if !bf.potentially_affected(max_y): continue
 		if falling_families.find(bf) < 0:
 			falling_families.append(bf)
+			if from_player: wiggling_families.append(bf)
 
 # TODO: there's *something* fucky that happens sometimes
 func _physics_process(delta:float):
@@ -65,20 +67,18 @@ func _physics_process(delta:float):
 					families_to_destroy.append(f)
 				f.falling = false
 				falling_families.erase(f)
+				wiggling_families.erase(f)
 				blockers.erase(f)
 		blocked_families = blockers.keys()
 	
 	# Drop em all down.
 	var dropped_one_tile := []
 	for f in can_drops:
-		for vb in f.family:
-			var b:Block = vb
-			b.transform.origin.y += Consts.BLOCK_SIZE * delta
-			var next_spot := lm.grid_to_map(b.grid_pos.x, b.grid_pos.y + 1).y
-			if round(b.transform.origin.y + 0.1) >= next_spot:
-				b.transform.origin.y = next_spot
-				if dropped_one_tile.find(f) < 0:
-					dropped_one_tile.append(f)
+		var wiggle := wiggling_families.find(f)
+		var do_wiggle:bool = wiggle >= 0
+		if do_wiggle: wiggling_families.erase(f)
+		var done:bool = f.wiggle_or_drop_return_if_done(lm, delta, do_wiggle)
+		if done && dropped_one_tile.find(f) < 0: dropped_one_tile.append(f)
 	for f in dropped_one_tile:
 		f.falling = true
 		for b in f.clone():
@@ -97,6 +97,7 @@ func destroy_family_return_max_y(f:BlockFamily) -> int:
 		b.unlink_neighbors()
 		b.queue_free()
 	falling_families.erase(f)
+	wiggling_families.erase(f)
 	return max_y
 	
 func destroy_family_return_info(f:BlockFamily) -> Dictionary:
@@ -115,7 +116,7 @@ func destroy_family_return_info(f:BlockFamily) -> Dictionary:
 	falling_families.erase(f)
 	return info
 
-func queue_destroy_family_return_info(f:BlockFamily) -> Dictionary:
+func queue_destroy_family_return_info(f:BlockFamily, from_player := false) -> Dictionary:
 	var info := {
 		"lowest_y": 0,
 		"blocks_cleared": 0
@@ -127,9 +128,9 @@ func queue_destroy_family_return_info(f:BlockFamily) -> Dictionary:
 		info["blocks_cleared"] += 1
 	falling_families.erase(f)
 	f.prepare_to_die()
-	get_tree().create_timer(Consts.ACTION_TIME).connect("timeout", self, "_on_family_flickered", [f])
+	get_tree().create_timer(Consts.ACTION_TIME).connect("timeout", self, "_on_family_flickered", [f, from_player])
 	return info
 
-func _on_family_flickered(f:BlockFamily):
+func _on_family_flickered(f:BlockFamily, from_player:bool):
 	var max_y := destroy_family_return_max_y(f)
-	set_potential_falls(max_y)
+	set_potential_falls(max_y, from_player)
