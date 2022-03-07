@@ -34,7 +34,7 @@ func _process(_delta):
 		replay.remove(0)
 		_debug_kill(block)
 
-var replay := ["red (3, 3)","green (3, 8)","red (2, 9)","red (4, 9)","yellow (5, 9)","blue (6, 9)","blue (5, 10)","green (5, 11)","yellow (5, 13)","hard (6, 13)","green (5, 15)","yellow (4, 15)","air (6, 15)","green (3, 13)","red (2, 14)","green (0, 16)"]
+var replay := ["green (3, 1)","blue (3, 2)","blue (3, 4)","red (4, 5)","green (4, 4)","blue (2, 6)","yellow (1, 7)","red (4, 8)","red (5, 6)","hard (6, 5)","blue (1, 9)","red (2, 9)","air (1, 5)","hard (1, 4)","red (0, 6)","yellow (0, 4)","blue (3, 12)","yellow (4, 10)","green (5, 15)","yellow (2, 13)","red (2, 14)","air (6, 15)","yellow (3, 15)","green (3, 14)"]
 var debug_dels := []
 func _debug_kill(block:Block):
 	if block == null: return

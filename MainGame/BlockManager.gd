@@ -3,16 +3,15 @@ class_name BlockManager
 
 onready var lm:LevelManager = get_parent().get_node("LevelManager")
 onready var bc:Node2D = get_parent().get_node("BlockContainer")
-var min_y := 0
 var falling_families := []
 
-# TODO: this fucks up if a block joins a dying family
 func destroy_family_return_info(f:BlockFamily) -> Dictionary:
 	var info := {
 		"lowest_y": 0,
 		"blocks_cleared": 0
 	}
 	for b in f.list():
+		if b == null || !is_instance_valid(b): continue
 		var by:int = b.grid_pos.y
 		if by > info["lowest_y"]: info["lowest_y"] = by
 		info["blocks_cleared"] += 1
