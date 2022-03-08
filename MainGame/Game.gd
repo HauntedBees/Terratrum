@@ -16,7 +16,10 @@ func draw_level(level:Array):
 			b.position = lm.grid_to_map(x, y)
 			b.connect("debug_kill", self, "_debug_kill", [b])
 			bc.add_child(b)
-			b.redraw_block()
+			_refresh_block(b)
+func _refresh_block(b:Block):
+	yield(get_tree(), "idle_frame")
+	b.redraw_block()
 
 func _process(_delta):
 	if GASInput.is_action_just_pressed("ui_accept"):
@@ -34,7 +37,7 @@ func _process(_delta):
 		replay.remove(0)
 		_debug_kill(block)
 
-var replay := ["green (3, 1)","blue (3, 2)","blue (3, 4)","red (4, 5)","green (4, 4)","blue (2, 6)","yellow (1, 7)","red (4, 8)","red (5, 6)","hard (6, 5)","blue (1, 9)","red (2, 9)","air (1, 5)","hard (1, 4)","red (0, 6)","yellow (0, 4)","blue (3, 12)","yellow (4, 10)","green (5, 15)","yellow (2, 13)","red (2, 14)","air (6, 15)","yellow (3, 15)","green (3, 14)"]
+var replay := ["red (3, 0)","green (3, 1)","blue (3, 2)","red (3, 3)","blue (3, 4)","red (3, 5)","blue (2, 6)","yellow (1, 7)"]
 var debug_dels := []
 func _debug_kill(block:Block):
 	if block == null: return
