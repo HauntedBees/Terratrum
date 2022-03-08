@@ -186,6 +186,15 @@ func _get_air_sections() -> Dictionary:
 	return relevant_tiles
 
 func _get_debug_top() -> Array:
+	# case 1: double intermingle
+	return [
+		_expand("RYYYYYR"),
+		_expand("RYBBBBR"),
+		_expand("RYYYYBR"),
+		_expand("RBBBBBR"),
+		_expand("RRRRRRR")
+	]
+#	# case 2: triple intermingle
 #	return [
 #		_expand("RYYYRRR"),
 #		_expand("RYBYRRR"),
@@ -193,15 +202,16 @@ func _get_debug_top() -> Array:
 #		_expand("RYYYRRR"),
 #		_expand("RRRRRRR")
 #	]
-	return [
-		_expand("YYYYYYY"),
-		_expand("YYRRRBY"),
-		_expand("YGGBBBY"),
-		_expand("YGRRRRY"),
-		_expand("YGGGGRY"),
-		_expand("YYYYYYY"),
-		_expand("RRRRRRR")
-	]
+#	# case 3: advanced intermingle
+#	return [
+#		_expand("YYYYYYY"),
+#		_expand("YYRRRBY"),
+#		_expand("YGGBBBY"),
+#		_expand("YGRRRRY"),
+#		_expand("YGGGGRY"),
+#		_expand("YYYYYYY"),
+#		_expand("RRRRRRR")
+#	]
 func _expand(r:String) -> Array:
 	var r2 := []
 	for o in r:
