@@ -75,15 +75,11 @@ func _on_body_entered(body:Node, dir:int):
 	if parent == null: return
 	if parent == self: return
 	if parent.get_class() != "Block": return
-	#if parent.family == family: return
 	match dir:
 		1:
 			if above != null: above.below = null
 			above = parent
 			parent.below = self
-			try_link(parent)
-			redraw_block()
-			parent.redraw_block()
 		2:
 			if right != null: right.left = null
 			right = parent
@@ -92,9 +88,6 @@ func _on_body_entered(body:Node, dir:int):
 			if below != null: below.above = null
 			below = parent
 			parent.above = self
-			try_link(parent)
-			redraw_block()
-			parent.redraw_block()
 		8:
 			if left != null: left.right = null
 			left = parent
