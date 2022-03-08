@@ -113,11 +113,13 @@ func continue_making_level(level: Array, level_info, delayed: bool = true):
 		4: potential_types = ["red", "blue", "green", "yellow"]
 		3: potential_types = ["red", "blue", "green"]
 		2: potential_types = ["blue", "yellow"]
-	var top_chunk = [] if delayed else get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
-	var special_occasions := get_air_sections()
+	#var top_chunk := _get_debug_top()
+	var top_chunk:Array = [] if delayed else _get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
+	var top_chunk_size := top_chunk.size()
+	var special_occasions := _get_air_sections()
 	for y in height:
 		for x in width:
-			if y < 4 && !delayed:
+			if y < top_chunk_size && !delayed:
 				var block := create_block(top_chunk[y][x], x, y)
 				try_linking_with_above_and_left(level, block)
 				level[x][y] = block
@@ -132,7 +134,8 @@ func continue_making_level(level: Array, level_info, delayed: bool = true):
 				try_linking_with_above_and_left(level, block)
 				level[x][y] = block
 				if delayed: yield()
-func get_level_top(num_colors: int) -> Array:
+
+func _get_level_top(num_colors: int) -> Array:
 	var xx := "hard"
 	var c1 := "blue" if num_colors == 2 else "red"
 	var c2 := "yellow" if num_colors == 2 else "green"
@@ -160,8 +163,7 @@ func get_level_top(num_colors: int) -> Array:
 			row[width - 1] = xx
 		res.append(row)
 	return res
-
-func get_air_sections() -> Dictionary:
+func _get_air_sections() -> Dictionary:
 	var relevant_tiles := {}
 	var x_chance := bad_block_percent * 4.0
 	for y in range(0, height, air_every_x_rows):
@@ -182,3 +184,30 @@ func get_air_sections() -> Dictionary:
 			else:
 				x_chance += 0.5
 	return relevant_tiles
+
+func _get_debug_top() -> Array:
+#	return [
+#		_expand("RYYYRRR"),
+#		_expand("RYBYRRR"),
+#		_expand("RYGYRRR"),
+#		_expand("RYYYRRR"),
+#		_expand("RRRRRRR")
+#	]
+	return [
+		_expand("YYYYYYY"),
+		_expand("YYRRRBY"),
+		_expand("YGGBBBY"),
+		_expand("YGRRRRY"),
+		_expand("YGGGGRY"),
+		_expand("YYYYYYY"),
+		_expand("RRRRRRR")
+	]
+func _expand(r:String) -> Array:
+	var r2 := []
+	for o in r:
+		match o:
+			"R": r2.append("red")
+			"Y": r2.append("yellow")
+			"G": r2.append("green")
+			"B": r2.append("blue")
+	return r2

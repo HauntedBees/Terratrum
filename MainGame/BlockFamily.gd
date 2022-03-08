@@ -1,6 +1,25 @@
 extends Reference
 class_name BlockFamily
 
+var debug_name := "" setget , _get_debug_name
+func _get_debug_name() -> String:
+	var n := "%s-%s" % [family[0].type, family.size()]
+	match n:
+		"yellow-23": return "A"
+		"red-3": return "B"
+		"blue-4": return "C"
+		"green-7": return "D"
+		"red-5": return "E"
+	return n
+func has(block_name:String) -> bool:
+	for b in family:
+		if b.name == block_name: return true
+	return false
+func debug_print() -> String:
+	var r := []
+	for b in family: r.append(b.name)
+	return "[%s]" % PoolStringArray(r).join(", ")
+
 var family := []
 var falling := false
 var just_stopped := false
