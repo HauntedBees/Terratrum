@@ -12,7 +12,7 @@ func set_potential_falls(max_y:int, from_player:bool):
 		var bf:BlockFamily = vb.family
 		if bf == null: continue
 		if !bf.potentially_affected(max_y): continue
-		if falling_families.find(bf) < 0:
+		if !falling_families.has(bf):
 			falling_families.append(bf)
 			if from_player: wiggling_families.append(bf)
 
@@ -32,7 +32,7 @@ func _physics_process(delta:float):
 			if below != null && below.family != f:
 				# TODO: check if it's falling or whatever maybe
 				var my_blocker := below.family
-				if my_blockers.find(my_blocker) < 0:
+				if !my_blockers.has(my_blocker):
 					my_blockers.append(my_blocker)
 		if my_blockers.size() == 0: can_drops.append(f)
 		else: blockers[f] = my_blockers
@@ -66,7 +66,7 @@ func _physics_process(delta:float):
 				# TODO double check
 				pass
 			else:
-				if f.just_stopped && f.size() >= 4 && families_to_destroy.find(f) < 0:
+				if f.just_stopped && f.size() >= 4 && !families_to_destroy.has(f):
 					families_to_destroy.append(f)
 				f.just_stopped = false
 				falling_families.erase(f)
@@ -81,7 +81,7 @@ func _physics_process(delta:float):
 		var do_wiggle:bool = wiggle >= 0
 		if do_wiggle: wiggling_families.erase(f)
 		var done:bool = f.wiggle_or_drop_return_if_done(lm, delta, do_wiggle)
-		if done && dropped_one_tile.find(f) < 0: dropped_one_tile.append(f)
+		if done && !dropped_one_tile.has(f): dropped_one_tile.append(f)
 	for f in dropped_one_tile:
 		for b in f.clone():
 			b.move_down()

@@ -64,7 +64,7 @@ func _get_direction() -> Vector3:
 func _on_FrontChecker_entered(body:Node):
 	if !(body is RigidBody): return
 	if body == held_object: return
-	if current_targets.find(body) < 0:
+	if !current_targets.has(body):
 		current_targets.append(body)
 	emit_signal("checking_body", current_targets[0])
 
