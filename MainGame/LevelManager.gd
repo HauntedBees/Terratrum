@@ -113,8 +113,8 @@ func continue_making_level(level: Array, level_info, delayed: bool = true):
 		4: potential_types = ["red", "blue", "green", "yellow"]
 		3: potential_types = ["red", "blue", "green"]
 		2: potential_types = ["blue", "yellow"]
-	#var top_chunk := _get_debug_top()
-	var top_chunk:Array = [] if delayed else _get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
+	var top_chunk := _get_debug_top()
+	#var top_chunk:Array = [] if delayed else _get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
 	var top_chunk_size := top_chunk.size()
 	var special_occasions := _get_air_sections()
 	for y in height:
@@ -186,14 +186,14 @@ func _get_air_sections() -> Dictionary:
 	return relevant_tiles
 
 func _get_debug_top() -> Array:
-	# case 0: regular loop
-	return [
-		_expand("RYYYYYR"),
-		_expand("RYBBBYR"),
-		_expand("RYBBBYR"),
-		_expand("RYYYYYR"),
-		_expand("RRRRRRR")
-	]
+#	# case 0: regular loop
+#	return [
+#		_expand("RYYYYYR"),
+#		_expand("RYBBBYR"),
+#		_expand("RYBBBYR"),
+#		_expand("RYYYYYR"),
+#		_expand("RRRRRRR")
+#	]
 #	# case 1: double intermingle
 #	return [
 #		_expand("RYYYYYR"),
@@ -202,14 +202,14 @@ func _get_debug_top() -> Array:
 #		_expand("RBBBBBR"),
 #		_expand("RRRRRRR")
 #	]
-#	# case 2: triple intermingle
-#	return [
-#		_expand("RYYYRRR"),
-#		_expand("RYBYRRR"),
-#		_expand("RYGYRRR"),
-#		_expand("RYYYRRR"),
-#		_expand("RRRRRRR")
-#	]
+	# case 2: triple intermingle
+	return [
+		_expand("RRRBYBB"),
+		_expand("BYBGRBB"),
+		_expand("RBGYRBB"),
+		_expand("RGYGRBB"),
+		_expand("BBBRRBB")
+	]
 #	# case 3: advanced intermingle
 #	return [
 #		_expand("YYYYYYY"),
