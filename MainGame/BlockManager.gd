@@ -20,15 +20,21 @@ func set_potential_falls(max_y:int, from_player:bool):
 func _physics_process(delta:float):
 	# Get all families that can fall, and all families that cannot
 	var can_drops := []
+	var wigglers := []
 	var blockers := {}
 	var families_to_destroy := []
 	for f in falling_families:
 		var my_blockers := []
+		if f.wiggle_time > 0.0:
+			f.wiggle_or_drop_return_if_done(lm, delta, false)
+			wigglers.append(f)
+			continue
 		if f.falling:
 			can_drops.append(f)
 			continue
 		for b in f.family:
 			var below:Block = (b as Block).below
+			#if b.name == "blue (5, 10)": print("ah %s %s" % [b, below])
 			if below != null && below.family != f:
 				# TODO: check if it's falling or whatever maybe
 				var my_blocker := below.family
@@ -47,10 +53,18 @@ func _physics_process(delta:float):
 			if !blockers.has(f): continue
 			var can_fall := true
 			var needs_double_check := false
+			var wiggle_hold := false
 			for blocking_family in blockers[f]:
 				# Stopped by a family that's also falling, so it's fine
-				if can_drops.find(blocking_family) >= 0:
+				if can_drops.has(blocking_family): continue
+				
+				# Stopped by a wiggling block, so it shouldn't be removed from the
+				# list of valid blocks because that block is ABOUT to fall, but it
+				# can't fall now, so do nothing with it
+				if wigglers.has(blocking_family):
+					wiggle_hold = true
 					continue
+
 				# TODO: Stopped by a family stopped by this
 				if blockers.has(blocking_family):
 					needs_double_check = true
@@ -59,7 +73,9 @@ func _physics_process(delta:float):
 				else:
 					can_fall = false
 					break
-			if can_fall:
+			if wiggle_hold:
+				blockers.erase(f)
+			elif can_fall:
 				can_drops.append(f)
 				blockers.erase(f)
 			elif needs_double_check:
@@ -77,8 +93,7 @@ func _physics_process(delta:float):
 	# Drop em all down.
 	var dropped_one_tile := []
 	for f in can_drops:
-		var wiggle := wiggling_families.find(f)
-		var do_wiggle:bool = wiggle >= 0
+		var do_wiggle := wiggling_families.has(f)
 		if do_wiggle: wiggling_families.erase(f)
 		var done:bool = f.wiggle_or_drop_return_if_done(lm, delta, do_wiggle)
 		if done && !dropped_one_tile.has(f): dropped_one_tile.append(f)

@@ -26,7 +26,6 @@ func prepare_to_die():
 		b.flicker()
 
 func wiggle_or_drop_return_if_done(lm, delta:float, wiggle:bool) -> bool:
-	falling = true
 	just_stopped = false
 	var is_done := false
 	if wiggle:
@@ -35,7 +34,9 @@ func wiggle_or_drop_return_if_done(lm, delta:float, wiggle:bool) -> bool:
 	elif wiggle_time > 0.0:
 		wiggle_time -= delta
 		if wiggle_time < 0.0: delta = -wiggle_time
-	if wiggle_time <= 0.0:
+		return false
+	else:
+		falling = true
 		for b in family:
 			b.transform.origin.y += Consts.DROP_SPEED * delta
 			var next_spot:float = lm.grid_to_map(b.grid_pos.x, b.grid_pos.y + 1).y
