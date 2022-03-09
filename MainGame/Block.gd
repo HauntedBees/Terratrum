@@ -1,6 +1,8 @@
 extends Node2D
 class_name Block
 
+enum DropStatus { CAN_FALL, MAYBE_FALL, ABOVE_WIGGLE, CANNOT_FALL }
+
 onready var sprite := $AnimatedSprite
 onready var shader:ShaderMaterial = sprite.material
 var family := BlockFamily.new(self)
@@ -45,7 +47,6 @@ func _aligned(neighbor:Block) -> bool: return round(neighbor.global_position.y) 
 
 func flicker(): $AnimationPlayer.play("fade")
 func wiggle(): $AnimationPlayer.play("wiggle")
-
 func redraw_block():
 	if type == "air": return
 	var final_value := 0
@@ -61,7 +62,6 @@ func unlink_neighbors():
 	if right != null && is_instance_valid(right): right.left = null
 	if above != null && is_instance_valid(above): above.below = null
 	if below != null && is_instance_valid(below): below.above = null
-
 func move_down():
 	grid_pos.y += 1
 	try_join_neighbors()
@@ -115,6 +115,29 @@ func _on_body_exited(body:Node, dir:int):
 			4: below = null
 			8: left = null
 
+func get_drop_info(can_drops:Array, cant_drops:Array, potential_falls:Array) -> int:
+	# if it's at the bottom of the level, it can't fall! 
+	if _is_at_bottom(): return DropStatus.CANNOT_FALL
+	# if there's nothing below a block, it can fall
+	if below == null: return DropStatus.CAN_FALL
+	# if it's right above the bottom of the level, it can't fall! 
+	if below._is_at_bottom(): return DropStatus.CANNOT_FALL
+	# if this block is family, it doesn't matter!
+	if below.family == family: return DropStatus.CAN_FALL
+	# if a wiggling block is below a block, report that
+	if below.family.wiggle_time > 0.0: return DropStatus.ABOVE_WIGGLE
+	# if a known falling block is below a block, it can fall
+	if can_drops.has(below.family): return DropStatus.CAN_FALL
+	# if a known stuck block is below a block, it can't fall
+	if cant_drops.has(below.family): return DropStatus.CANNOT_FALL
+	# if a block that was never likely to fall is below a block, it can't fall
+	# (this and the previous comparison probably have some overlap)
+	if !potential_falls.has(below.family): return DropStatus.CANNOT_FALL
+	# if the block below this can MAYBE fall, let's check again later
+	return DropStatus.MAYBE_FALL
+func _is_at_bottom() -> bool: return grid_pos.y == 99 # this is probably right
+
+# Debug Stuff
 signal debug_kill
 var mouse := false
 func _on_Center_mouse_entered(): mouse = true
