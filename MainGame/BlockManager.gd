@@ -18,18 +18,17 @@ func set_potential_falls(max_y:int, from_player:bool):
 			if from_player: wiggling_families.append(bf)
 
 func _physics_process(delta:float):
-	var dnb := _get_drops_and_blockers(delta)
+	var dnb := _get_drops_and_blockers()
 	var can_drops := _calculate_full_drops(dnb["can_drops"], dnb["blockers"])
 	_drop_blocks_and_destroy(can_drops, delta)
 
 # 1. Get all families that can DEFINITELY fall (no blocks below them),
 # all families that are currently wiggling, and all families that
 # might not be able to (blocks below them, checks validity in next step)
-func _get_drops_and_blockers(delta:float) -> Dictionary:
+func _get_drops_and_blockers() -> Dictionary:
 	var can_drops := []
 	var blockers := {} # BlockFamily:BlockFamily[]
 	
-	# TODO: if the actual dictionary values aren't used/needed, just make it an array!
 	for f in falling_families:
 		var my_blockers := []
 		if f.wiggle_time > 0.0 || f.falling:
@@ -50,7 +49,7 @@ func _get_drops_and_blockers(delta:float) -> Dictionary:
 	}
 
 # 2. Sort through all the families that can MAYBE fall and figure them out
-# TODO: this fucks up in test case 0 and probably the others
+# TODO: things fuck up bad in test case 2
 func _calculate_full_drops(can_drops:Array, blockers:Dictionary) -> Array:
 	can_drops = can_drops.duplicate()
 	var cant_drops := []
@@ -58,10 +57,15 @@ func _calculate_full_drops(can_drops:Array, blockers:Dictionary) -> Array:
 	while families_blocked_by_other_families.size() > 0:
 		for bf in families_blocked_by_other_families:
 			var blocked_family:BlockFamily = bf
+			# already got cleared out by the Block.DropStatus.MAYBE_FALL condition below
+			if !blockers.has(blocked_family): continue
+			var bf_blockers:Array = blockers[blocked_family]
 			var definitely_safe := true
 			var wiggle_hold := false
-			for b in blocked_family.family:
-				var fall_status := (b as Block).get_drop_info(can_drops, cant_drops, falling_families)
+			var already_validated_families := []
+			for b_ in blocked_family.family:
+				var b:Block = b_
+				var fall_status := b.get_drop_info(can_drops, cant_drops, falling_families)
 				match fall_status:
 					Block.DropStatus.CANNOT_FALL:
 						cant_drops.append(blocked_family)
@@ -69,7 +73,19 @@ func _calculate_full_drops(can_drops:Array, blockers:Dictionary) -> Array:
 						blockers.erase(blocked_family)
 						definitely_safe = false
 						break
-					Block.DropStatus.MAYBE_FALL: definitely_safe = false
+					Block.DropStatus.MAYBE_FALL:
+						# If A is blocked by B, and B is blocked by A, let them cancel out!
+						var blocker_family := b.below.family
+						if already_validated_families.has(blocker_family):
+							continue
+						elif blockers.has(blocker_family):
+							var blocker_blockers:Array = blockers[blocker_family]
+							if bf_blockers.has(blocker_family) && blocker_blockers.has(blocked_family):
+								bf_blockers.erase(blocker_family)
+								blocker_blockers.erase(blocked_family)
+								already_validated_families.append(blocked_family)
+						else:
+							definitely_safe = false
 					Block.DropStatus.ABOVE_WIGGLE: wiggle_hold = true
 			if wiggle_hold:
 				blockers.erase(blocked_family)
@@ -81,7 +97,6 @@ func _calculate_full_drops(can_drops:Array, blockers:Dictionary) -> Array:
 
 # 3. Drop all droppable blocks down and clear out any size 4+ families
 func _drop_blocks_and_destroy(can_drops:Array, delta:float):
-	var x := randi()
 	var dropped_one_tile := []
 	for f in can_drops:
 		if wiggling_families.has(f):
