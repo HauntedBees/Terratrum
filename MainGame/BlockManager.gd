@@ -83,7 +83,11 @@ func _calculate_full_drops(can_drops:Array, blockers:Dictionary) -> Array:
 							if bf_blockers.has(blocker_family) && blocker_blockers.has(blocked_family):
 								bf_blockers.erase(blocker_family)
 								blocker_blockers.erase(blocked_family)
-								already_validated_families.append(blocked_family)
+								#if bf_blockers.size() == 0: blockers.erase(blocked_family)
+								#if blocker_blockers.size() == 0: blockers.erase(blocker_family)
+								already_validated_families.append(blocker_family)
+							else:
+								definitely_safe = false
 						else:
 							definitely_safe = false
 					Block.DropStatus.ABOVE_WIGGLE: wiggle_hold = true
