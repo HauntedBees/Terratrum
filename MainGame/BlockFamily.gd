@@ -1,5 +1,5 @@
 extends Node2D
-class_name BlockFamily2
+class_name BlockFamily
 
 enum FamilyState { NORMAL, CHECKING, WIGGLING, FALLING, DYING }
 var state:int = FamilyState.NORMAL
@@ -13,12 +13,12 @@ func _ready():
 	add_child(timer)
 func _to_string() -> String: return "!%s - %s" % [blocks[0].name, blocks.size()]
 
-func join(f:BlockFamily2):
+func join(f:BlockFamily):
 	for b in f.blocks: add_block(b)
 	f.queue_free()
 func add_block(b:Block):
 	if blocks.has(b): return
-	b.family2 = self
+	b.family = self
 	blocks.append(b)
 	var bp := b.get_parent()
 	b.moving_families = true
@@ -39,7 +39,7 @@ func pop(player_initiated:bool):
 func get_above_neighbors() -> Array:
 	var above_neighbors := []
 	for b in blocks:
-		var potential_above:BlockFamily2 = b.get_above_neighbor()
+		var potential_above:BlockFamily = b.get_above_neighbor()
 		if potential_above == null: continue
 		if potential_above.popped: continue
 		if !above_neighbors.has(potential_above):
@@ -56,14 +56,14 @@ func try_fall(make_em_wiggle:bool):
 	while checking_families.size() != families_count:
 		checking_families = all_potential_families.duplicate()
 		for f_ in checking_families:
-			var f:BlockFamily2 = f_
+			var f:BlockFamily = f_
 			if !f.is_fallable():
 				f.state = FamilyState.NORMAL
 				all_potential_families.erase(f)
 		families_count = all_potential_families.size()
 	# 3. Make those remaining guys fall
 	for f_ in all_potential_families:
-		var f:BlockFamily2 = f_
+		var f:BlockFamily = f_
 		if f.state == FamilyState.DYING: continue
 		if make_em_wiggle: f.wiggle()
 		else: f.fall()
@@ -75,7 +75,7 @@ func mark_fall_upwards(already_checked := []) -> Array:
 	state = FamilyState.CHECKING
 	for b in blocks:
 		if b.above == null: continue
-		var baf:BlockFamily2 = b.above.family2
+		var baf:BlockFamily = b.above.family
 		if baf == self: continue
 		if already_checked.has(baf): continue
 		var their_checks := baf.mark_fall_upwards(already_checked)
@@ -86,7 +86,7 @@ func is_fallable() -> bool:
 		var b:Block = b_
 		if b.is_at_bottom(): return false
 		if b.below == null: continue
-		var bbf:BlockFamily2 = b.below.family2
+		var bbf:BlockFamily = b.below.family
 		if bbf == self: continue
 		if bbf.popped || bbf.state == FamilyState.CHECKING || bbf.state == FamilyState.FALLING: continue
 		return false
@@ -128,7 +128,7 @@ func stop_fall_upwards(already_checked := []) -> Array:
 	state = FamilyState.NORMAL
 	for b in blocks:
 		if b.above == null: continue
-		var baf:BlockFamily2 = b.above.family2
+		var baf:BlockFamily = b.above.family
 		if baf == self: continue
 		if already_checked.has(baf): continue
 		var their_checks := baf.stop_fall_upwards(already_checked)

@@ -1,7 +1,7 @@
 extends Node2D
 class_name LevelManager
 
-const family = preload("res://MainGame/BlockFamily2.gd")
+const family = preload("res://MainGame/BlockFamily.gd")
 const piece = preload("res://MainGame/Block.tscn")
 onready var full_level_info: Levels.FullLevelInfo = SceneSwitcher.get_carried_scene_data()
 var current_potential_types := ["red", "blue", "green", "yellow"]
@@ -62,7 +62,7 @@ func get_difficulty_info(idx: int): # TODO: expand to support looping and such
 	return difficulty_curve[int(min(idx, difficulty_curve.size() - 1))]
 
 func create_block(type:String, x:int, y:int) -> Block:
-	var f:BlockFamily2 = family.new()
+	var f:BlockFamily = family.new()
 	var b:Block = piece.instance()
 	b.type = type
 	b.grid_pos = Vector2(x, y)

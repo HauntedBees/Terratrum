@@ -11,7 +11,7 @@ func _ready():
 
 func _draw():
 	for vbf in bc.get_children():
-		if !(vbf is BlockFamily2): continue
+		if !(vbf is BlockFamily): continue
 		for vb in vbf.blocks:
 			if !(vb is Block): continue
 			var b:Block = vb as Block
@@ -21,6 +21,6 @@ func _draw():
 			if b.left != null: draw_line(b.global_position + Vector2(0, 2), b.left.global_position, _ncolor(b, b.left, Color.red), _nwidth(b, b.left))
 
 func _ncolor(a:Block, b:Block, c:Color) -> Color:
-	if a.family2 == b.family2: c = Color.rebeccapurple
+	if a.family == b.family: c = Color.rebeccapurple
 	return c
-func _nwidth(a:Block, b:Block) -> float: return 2.0 if a.family2 == b.family2 else 1.0
+func _nwidth(a:Block, b:Block) -> float: return 2.0 if a.family == b.family else 1.0

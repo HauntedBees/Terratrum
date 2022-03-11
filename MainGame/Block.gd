@@ -13,7 +13,7 @@ const COLOR_XREF = {
 onready var sprite := $AnimatedSprite
 onready var shader:ShaderMaterial = sprite.material
 
-var family2 = null
+var family = null
 var moving_families := false # this is set when joiningfamilies to stop _on_body_entered/exited calls
 
 var type := "red"
@@ -51,23 +51,23 @@ func try_link(neighbor:Block) -> bool:
 	if type == "air": return false
 	if neighbor == null: return false
 	if neighbor.type != type: return false
-	if neighbor.family2== family2: return false
-	family2.join(neighbor.family2)
+	if neighbor.family== family: return false
+	family.join(neighbor.family)
 	return true
 func _aligned(neighbor:Block) -> bool: return round(neighbor.global_position.y) == round(global_position.y)
 func redraw_block():
 	if type == "air": return
 	var final_value := 0
-	if above != null && above.family2 == family2: final_value += 1
-	if right != null && right.family2 == family2: final_value += 2
-	if below != null && below.family2 == family2: final_value += 4
-	if left != null && left.family2 == family2: final_value += 8
+	if above != null && above.family == family: final_value += 1
+	if right != null && right.family == family: final_value += 2
+	if below != null && below.family == family: final_value += 4
+	if left != null && left.family == family: final_value += 8
 	shader.set_shader_param("mask_offset", Vector2(final_value % 4, final_value / 4))
 
 func get_above_neighbor() -> Block:
 	if above == null: return null
-	if above.family2 == family2: return null
-	return above.family2
+	if above.family == family: return null
+	return above.family
 func is_at_bottom() -> bool: return grid_pos.y == 99
 
 func flicker(): $AnimationPlayer.play("fade")
