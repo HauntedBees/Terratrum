@@ -1,7 +1,6 @@
 extends Node2D
 
 onready var lm:LevelManager = $LevelManager
-onready var bm:BlockManager = $BlockManager
 onready var bc := $BlockContainer
 onready var player := $Player
 
@@ -48,7 +47,6 @@ func _debug_kill(block:Block):
 	debug_dels.append(block.name)
 	print(block.family2)
 	block.family2.pop(true)
-	#bm.destroy_family_return_info(block.family, false, true)
 
 func _player_drill():
 	var drill_dir:Vector2 = player.active_direction
@@ -63,5 +61,4 @@ func _player_drill():
 	debug_dels.append(block.name)
 	print(block.family2)
 	block.family2.pop(true)
-	#var info := bm.destroy_family_return_info(block.family, false, true)
 	# TODO: scoring

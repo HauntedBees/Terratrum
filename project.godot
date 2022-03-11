@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://MainGame/Block.gd"
 }, {
-"base": "Reference",
-"class": "BlockFamily",
-"language": "GDScript",
-"path": "res://MainGame/BlockFamily.gd"
-}, {
 "base": "Node2D",
 "class": "BlockFamily2",
 "language": "GDScript",
@@ -28,11 +23,6 @@ _global_script_classes=[ {
 "class": "BlockHandler",
 "language": "GDScript",
 "path": "res://code/game/BlockHandler.gd"
-}, {
-"base": "Node2D",
-"class": "BlockManager",
-"language": "GDScript",
-"path": "res://MainGame/BlockManager.gd"
 }, {
 "base": "Node2D",
 "class": "BlockOld",
@@ -141,10 +131,8 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Block": "",
-"BlockFamily": "",
 "BlockFamily2": "",
 "BlockHandler": "",
-"BlockManager": "",
 "BlockOld": "",
 "CharSel": "",
 "Consts": "",

@@ -6,8 +6,11 @@ var state:int = FamilyState.NORMAL
 var popped := false
 var blocks := []
 onready var tween := Tween.new()
+onready var timer := Timer.new()
 
-func _ready(): add_child(tween)
+func _ready():
+	add_child(tween)
+	add_child(timer)
 func _to_string() -> String: return "!%s - %s" % [blocks[0].name, blocks.size()]
 
 func join(f:BlockFamily2):
@@ -27,7 +30,8 @@ func pop(player_initiated:bool):
 	state = FamilyState.DYING
 	popped = true
 	for b in blocks: b.flicker()
-	yield(get_tree().create_timer(Consts.ACTION_TIME), "timeout")
+	timer.start(Consts.ACTION_TIME)
+	yield(timer, "timeout")
 	if !is_instance_valid(self): return
 	queue_free()
 	for bf in get_above_neighbors():
@@ -77,11 +81,10 @@ func mark_fall_upwards(already_checked := []) -> Array:
 		var their_checks := baf.mark_fall_upwards(already_checked)
 		checkable_families.append_array(their_checks)
 	return checkable_families
-## If "can_wiggle" is true, this family will be marked as "fallable" before
-## the family below it can actually fall, because by the time the wiggling
-## completes, the dying family will be gone. 
 func is_fallable() -> bool:
-	for b in blocks:
+	for b_ in blocks:
+		var b:Block = b_
+		if b.is_at_bottom(): return false
 		if b.below == null: continue
 		var bbf:BlockFamily2 = b.below.family2
 		if bbf == self: continue
@@ -93,10 +96,10 @@ func wiggle():
 	if state == FamilyState.WIGGLING: return
 	state = FamilyState.WIGGLING
 	for b in blocks: b.wiggle()
-	yield(get_tree().create_timer(Consts.ACTION_TIME), "timeout")
+	timer.start(Consts.ACTION_TIME)
+	yield(timer, "timeout")
 	if !is_instance_valid(self): return
 	fall()
-
 func fall():
 	if state == FamilyState.FALLING: return
 	state = FamilyState.FALLING
@@ -110,7 +113,7 @@ func continue_fall():
 	yield(tween, "tween_all_completed")
 	yield(get_tree(), "idle_frame")
 	for b in blocks.duplicate():
-		b.try_join_neighbors()
+		b.move_down()
 	if is_fallable():
 		yield(get_tree(), "idle_frame")
 		continue_fall()
@@ -119,7 +122,6 @@ func continue_fall():
 		yield(get_tree(), "idle_frame")
 		if blocks.size() >= 4:
 			pop(false)
-
 func stop_fall_upwards(already_checked := []) -> Array:
 	var checkable_families := [self]
 	already_checked.append(self)
