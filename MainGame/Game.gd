@@ -10,12 +10,16 @@ func _ready():
 	draw_level(lm.current_level)
 
 func draw_level(level:Array):
+	var families := []
 	for x in lm.width:
 		for y in lm.height:
 			var b:Block = level[x][y]
 			b.position = lm.grid_to_map(x, y)
 			b.connect("debug_kill", self, "_debug_kill", [b])
-			bc.add_child(b)
+			if !families.has(b.family2):
+				families.append(b.family2)
+				bc.add_child(b.family2)
+			#bc.add_child(b)
 			_refresh_block(b)
 func _refresh_block(b:Block):
 	yield(get_tree(), "idle_frame")
@@ -37,12 +41,14 @@ func _process(_delta):
 		replay.remove(0)
 		_debug_kill(block)
 
-var replay := ["red (3, 0)","green (3, 1)","blue (3, 2)","red (3, 3)","blue (3, 4)","red (3, 5)","yellow (3, 7)","green (3, 8)","yellow (3, 10)","green (4, 4)","red (4, 13)"]
+var replay := ["yellow (3, 5)","red (3, 7)","yellow (3, 9)","green (3, 11)","yellow (3, 12)","green (4, 14)","yellow (4, 15)","green (5, 17)","green (5, 20)"]
 var debug_dels := []
 func _debug_kill(block:Block):
 	if block == null: return
 	debug_dels.append(block.name)
-	bm.destroy_family_return_info(block.family, false, true)
+	print(block.family2)
+	block.family2.pop(true)
+	#bm.destroy_family_return_info(block.family, false, true)
 
 func _player_drill():
 	var drill_dir:Vector2 = player.active_direction
@@ -55,5 +61,7 @@ func _player_drill():
 		Vector2(0, -1): block = player.above
 	if block == null: return
 	debug_dels.append(block.name)
-	var info := bm.destroy_family_return_info(block.family, false, true)
+	print(block.family2)
+	block.family2.pop(true)
+	#var info := bm.destroy_family_return_info(block.family, false, true)
 	# TODO: scoring

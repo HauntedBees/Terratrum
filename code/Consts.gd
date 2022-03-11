@@ -22,7 +22,7 @@ const TIME_TO_TRIGGER_CLIMB := ACTION_TIME / 2.0
 const CLIMB_STEP_TIME := 2.0 / ACTION_TIME
 const WIGGLE_TIME := 0.5 / (NUM_WIGGLES * 2)
 const DEATH_TIME := 1
-const DROP_SPEED := 60.0 / ACTION_TIME
+const DROP_SPEED := 60.0 / ACTION_TIME # this is probably useless
 
 # score
 const CLEAR_MULTIPLIER := 10

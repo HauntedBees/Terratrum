@@ -4,13 +4,40 @@ class_name BlockFamily
 var family := []
 var falling := false
 var just_stopped := false
+var dying := false
+var expired := false
 var wiggle_time := 0.0
 func _init(starter): family.append(starter)
+
+func is_leader(block) -> bool: return family[0] == block
+
+func kill(from_player:bool):
+	for b in family:
+		b.kill(from_player)
+	family = []
+	expired = true
+
+func can_fall() -> bool:
+	for b in family:
+		return true
+	return false
+
+func fallable() -> bool:
+	for b in family:
+		if b.fall_state != 1: return false
+	return true
+
+func set_fall_state(f:int):
+	for b in family:
+		b.start_y = b.transform.origin.y
+		b.fall_state = f
 
 func list() -> Array: return family
 func size() -> int: return family.size()
 func clone() -> Array: return family.duplicate()
-func prepare_to_die(): for b in family: b.flicker()
+func prepare_to_die():
+	dying = true
+	for b in family: b.flicker()
 
 func potentially_affected(max_y:int) -> bool:
 	for b in family:
@@ -22,11 +49,14 @@ func join(b:BlockFamily):
 	if b == null: return # this shouldn't happen!
 	for n in b.family: n.family = self
 	family.append_array(b.family)
+	b.expired = true
+	if b.dying: dying = true
 
 func wiggle():
 	for b in family: b.wiggle()
 	wiggle_time = Consts.ACTION_TIME
 func drop_return_if_done(lm, delta:float) -> bool:
+	if dying: return false
 	just_stopped = false
 	var is_done := false
 	if wiggle_time > 0.0:

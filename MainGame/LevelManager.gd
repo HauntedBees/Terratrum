@@ -1,6 +1,7 @@
 extends Node2D
 class_name LevelManager
 
+const family = preload("res://MainGame/BlockFamily2.gd")
 const piece = preload("res://MainGame/Block.tscn")
 onready var full_level_info: Levels.FullLevelInfo = SceneSwitcher.get_carried_scene_data()
 var current_potential_types := ["red", "blue", "green", "yellow"]
@@ -61,11 +62,13 @@ func get_difficulty_info(idx: int): # TODO: expand to support looping and such
 	return difficulty_curve[int(min(idx, difficulty_curve.size() - 1))]
 
 func create_block(type:String, x:int, y:int) -> Block:
+	var f:BlockFamily2 = family.new()
 	var b:Block = piece.instance()
 	b.type = type
 	b.grid_pos = Vector2(x, y)
 	b.name = "%s (%s, %s)" % [type, x, y]
 	b.scale *= block_scale
+	f.add_block(b)
 	return b
 
 func try_linking_with_above_and_left(level: Array, block: Block):
@@ -113,7 +116,7 @@ func continue_making_level(level: Array, level_info, delayed: bool = true):
 		4: potential_types = ["red", "blue", "green", "yellow"]
 		3: potential_types = ["red", "blue", "green"]
 		2: potential_types = ["blue", "yellow"]
-	var top_chunk := _get_debug_top(3)
+	var top_chunk := _get_debug_top(4)
 	#var top_chunk:Array = [] if delayed else _get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
 	var top_chunk_size := top_chunk.size()
 	var special_occasions := _get_air_sections()
@@ -190,19 +193,23 @@ func _get_debug_top(case:int) -> Array:
 		0: #regular loop
 			return [
 				_expand("RYYYYYR"),
-				_expand("RYBBBYR"),
-				_expand("RYBBBYR"),
+				_expand("RYBRBYR"),
+				_expand("RYBRBYR"),
 				_expand("RYYYYYR"),
 				_expand("RRRRRRR"),
 				_expand("YYYYYYY")
 			]
 		1: # double intermingle
 			return [
+				_expand("RGRGRRR"),
 				_expand("RYYYYYR"),
 				_expand("RYBBBBR"),
 				_expand("RYYYYBR"),
-				_expand("RBBBBBR"),
-				_expand("RRRRRRR")
+				_expand("RYBBBBR"),
+				_expand("RRRRRRR"),
+				_expand("RRRRRRR"),
+				_expand("GYGGGGG"),
+				_expand("HHRHHHH")
 			]
 		2: # triple intermingle
 			return [
@@ -222,6 +229,14 @@ func _get_debug_top(case:int) -> Array:
 				_expand("YYYYYYY"),
 				_expand("RRRRRRR")
 			]
+		4: # timing fall issues
+			return [
+				_expand("YYYYYRH"),
+				_expand("YYYYYBR"),
+				_expand("YYYYYRR"),
+				_expand("YYYYYGG"),
+				_expand("YYYYYHH")
+			]
 	return []
 func _expand(r:String) -> Array:
 	var r2 := []
@@ -231,4 +246,5 @@ func _expand(r:String) -> Array:
 			"Y": r2.append("yellow")
 			"G": r2.append("green")
 			"B": r2.append("blue")
+			"H": r2.append("hard")
 	return r2

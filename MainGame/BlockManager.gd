@@ -12,15 +12,17 @@ func set_potential_falls(max_y:int, from_player:bool):
 		if !(vb is Block): continue
 		var bf:BlockFamily = vb.family
 		if bf == null: continue
+		if bf.dying || bf.expired: continue
 		if !bf.potentially_affected(max_y): continue
 		if !falling_families.has(bf):
 			falling_families.append(bf)
 			if from_player: wiggling_families.append(bf)
 
 func _physics_process(delta:float):
-	var dnb := _get_drops_and_blockers()
-	var can_drops := _calculate_full_drops(dnb["can_drops"], dnb["blockers"])
-	_drop_blocks_and_destroy(can_drops, delta)
+	pass
+	#var dnb := _get_drops_and_blockers()
+	#var can_drops := _calculate_full_drops(dnb["can_drops"], dnb["blockers"])
+	#_drop_blocks_and_destroy(can_drops, delta)
 
 # 1. Get all families that can DEFINITELY fall (no blocks below them),
 # all families that are currently wiggling, and all families that
@@ -28,8 +30,12 @@ func _physics_process(delta:float):
 func _get_drops_and_blockers() -> Dictionary:
 	var can_drops := []
 	var blockers := {} # BlockFamily:BlockFamily[]
-	
+	var expired_families := []
 	for f in falling_families:
+		if f.expired:
+			expired_families.append(f)
+			continue
+		if f.dying: continue
 		var my_blockers := []
 		if f.wiggle_time > 0.0 || f.falling:
 			can_drops.append(f)
@@ -42,14 +48,13 @@ func _get_drops_and_blockers() -> Dictionary:
 					my_blockers.append(my_blocker)
 		if my_blockers.size() == 0: can_drops.append(f)
 		else: blockers[f] = my_blockers
-	
+	for f in expired_families: _purge_potential_fall(f)
 	return {
 		"can_drops": can_drops,
 		"blockers": blockers
 	}
 
 # 2. Sort through all the families that can MAYBE fall and figure them out
-# TODO: things fuck up bad in test case 2
 func _calculate_full_drops(can_drops:Array, blockers:Dictionary) -> Array:
 	can_drops = can_drops.duplicate()
 	var cant_drops := []
@@ -57,8 +62,6 @@ func _calculate_full_drops(can_drops:Array, blockers:Dictionary) -> Array:
 	while families_blocked_by_other_families.size() > 0:
 		for bf in families_blocked_by_other_families:
 			var blocked_family:BlockFamily = bf
-			# already got cleared out by the Block.DropStatus.MAYBE_FALL condition below
-			if !blockers.has(blocked_family): continue
 			var bf_blockers:Array = blockers[blocked_family]
 			var definitely_safe := true
 			var wiggle_hold := false
@@ -74,28 +77,56 @@ func _calculate_full_drops(can_drops:Array, blockers:Dictionary) -> Array:
 						definitely_safe = false
 						break
 					Block.DropStatus.MAYBE_FALL:
-						# If A is blocked by B, and B is blocked by A, let them cancel out!
-						var blocker_family := b.below.family
-						if already_validated_families.has(blocker_family):
-							continue
-						elif blockers.has(blocker_family):
-							var blocker_blockers:Array = blockers[blocker_family]
-							if bf_blockers.has(blocker_family) && blocker_blockers.has(blocked_family):
-								bf_blockers.erase(blocker_family)
-								blocker_blockers.erase(blocked_family)
-								#if bf_blockers.size() == 0: blockers.erase(blocked_family)
-								#if blocker_blockers.size() == 0: blockers.erase(blocker_family)
-								already_validated_families.append(blocker_family)
-							else:
-								definitely_safe = false
-						else:
-							definitely_safe = false
+						definitely_safe = false
 					Block.DropStatus.ABOVE_WIGGLE: wiggle_hold = true
 			if wiggle_hold:
 				blockers.erase(blocked_family)
 			elif definitely_safe:
 				can_drops.append(blocked_family)
 				blockers.erase(blocked_family)
+		families_blocked_by_other_families = blockers.keys()
+		# second pass: cancel out and expand shit
+		for blockee_ in families_blocked_by_other_families:
+			var fam_A:BlockFamily = blockee_
+			if cant_drops.has(fam_A): continue
+			if !blockers.has(fam_A):
+				# it got cleared out!
+				can_drops.append(fam_A)
+				continue
+			var A_blockers := []
+			var is_cant_drop := false
+			for blocker_ in blockers[fam_A]:
+				var fam_B:BlockFamily = blocker_
+				if cant_drops.has(fam_B):
+					is_cant_drop = true
+					#cant_drops.append(fam_A)
+					break
+				elif !blockers.has(fam_B):
+					# this one isn't blocked by anything anymore! we're good!
+					continue
+				else:
+					var B_blockers:Array = blockers[fam_B]
+					if B_blockers.has(fam_A):
+						# A is blocked by B, B is blocked by B, it all cancels out!
+						B_blockers.erase(fam_A)
+					else:
+						# A is blocked by B, B is blocked by some stuff, shift it over;
+						# so if A is blocked by B, B is blocked by C, and C is blocked by A
+						# then we say A is blocked by C now, so on the next pass A and C will
+						# cancel out.
+						for bb in B_blockers:
+							if bb != fam_A:
+								A_blockers.append(bb)
+			if is_cant_drop:
+				cant_drops.append(fam_A)
+			elif A_blockers.size() > 0:
+				# blockers have been rearranged!
+				blockers[fam_A] = A_blockers
+			else:
+				# it's all good now!
+				can_drops.append(fam_A)
+				blockers.erase(fam_A)
+		# now let's try again!
 		families_blocked_by_other_families = blockers.keys()
 	return can_drops
 
@@ -119,27 +150,29 @@ func _drop_blocks_and_destroy(can_drops:Array, delta:float):
 
 # either destroy a family immediately or let it flicker and then be destroyed
 func destroy_family_return_info(f:BlockFamily, immediate:bool, from_player := false) -> Dictionary:
+	print("args: %s, %s, %s" % [f, immediate, from_player])
 	var info := {
 		"lowest_y": 0,
 		"blocks_cleared": 0
 	}
-	for b in f.list():
-		if b == null || !is_instance_valid(b): continue
-		var by:int = b.grid_pos.y
-		if by > info["lowest_y"]: info["lowest_y"] = by
-		info["blocks_cleared"] += 1
-		if immediate:
-			b.family = null
-			b.unlink_neighbors()
-			b.queue_free()
+	if immediate: f.kill(from_player)
+#	for b in f.list():
+#		if b == null || !is_instance_valid(b): continue
+#		var by:int = b.grid_pos.y
+#		if by > info["lowest_y"]: info["lowest_y"] = by
+#		info["blocks_cleared"] += 1
+#		if immediate:
+#			b.family = null
+#			b.unlink_neighbors()
+#			b.queue_free()
 	_purge_potential_fall(f)
 	if !immediate:
 		f.prepare_to_die()
 		get_tree().create_timer(Consts.ACTION_TIME).connect("timeout", self, "_on_family_flickered", [f, from_player])
 	return info
 func _on_family_flickered(f:BlockFamily, from_player:bool):
-	var info := destroy_family_return_info(f, true)
-	set_potential_falls(info["lowest_y"], from_player)
+	var info := destroy_family_return_info(f, true, from_player)
+	#set_potential_falls(info["lowest_y"], from_player)
 
 # if a potentially falling family ends up not being ready to fall,
 # clear it out of the falling and wiggling family arrays
