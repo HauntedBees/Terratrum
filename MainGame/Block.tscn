@@ -1,20 +1,8 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://MainGame/Tiles.png" type="Texture" id=1]
 [ext_resource path="res://MainGame/Shaders/BlockShader.tres" type="Material" id=2]
 [ext_resource path="res://MainGame/Block.gd" type="Script" id=3]
-
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 9, 29 )
-
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 9, 28.5 )
-
-[sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 20, 0.5 )
-
-[sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 20, 0.5 )
 
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 32, 32 )
@@ -98,34 +86,6 @@ script = ExtResource( 3 )
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PoolVector2Array( -32, -32, 32, -32, 32, 32, -32, 32 )
 
-[node name="Left" type="Area2D" parent="."]
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Left"]
-position = Vector2( -42, 1 )
-shape = SubResource( 4 )
-
-[node name="Right" type="Area2D" parent="."]
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Right"]
-position = Vector2( 42, 1 )
-shape = SubResource( 5 )
-
-[node name="Below" type="Area2D" parent="."]
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Below"]
-position = Vector2( 0, 32.5 )
-shape = SubResource( 6 )
-
-[node name="Above" type="Area2D" parent="."]
-monitorable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Above"]
-position = Vector2( 0, -32.5 )
-shape = SubResource( 7 )
-
 [node name="Center" type="Area2D" parent="."]
 monitoring = false
 
@@ -143,13 +103,5 @@ anims/fade = SubResource( 11 )
 anims/flicker = SubResource( 9 )
 anims/wiggle = SubResource( 12 )
 
-[connection signal="area_entered" from="Left" to="." method="_on_Left_area_entered"]
-[connection signal="area_exited" from="Left" to="." method="_on_Left_area_exited"]
-[connection signal="area_entered" from="Right" to="." method="_on_Right_area_entered"]
-[connection signal="area_exited" from="Right" to="." method="_on_Right_area_exited"]
-[connection signal="area_entered" from="Below" to="." method="_on_Below_area_entered"]
-[connection signal="area_exited" from="Below" to="." method="_on_Below_area_exited"]
-[connection signal="area_entered" from="Above" to="." method="_on_Above_area_entered"]
-[connection signal="area_exited" from="Above" to="." method="_on_Above_area_exited"]
 [connection signal="mouse_entered" from="Center" to="." method="_on_Center_mouse_entered"]
 [connection signal="mouse_exited" from="Center" to="." method="_on_Center_mouse_exited"]
