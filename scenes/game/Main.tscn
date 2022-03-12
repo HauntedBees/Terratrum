@@ -245,9 +245,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="clear_level" from="." to="Player/GameCamera" method="_on_Geemu_clear_level"]
-[connection signal="set_camera_max_height" from="." to="Player/GameCamera" method="_on_Geemu_set_camera_max_height"]
-[connection signal="update_ui_value" from="." to="Foreground/StatDisplay" method="_on_update_ui_value"]
 [connection signal="drill" from="Player" to="." method="_on_Player_drill"]
 [connection signal="update_ui_value" from="Player" to="Foreground/StatDisplay" method="_on_update_ui_value"]
 [connection signal="touch_press" from="CanvasLayer/VPad" to="Player" method="_on_VPad_touch_press"]

@@ -16,14 +16,18 @@ const CLIMB_DELAY := 0.25
 const WALK_SPEED := 300 * BLOCK_SIZE
 
 const TINY_TIME := 0.05
-const ACTION_TIME := 1.0/3.0
+const FALL_TIME := 3.0
+const ACTION_TIME := 1.0 / FALL_TIME
 const FLICKER_PART_TIME := ACTION_TIME / 6.0
 const NUM_WIGGLES := 3
 const TIME_TO_TRIGGER_CLIMB := ACTION_TIME / 2.0
 const CLIMB_STEP_TIME := 2.0 / ACTION_TIME
-const WIGGLE_TIME := 0.5 / (NUM_WIGGLES * 2)
+#const WIGGLE_TIME := 0.5 / (NUM_WIGGLES * 2)
 const DEATH_TIME := 1
 const DROP_SPEED := 60.0 / ACTION_TIME # this is probably useless
+
+const POP_TIME := ACTION_TIME
+const WIGGLE_TIME := ACTION_TIME * 2
 
 # score
 const CLEAR_MULTIPLIER := 10

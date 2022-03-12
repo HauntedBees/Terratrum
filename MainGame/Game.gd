@@ -13,13 +13,14 @@ func draw_level(level:Array):
 	for x in lm.width:
 		for y in lm.height:
 			var b:Block = level[x][y]
+			if b == null: continue
 			b.position = lm.grid_to_map(x, y)
 			b.connect("debug_kill", self, "_debug_kill", [b])
-			if !families.has(b.family):
-				families.append(b.family)
-				bc.add_child(b.family)
-			#bc.add_child(b)
-			_refresh_block(b)
+			#if !families.has(b.family):
+			#	families.append(b.family)
+			#	bc.add_child(b.family)
+			bc.add_child(b)
+			#_refresh_block(b)
 func _refresh_block(b:Block):
 	yield(get_tree(), "idle_frame")
 	b.redraw_block()
@@ -50,8 +51,8 @@ var debug_dels := []
 func _debug_kill(block:Block):
 	if block == null: return
 	debug_dels.append(block.name)
-	print(block.family)
-	block.family.pop(true)
+	print("%s: %s" % [block.name, block.grid_pos])
+	lm.pop(block, true)
 
 func _player_drill():
 	var drill_dir:Vector2 = player.active_direction
@@ -64,6 +65,7 @@ func _player_drill():
 		Vector2(0, -1): block = player.above
 	if block == null: return
 	debug_dels.append(block.name)
-	print(block.family)
-	block.family.pop(true)
+	#print(block.family)
+	lm.pop(block, true)
+	#block.family.pop(true)
 	# TODO: scoring

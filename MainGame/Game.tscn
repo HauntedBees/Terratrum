@@ -20,4 +20,5 @@ script = ExtResource( 5 )
 [node name="BlockContainer" type="Node2D" parent="."]
 
 [node name="DebugDraw" type="Node2D" parent="."]
+position = Vector2( -267, -92 )
 script = ExtResource( 3 )
