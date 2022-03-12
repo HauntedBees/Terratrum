@@ -52,7 +52,7 @@ func _debug_kill(block:Block):
 	if block == null: return
 	debug_dels.append(block.name)
 	print("%s: %s" % [block.name, block.grid_pos])
-	lm.pop(block, true)
+	lm.pop(block, LevelManager.FallCause.PLAYER)
 
 func _player_drill():
 	var drill_dir:Vector2 = player.active_direction
@@ -66,6 +66,6 @@ func _player_drill():
 	if block == null: return
 	debug_dels.append(block.name)
 	#print(block.family)
-	lm.pop(block, true)
+	lm.pop(block, LevelManager.FallCause.PLAYER)
 	#block.family.pop(true)
 	# TODO: scoring

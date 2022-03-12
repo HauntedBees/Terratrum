@@ -276,9 +276,10 @@ func _redraw_block(x:int, y:int, redraw_neighbors:bool):
 		_redraw_block(x, y - 1, false)
 		_redraw_block(x, y + 1, false)
 
-func pop(b:Block, wiggle:bool):
+enum FallCause { PLAYER, CHAIN, GRAVITY }
+func pop(b:Block, fall_cause:int):#wiggle:bool):
 	var fall_info := _pop(b.grid_pos.x, b.grid_pos.y, b.type)
-	get_falls(fall_info, false, wiggle)
+	get_falls(fall_info, false, fall_cause)
 func _pop(x:int, y:int, type:String) -> Vector3:
 	if x < 0 || y < 0 || x >= width || y >= height: return BAD_RECT
 	var b:Block = current_level[x][y]
@@ -326,7 +327,7 @@ func _physics_process(delta:float):
 					current_level[x][y + 1] = b
 	# 2. go through all the blocks that just finished falling and see if they can fall more
 	if drop_range.y < 0: return
-	get_falls(drop_range, true, false)
+	get_falls(drop_range, true, FallCause.GRAVITY)
 	# 3. for the ones that can't: clamp em to their positions and mark 'em out.
 	var blocks_to_pop := []
 	for y in (drop_range.z + 1):
@@ -344,7 +345,7 @@ func _physics_process(delta:float):
 				b.status = Block.BlockStatus.FALL
 	# 4. pop some fuckers!
 	for b in blocks_to_pop:
-		pop(b, false)
+		pop(b, FallCause.CHAIN)
 
 func _count(x:int, y:int, type:String) -> int:
 	var b := get_block(x, y)
@@ -357,7 +358,7 @@ func _count(x:int, y:int, type:String) -> int:
 	count += _count(x, y + 1, type)
 	return count
 
-func get_falls(max_range:Vector3, fells_only:bool, wiggle:bool):
+func get_falls(max_range:Vector3, fells_only:bool, fall_cause:int):
 	# 1. flag all blocks that could potentially fall
 	var new_max_y := max_range.z
 	for y in (max_range.z + 1):
@@ -399,10 +400,10 @@ func get_falls(max_range:Vector3, fells_only:bool, wiggle:bool):
 			var b:Block = current_level[x][y]
 			if b == null: continue
 			if b.drop_status == Block.DropStatus.MAYBE_FALL:
-				if wiggle:
+				if fall_cause == FallCause.PLAYER:
 					wiggle(x, y, b.type)
 				else:
-					set_to_fall(x, y, b.type)
+					set_to_fall(x, y, b.type, fall_cause == FallCause.GRAVITY)
 
 var check_names := ["red (3, 1)"]
 #var check_names := ["green (2, 3)", "green (2, 2)", "green (3, 2)", "green (4, 2)"]
@@ -446,17 +447,19 @@ func wiggle(x:int, y:int, type:String):
 	wiggle(x, y + 1, type)
 	wiggle(x, y - 1, type)
 
-func set_to_fall(x:int, y:int, type:String):
+func set_to_fall(x:int, y:int, type:String, immediate:bool):
 	var b := get_block(x, y)
 	if b == null: return
 	if b.type != type: return
-	if b.status == Block.BlockStatus.PREFALL: return# || b.status == Block.BlockStatus.FALL: return
-	b.pre_fall()
-	#b.status = Block.BlockStatus.FALL
-	set_to_fall(x - 1, y, type)
-	set_to_fall(x + 1, y, type)
-	set_to_fall(x, y + 1, type)
-	set_to_fall(x, y - 1, type)
+	if b.status == Block.BlockStatus.PREFALL || b.status == Block.BlockStatus.FALL: return
+	if immediate:
+		b.status = Block.BlockStatus.FALL
+	else:
+		b.pre_fall()
+	set_to_fall(x - 1, y, type, immediate)
+	set_to_fall(x + 1, y, type, immediate)
+	set_to_fall(x, y + 1, type, immediate)
+	set_to_fall(x, y - 1, type, immediate)
 
 func set_maybe_fall(x:int, y:int, type:String) -> int:
 	var b := get_block(x, y)
