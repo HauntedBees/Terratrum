@@ -36,11 +36,16 @@ func _process(_delta):
 		f.close()
 		print("Saved to %s/replay.json" % OS.get_user_data_dir())
 	if Input.is_action_just_pressed("ui_focus_next") && replay.size() > 0:
-		var block = $BlockContainer.get_node(replay[0])
+		var block = null
+		for bf in $BlockContainer.get_children():
+			if !(bf is BlockFamily): continue
+			block = bf.get_node_or_null(replay[0])
+			if block != null: break
+		#var block = $BlockContainer.get_node(replay[0])
 		replay.remove(0)
 		_debug_kill(block)
 
-var replay := ["yellow (3, 5)","red (3, 7)","yellow (3, 9)","green (3, 11)","yellow (3, 12)","green (4, 14)","yellow (4, 15)","green (5, 17)","green (5, 20)"]
+var replay := ["red (3, 0)","green (3, 1)","blue (3, 2)","red (3, 3)","blue (4, 4)","yellow (5, 8)","green (4, 8)","yellow (3, 8)","green (3, 9)","hard (4, 10)","yellow (2, 10)","yellow (4, 6)","yellow (3, 11)","green (1, 13)","red (4, 13)","green (3, 14)","yellow (3, 16)","blue (3, 17)","hard (3, 19)","green (4, 19)","red (3, 20)","yellow (3, 21)","red (3, 22)","green (4, 22)","green (3, 23)","air (2, 20)","blue (2, 19)","red (2, 26)","green (3, 26)","blue (4, 26)","hard (1, 26)","red (0, 26)","air (0, 25)","red (0, 24)"]
 var debug_dels := []
 func _debug_kill(block:Block):
 	if block == null: return

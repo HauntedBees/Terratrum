@@ -33,7 +33,8 @@ func _ready():
 	max_depth = level_info.max_depth if level_info != null else 0
 	randomize()
 	#level_seed = level_info.level_seed if level_info != null && level_info.level_seed != 0 else randi() % 10000000
-	level_seed = 9102156
+	#level_seed = 9102156
+	level_seed = 6202397
 	seed(level_seed)
 	print(level_seed)
 	current_level = get_2d_array(width, height)
@@ -116,8 +117,8 @@ func continue_making_level(level: Array, level_info, delayed: bool = true):
 		4: potential_types = ["red", "blue", "green", "yellow"]
 		3: potential_types = ["red", "blue", "green"]
 		2: potential_types = ["blue", "yellow"]
-	var top_chunk := _get_debug_top(4)
-	#var top_chunk:Array = [] if delayed else _get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
+	#var top_chunk := _get_debug_top(4)
+	var top_chunk:Array = [] if delayed else _get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
 	var top_chunk_size := top_chunk.size()
 	var special_occasions := _get_air_sections()
 	for y in height:

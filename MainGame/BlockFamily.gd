@@ -14,8 +14,11 @@ func _ready():
 func _to_string() -> String: return "!%s - %s" % [blocks[0].name, blocks.size()]
 
 func join(f:BlockFamily):
-	for b in f.blocks: add_block(b)
-	f.queue_free()
+	if f.state == FamilyState.DYING && state != FamilyState.DYING:
+		f.join(self)
+	else:
+		for b in f.blocks: add_block(b)
+		f.queue_free()
 func add_block(b:Block):
 	if blocks.has(b): return
 	b.family = self
@@ -111,15 +114,18 @@ func continue_fall():
 		tween.interpolate_property(b, "position:y", b.position.y, b.position.y + Consts.BLOCK_SIZE, Consts.ACTION_TIME, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	tween.start()
 	yield(tween, "tween_all_completed")
-	yield(get_tree(), "idle_frame")
+	timer.start(Consts.TINY_TIME)
+	yield(timer, "timeout")
 	for b in blocks.duplicate():
 		b.move_down()
 	if is_fallable():
-		yield(get_tree(), "idle_frame")
+		timer.start(Consts.TINY_TIME)
+		yield(timer, "timeout")
 		continue_fall()
 	else:
 		stop_fall_upwards()
-		yield(get_tree(), "idle_frame")
+		timer.start(Consts.TINY_TIME)
+		yield(timer, "timeout")
 		if blocks.size() >= 4:
 			pop(false)
 func stop_fall_upwards(already_checked := []) -> Array:
