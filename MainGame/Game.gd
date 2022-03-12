@@ -5,6 +5,7 @@ onready var bc := $BlockContainer
 onready var player := $Player
 
 func _ready():
+	#Engine.time_scale = 0.5
 	bc.transform.origin.x = (-lm.width * lm.block_size + lm.block_size) / 2.0
 	draw_level(lm.current_level)
 

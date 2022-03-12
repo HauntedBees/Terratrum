@@ -97,6 +97,7 @@ func is_at_bottom() -> bool: return grid_pos.y == 99
 func flicker(): $AnimationPlayer.play("fade")
 func pop():
 	status = BlockStatus.POPPING # is prepop needed?
+	drop_status = DropStatus.CANNOT_FALL
 	pop_time = Consts.POP_TIME
 	$AnimationPlayer.play("fade")
 func finish_pop():

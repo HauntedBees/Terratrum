@@ -1,7 +1,6 @@
 extends Node2D
 
-onready var lm:LevelManager = get_parent().get_node("LevelManager")
-onready var p:Node2D = get_parent().get_node("Player")
+onready var lm:LevelManager = get_parent().get_parent().get_node("LevelManager")
 #onready var bc:Node2D = get_parent().get_node("BlockContainer")
 #
 func _ready():
@@ -13,16 +12,20 @@ func _ready():
 
 const BOX_SIZE := 4.0
 
+const DX := 20.0
+const DY := 10.0
+
 func _draw():
-	var dy := p.position.y
 	for y in lm.height:
 		for x in lm.width:
-			draw_rect(Rect2(x * BOX_SIZE, dy + y * BOX_SIZE, BOX_SIZE, BOX_SIZE), _get_color(lm.get_block(x, y)))
+			draw_rect(Rect2(DX + x * BOX_SIZE, DY + y * BOX_SIZE, BOX_SIZE, BOX_SIZE), _get_color(lm.get_block(x, y)))
 
 func _get_color(b:Block):
 	if b == null: return Color(0, 0, 0, 0)
 	if b.type == "air": return Color.white
-	return b.COLOR_XREF[b.type]
+	var color:Color = b.COLOR_XREF[b.type]
+	if b.is_dead(): color.a *= 0.5
+	return color
 #	for vbf in bc.get_children():
 #		if !(vbf is BlockFamily): continue
 #		for vb in vbf.blocks:

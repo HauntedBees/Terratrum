@@ -117,7 +117,7 @@ func continue_making_level(level: Array, level_info, delayed: bool = true):
 		4: potential_types = ["red", "blue", "green", "yellow"]
 		3: potential_types = ["red", "blue", "green"]
 		2: potential_types = ["blue", "yellow"]
-	var top_chunk := _get_debug_top(5)
+	var top_chunk := _get_debug_top(6)
 	#var top_chunk:Array = [] if delayed else _get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
 	var top_chunk_size := top_chunk.size()
 	var special_occasions := _get_air_sections()
@@ -253,6 +253,28 @@ func _get_debug_top(case:int) -> Array:
 				_expand("YRRYGYB"),
 				_expand("BRRGBXX")
 			]
+		6: # let's get a combo going
+			return [
+				_expand("xxxxBxx"),
+				_expand("xxxxHxx"),
+				_expand("RxYRBxx"),
+				_expand("BGGBBHx"),
+				_expand("BRRRGRx"),
+				_expand("GGGBRRx"),
+				_expand("BBYYYRx"),
+				_expand("HHHBBBx"),
+				_expand("HHHYRRx"),
+				_expand("HHHGGGx"),
+				_expand("YYYYYYx"),
+				_expand("RRRHHHH"),
+				_expand("RGGGGGG"),
+				_expand("RGBBYYG"),
+				_expand("RGBBBBG"),
+				_expand("RGGGGGG"),
+				_expand("RRRRRRR"),
+				_expand("HHHHYYH"),
+				_expand("YYYYYYY")
+			]
 	return []
 func _expand(r:String) -> Array:
 	var r2 := []
@@ -283,7 +305,7 @@ func pop(b:Block, fall_cause:int):#wiggle:bool):
 func _pop(x:int, y:int, type:String) -> Vector3:
 	if x < 0 || y < 0 || x >= width || y >= height: return BAD_RECT
 	var b:Block = current_level[x][y]
-	if b == null || b.status == Block.BlockStatus.POPPING || b.type != type: return BAD_RECT
+	if b == null || b.is_dead() || b.type != type: return BAD_RECT
 	b.pop()
 	var rect := Vector3(b.grid_pos.x, b.grid_pos.x, b.grid_pos.y)
 	rect = _expand_rect(rect, _pop(x - 1, y, type))
@@ -308,6 +330,7 @@ func _physics_process(delta:float):
 				if b.pop_time <= 0.0:
 					b.finish_pop()
 					current_level[x][y] = null
+				continue
 			b.drop_status = Block.DropStatus.CANNOT_FALL
 			b.drop_iter = 0
 			var drop_amount := delta
@@ -366,6 +389,7 @@ func get_falls(max_range:Vector3, fells_only:bool, fall_cause:int):
 			var b:Block = current_level[x][y]
 			if b == null: continue
 			if fells_only && b.status != Block.BlockStatus.FELL: continue
+			if b.status == Block.BlockStatus.FALL: continue # no need to check again
 			if b.is_dead(): continue
 			new_max_y = max(new_max_y, set_maybe_fall(x, y, b.type))
 			#b.drop_status = Block.DropStatus.MAYBE_FALL
@@ -405,35 +429,35 @@ func get_falls(max_range:Vector3, fells_only:bool, fall_cause:int):
 				else:
 					set_to_fall(x, y, b.type, fall_cause == FallCause.GRAVITY)
 
-var check_names := ["red (3, 1)"]
+var check_names := []#["green (4, 9)"]
 #var check_names := ["green (2, 3)", "green (2, 2)", "green (3, 2)", "green (4, 2)"]
 
 func is_stuck(x:int, y:int, type:String, iter:int) -> bool:
 	if y == (height - 1): return true
 	var b := get_block(x, y)
 	if b == null: return false
-	#if check_names.has(b.name): print("-- %s iter %s" % [b.name, iter])
+	if check_names.has(b.name): print("-- %s/%s iter %s (%s)" % [b.name, type, iter, b.drop_iter])
 	if b.type != type: return false
 	if b.drop_iter > iter: return false
 	if b.is_dead(): return false
-	#if check_names.has(b.name): print("-- %s made it past those guys" % b.name)
+	if check_names.has(b.name): print("-- %s made it past those guys" % b.name)
 	b.drop_iter += 1
 	if b.drop_status == Block.DropStatus.CANNOT_FALL: return true
-	#if check_names.has(b.name): print("-- %s not cannot fall" % b.name)
+	if check_names.has(b.name): print("-- %s not cannot fall" % b.name)
 	var below := get_block(x, y + 1)
-	#if b.name == "red (3, 0)": print("below %s (%s, %s) is %s (%s, %s)" % [b, x, y, below, x, y + 1])
+	if check_names.has(b.name): print("below %s (%s, %s) is %s (%s, %s)" % [b, x, y, below, x, y + 1])
 #	if below != null && below.type != type && !below.is_dead() && below.drop_status == Block.DropStatus.CANNOT_FALL:
 	if below != null && !below.is_dead() && below.drop_status == Block.DropStatus.CANNOT_FALL:
-		#if check_names.has(b.name): print("-- %s below is a nopey" % b.name)
+		if check_names.has(b.name): print("-- %s below is a nopey" % b.name)
 		return true
 	if is_stuck(x + 1, y, type, iter): return true
-	#if check_names.has(b.name): print("-- %s right is good" % b.name)
+	if check_names.has(b.name): print("-- %s right is good" % b.name)
 	if is_stuck(x - 1, y, type, iter): return true
-	#if check_names.has(b.name): print("-- %s left is good" % b.name)
+	if check_names.has(b.name): print("-- %s left is good" % b.name)
 	if is_stuck(x , y + 1, type, iter): return true
-	#if check_names.has(b.name): print("-- %s below is good" % b.name)
+	if check_names.has(b.name): print("-- %s below is good" % b.name)
 	if is_stuck(x, y - 1, type, iter): return true
-	#if check_names.has(b.name): print("-- %s above is good" % b.name)
+	if check_names.has(b.name): print("-- %s above is good" % b.name)
 	return false
 
 func wiggle(x:int, y:int, type:String):
@@ -467,6 +491,7 @@ func set_maybe_fall(x:int, y:int, type:String) -> int:
 	if b.type != type: return -1
 	if b.drop_status == Block.DropStatus.MAYBE_FALL: return -1
 	b.drop_status = Block.DropStatus.MAYBE_FALL
+	b.drop_iter = 0
 	var high_y := y
 	high_y = max(high_y, set_maybe_fall(x - 1, y, type))
 	high_y = max(high_y, set_maybe_fall(x + 1, y, type))
