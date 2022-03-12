@@ -33,15 +33,27 @@ var grid_pos := Vector2.ZERO
 #var left:Block
 
 var mask_offset := 0
+var dark_offset := 0
+var show_dark := false
 
 func calculate_mask_offset(above:Block, right:Block, below:Block, left:Block):
 	if type == "air": return
 	var final_value := 0
-	if above != null && above.type == type: final_value += 1
-	if right != null && right.type == type: final_value += 2
-	if below != null && below.type == type: final_value += 4
+	var dark_value := 0
+	show_dark = true
+	if above != null && above.type == type:
+		final_value += 1
+		dark_value += 1
+	if right != null && right.type == type:
+		final_value += 2
+		show_dark = false
+	if below != null && below.type == type:
+		final_value += 4
+		dark_value += 2
 	if left != null && left.type == type: final_value += 8
 	mask_offset = final_value
+	dark_offset = dark_value
+	
 	if is_inside_tree(): _set_shader()
 
 
@@ -53,7 +65,10 @@ func _ready():
 	if type == "air": return
 	sprite.modulate = COLOR_XREF[type]
 	_set_shader()
-func _set_shader(): shader.set_shader_param("mask_offset", Vector2(mask_offset % 4, mask_offset / 4))
+func _set_shader():
+	shader.set_shader_param("mask_offset", Vector2(mask_offset % 4, mask_offset / 4))
+	shader.set_shader_param("dark_offset", Vector2(dark_offset % 2, dark_offset / 2))
+	shader.set_shader_param("show_dark", 1.0 if show_dark else 0.0)
 
 func try_join_neighbors() -> bool:
 	var linked := false
