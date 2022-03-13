@@ -33,21 +33,25 @@ func calculate_mask_offset(above:Block, right:Block, below:Block, left:Block):
 	var final_value := 0
 	var dark_value := 0
 	show_dark = true
-	if above != null && above.type == type:
+	if _is_valid(above):
 		final_value += 1
 		dark_value += 1
-	if right != null && right.type == type:
+	if _is_valid(right):
 		final_value += 2
 		show_dark = false
-	if below != null && below.type == type:
+	if _is_valid(below):
 		final_value += 4
 		dark_value += 2
-	if left != null && left.type == type: final_value += 8
+	if _is_valid(left): final_value += 8
 	mask_offset = final_value
 	dark_offset = dark_value
 	
 	if is_inside_tree(): _set_shader()
 
+func _is_valid(b:Block) -> bool:
+	if b == null: return false
+	if b.type != type: return false
+	return true
 
 func get_class(): return "Block"
 func _ready():

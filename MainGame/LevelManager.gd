@@ -104,7 +104,7 @@ func continue_making_level(level: Array, level_info, delayed: bool = true):
 		4: potential_types = ["red", "blue", "green", "yellow"]
 		3: potential_types = ["red", "blue", "green"]
 		2: potential_types = ["blue", "yellow"]
-	var top_chunk := _get_debug_top(6)
+	var top_chunk := _get_debug_top(7)
 	#var top_chunk:Array = [] if delayed else _get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
 	var top_chunk_size := top_chunk.size()
 	var special_occasions := _get_air_sections()
@@ -262,6 +262,16 @@ func _get_debug_top(case:int) -> Array:
 				_expand("HHHHYYH"),
 				_expand("YYYYYYY")
 			]
+		7: # quick access to the fucko
+			return [
+				_expand("RxxRBxx"),
+				_expand("BxxBBHx"),
+				_expand("BxxRGRx"),
+				_expand("GGGBRRx"),
+				_expand("BBYYYRx"),
+				_expand("HHHBBBx"),
+				_expand("HHHYRRx")
+			]
 	return []
 func _expand(r:String) -> Array:
 	var r2 := []
@@ -318,6 +328,7 @@ func _physics_process(delta:float):
 					b.finish_pop()
 					current_level[x][y] = null
 				continue
+			elif b.is_dead(): continue
 			b.drop_status = Block.DropStatus.CANNOT_FALL
 			b.drop_iter = 0
 			var drop_amount := delta
@@ -416,7 +427,7 @@ func get_falls(max_range:Vector3, fells_only:bool, fall_cause:int):
 				else:
 					set_to_fall(x, y, b.type, fall_cause == FallCause.GRAVITY)
 
-var check_names := []#["green (4, 9)"]
+var check_names := []#["blue (0, 4)"]#["green (4, 9)"]
 #var check_names := ["green (2, 3)", "green (2, 2)", "green (3, 2)", "green (4, 2)"]
 
 func is_stuck(x:int, y:int, type:String, iter:int) -> bool:
@@ -462,6 +473,9 @@ func set_to_fall(x:int, y:int, type:String, immediate:bool):
 	var b := get_block(x, y)
 	if b == null: return
 	if b.type != type: return
+	# TODO?: if blocks land on a block of the same type that are popping,
+	# link em and make the landing blocks pop too? or just keep lettin' em slide on thru I guess.
+	if b.is_dead(): return
 	if b.status == Block.BlockStatus.PREFALL || b.status == Block.BlockStatus.FALL: return
 	if immediate:
 		b.status = Block.BlockStatus.FALL
