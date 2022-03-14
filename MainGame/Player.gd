@@ -49,7 +49,7 @@ func _physics_process(delta:float):
 	var velocity := Vector2(direction.x, 0)
 	velocity = velocity.normalized()
 	velocity = walk_speed * delta * velocity
-	if !is_on_floor(): velocity.y += Consts.BLOCK_SIZE * Consts.DROP_SPEED * delta
+	if !is_on_floor(): velocity.y += lm.block_size * Consts.DROP_SPEED * delta
 	move_and_slide(velocity, Vector2.UP)
 	
 	if is_on_wall(): _try_climb(direction, delta)
@@ -62,8 +62,8 @@ func _try_climb(direction:Vector2, delta:float):
 		var height := _get_actual_climb_height()
 		if height == 0: return
 		for i in height:
-			forced_steps.append(Vector3(position.x, position.y - Consts.BLOCK_SIZE * (i + 1), 0))
-		forced_steps.append(Vector3(position.x + active_direction.x * Consts.BLOCK_SIZE, position.y - Consts.BLOCK_SIZE * climb_height, active_direction.x))
+			forced_steps.append(Vector3(position.x, position.y - lm.block_size * (i + 1), 0))
+		forced_steps.append(Vector3(position.x + active_direction.x * lm.block_size * 0.75, position.y - lm.block_size * climb_height, active_direction.x))
 
 func _get_actual_climb_height() -> int:
 	var possible_climb_height := 0
@@ -81,7 +81,7 @@ func _get_actual_climb_height() -> int:
 
 func _do_climb(delta:float):
 	var step:Vector3 = forced_steps[0]
-	var amount := Consts.BLOCK_SIZE * Consts.CLIMB_STEP_TIME * delta
+	var amount := lm.block_size * Consts.CLIMB_STEP_TIME * delta
 	if step.z == 0: # climb up
 		position.y -= amount
 		if position.y <= step.y:

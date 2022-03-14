@@ -16,6 +16,7 @@ func draw_level(level:Array):
 			b.position = lm.grid_to_map(x, y)
 			b.connect("debug_kill", self, "_debug_kill", [b])
 			bc.add_child(b)
+	player.scale = Vector2(lm.block_scale, lm.block_scale)
 func _refresh_block(b:Block):
 	yield(get_tree(), "idle_frame")
 	b.redraw_block()
