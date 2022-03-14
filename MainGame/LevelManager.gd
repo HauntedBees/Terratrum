@@ -57,6 +57,7 @@ func grid_to_map(x:int, y:int) -> Vector2: return Vector2(x * block_size + offse
 func map_to_grid(p: Vector2) -> Vector2: return Vector2(floor((p.x - offset.x) / block_size), floor((p.y - offset.y) / block_size))
 
 func get_player_pos(player:KinematicBody2D) -> Vector2: return map_to_grid(player.position + player_offset)
+func get_block_by_player(player:KinematicBody2D, offset:Vector2) -> Block: return get_block_v(get_player_pos(player) + offset)
 
 func get_difficulty_info(idx: int): # TODO: expand to support looping and such
 	return difficulty_curve[int(min(idx, difficulty_curve.size() - 1))]

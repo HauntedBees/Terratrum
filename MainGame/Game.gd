@@ -2,7 +2,7 @@ extends Node2D
 
 onready var lm:LevelManager = $LevelManager
 onready var bc := $BlockContainer
-onready var player := $Player
+onready var player:DigPlayer = $Player
 
 func _ready():
 	bc.transform.origin.x = (-lm.width * lm.block_size + lm.block_size) / 2.0
@@ -23,6 +23,7 @@ func _refresh_block(b:Block):
 func _process(_delta):
 	if GASInput.is_action_just_pressed("ui_accept"):
 		_player_drill()
+		print(lm.get_player_pos(player))
 	
 	if Input.is_action_just_pressed("ui_cancel"):
 		var f := File.new()
@@ -46,14 +47,9 @@ func _debug_kill(block:Block):
 	lm.pop(block, LevelManager.FallCause.PLAYER)
 
 func _player_drill():
-	var drill_dir:Vector2 = player.active_direction
-	#var steps := 3 if player.character == "Wombat" else 1
-	var block:Block = null
-	match drill_dir:
-		Vector2(1, 0): block = player.right
-		Vector2(-1, 0): block = player.left
-		Vector2(0, 1): block = player.below
-		Vector2(0, -1): block = player.above
+	if !player.can_dig(): return
+	player.drill_cooldown = Consts.POP_HOLD_TIME
+	var block:Block = lm.get_block_by_player(player, player.active_direction)
 	if block == null: return
 	debug_dels.append(block.name)
 	lm.pop(block, LevelManager.FallCause.PLAYER)

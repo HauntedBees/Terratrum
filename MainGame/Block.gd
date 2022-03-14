@@ -70,6 +70,7 @@ func pop():
 	status = BlockStatus.POPPING # is prepop needed?
 	drop_status = DropStatus.CANNOT_FALL
 	pop_time = Consts.POP_TIME
+	$StaticBody2D.queue_free()
 	$AnimationPlayer.play("fade")
 func finish_pop():
 	status = BlockStatus.POPPED

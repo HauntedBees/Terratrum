@@ -26,7 +26,8 @@ const CLIMB_STEP_TIME := 2.0 / ACTION_TIME
 const DEATH_TIME := 1
 const DROP_SPEED := 60.0 / ACTION_TIME # this is probably useless
 
-const POP_TIME := ACTION_TIME
+const POP_TIME := 0.25
+const POP_HOLD_TIME := POP_TIME * 0.75
 const WIGGLE_TIME := ACTION_TIME * 2
 
 # score
