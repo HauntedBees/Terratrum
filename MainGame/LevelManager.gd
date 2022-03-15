@@ -105,8 +105,8 @@ func continue_making_level(level: Array, level_info, delayed: bool = true):
 		4: potential_types = ["red", "blue", "green", "yellow"]
 		3: potential_types = ["red", "blue", "green"]
 		2: potential_types = ["blue", "yellow"]
-	#var top_chunk := _get_debug_top(7)
-	var top_chunk:Array = [] if delayed else _get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
+	var top_chunk := _get_debug_top(7)
+	#var top_chunk:Array = [] if delayed else _get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
 	var top_chunk_size := top_chunk.size()
 	var special_occasions := _get_air_sections()
 	for y in height:

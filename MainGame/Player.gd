@@ -6,7 +6,7 @@ onready var model := $Viewport/character
 onready var camera := $Camera2D
 onready var camera_x:float = camera.global_position.x
 
-var walk_speed := 10000.0#Consts.WALK_SPEED
+var walk_speed := Consts.WALK_SPEED
 var active_direction := Vector2(0, 1)
 var character := "Mole"
 var drill_cooldown := 0.0
@@ -14,6 +14,7 @@ var drill_cooldown := 0.0
 var climb_height := 1
 var climb_limit := 0.0
 var forced_steps := []
+var on_floor := false
 
 class ForcedStep:
 	var new_pos:float
@@ -24,8 +25,7 @@ class ForcedStep:
 
 func _process(_delta): camera.global_position.x = camera_x
 
-func can_dig() -> bool:
-	return forced_steps.size() == 0 && drill_cooldown <= 0.0
+func can_dig() -> bool: return forced_steps.size() == 0 && drill_cooldown <= 0.0 && on_floor
 
 func _physics_process(delta:float):
 	if drill_cooldown > 0.0:
@@ -49,8 +49,11 @@ func _physics_process(delta:float):
 	var velocity := Vector2(direction.x, 0)
 	velocity = velocity.normalized()
 	velocity = walk_speed * delta * velocity
-	if !is_on_floor(): velocity.y += lm.block_size * Consts.DROP_SPEED * delta
+	velocity.y = lm.block_size * Consts.DROP_SPEED * delta
+	if !on_floor:
+		velocity.x = 0
 	move_and_slide(velocity, Vector2.UP)
+	on_floor = is_on_floor()
 	
 	if is_on_wall(): _try_climb(direction, delta)
 	else: climb_limit = 0.0
@@ -58,7 +61,7 @@ func _physics_process(delta:float):
 func _try_climb(direction:Vector2, delta:float):
 	if active_direction.x == 0: return
 	climb_limit += delta
-	if climb_limit >= Consts.TIME_TO_TRIGGER_CLIMB && is_on_floor():
+	if climb_limit >= Consts.TIME_TO_TRIGGER_CLIMB && on_floor:
 		var height := _get_actual_climb_height()
 		if height == 0: return
 		for i in height:
