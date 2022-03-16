@@ -31,9 +31,9 @@ func _ready():
 	difficulty_curve = level_info.difficulty_set if level_info != null else [Menu.DifficultyInfo.new(4, 0, 0)]
 	max_depth = level_info.max_depth if level_info != null else 0
 	randomize()
-	#level_seed = level_info.level_seed if level_info != null && level_info.level_seed != 0 else randi() % 10000000
+	level_seed = level_info.level_seed if level_info != null && level_info.level_seed != 0 else randi() % 10000000
 	#level_seed = 9102156
-	level_seed = 6202397
+	#level_seed = 6202397
 	seed(level_seed)
 	print(level_seed)
 	current_level = get_2d_array(width, height)
@@ -289,7 +289,10 @@ func _expand(r:String) -> Array:
 func _redraw_block(x:int, y:int, redraw_neighbors:bool):
 	var b := get_block(x, y)
 	if b == null: return
-	b.calculate_mask_offset(get_block(x, y - 1), get_block(x + 1, y), get_block(x, y + 1), get_block(x - 1, y))
+	b.calculate_mask_offset(get_block(x, y - 1), get_block(x + 1, y), 
+							get_block(x, y + 1), get_block(x - 1, y),
+							get_block(x - 1, y - 1), get_block(x + 1, y - 1),
+							get_block(x - 1, y + 1), get_block(x + 1, y + 1))
 	if redraw_neighbors:
 		_redraw_block(x - 1, y, false)
 		_redraw_block(x + 1, y, false)

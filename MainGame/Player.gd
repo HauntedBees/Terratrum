@@ -15,6 +15,7 @@ var climb_height := 1
 var climb_limit := 0.0
 var forced_steps := []
 var on_floor := false
+var near_floors := []
 
 class ForcedStep:
 	var new_pos:float
@@ -25,7 +26,7 @@ class ForcedStep:
 
 func _process(_delta): camera.global_position.x = camera_x
 
-func can_dig() -> bool: return forced_steps.size() == 0 && drill_cooldown <= 0.0 && on_floor
+func can_dig() -> bool: return forced_steps.size() == 0 && drill_cooldown <= 0.0 && (on_floor || near_floors.size() > 0)
 
 func _physics_process(delta:float):
 	if drill_cooldown > 0.0:
@@ -93,3 +94,9 @@ func _do_climb(delta:float):
 		position.x += step.z * amount
 		if (step.z > 0 && position.x >= step.x) || (step.z < 0 && position.x <= step.x):
 			forced_steps.remove(0)
+
+
+func _on_NearFloor_body_entered(body):
+	if near_floors.has(body): return
+	near_floors.append(body)
+func _on_NearFloor_body_exited(body): near_floors.erase(body)

@@ -1,16 +1,19 @@
-[gd_resource type="ShaderMaterial" load_steps=5 format=2]
+[gd_resource type="ShaderMaterial" load_steps=6 format=2]
 
-[ext_resource path="res://MainGame/Tiles.png" type="Texture" id=1]
-[ext_resource path="res://MainGame/TileMask.png" type="Texture" id=2]
+[ext_resource path="res://MainGame/Tilesheet.png" type="Texture" id=1]
+[ext_resource path="res://MainGame/TileMasks/02.png" type="Texture" id=2]
 [ext_resource path="res://MainGame/TileShadow.png" type="Texture" id=3]
+[ext_resource path="res://MainGame/TileMasks/02c.png" type="Texture" id=4]
 
 [sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;
 
+uniform vec2 tile_grid = vec2(12.0, 7.0);
 // screentone functionality adapted from https://godotshaders.com/shader/screentone-scene-transition/
 
 uniform sampler2D main_texture:hint_albedo;
 uniform sampler2D mask_texture:hint_albedo;
+uniform sampler2D corner_texture:hint_albedo;
 uniform sampler2D dark_texture:hint_albedo;
 uniform float completion:hint_range(0.0, 1.0) = 0.5;
 uniform vec2 tile_offset = vec2(0.0); // TODO: actually add tile offsets
@@ -28,21 +31,24 @@ void fragment() {
 	vec2 center = f_uv * 2.0 - 1.0;
 	float circle = 1.0 - step(wave, length(center));
 	
-	vec4 tile = texture(main_texture, UV).rgba;
+	vec4 tile = texture(main_texture, (UV + tile_offset) / tile_grid).rgba;
 	vec4 mask = texture(mask_texture, (UV + mask_offset) / 4.0).rgba;
-	vec4 dark = texture(dark_texture, (UV + dark_offset) / 2.0).rgba;
-	COLOR.rgb = tile.rgb - min(show_dark, dark.a) / 2.0;
-	COLOR.a = mask.a;
+	vec4 corner = texture(corner_texture, UV).rgba;
+	COLOR = tile * mask;// + corner;
+	//COLOR.rgb = tile.rgb - min(show_dark, dark.a) / 2.0;
+	//COLOR.a = mask.a;
 	COLOR *= vec4(circle);
 }"
 
 [resource]
 shader = SubResource( 2 )
+shader_param/tile_grid = Vector2( 12, 7 )
 shader_param/completion = 0.0
-shader_param/tile_offset = Vector2( 0, 0 )
+shader_param/tile_offset = Vector2( 0, 1 )
 shader_param/mask_offset = Vector2( 0, 0 )
 shader_param/dark_offset = Vector2( 0, 0 )
 shader_param/show_dark = 0.0
 shader_param/main_texture = ExtResource( 1 )
 shader_param/mask_texture = ExtResource( 2 )
+shader_param/corner_texture = ExtResource( 4 )
 shader_param/dark_texture = ExtResource( 3 )

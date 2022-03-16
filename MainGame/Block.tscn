@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://MainGame/Tiles.png" type="Texture" id=1]
 [ext_resource path="res://MainGame/Shaders/BlockShader.tres" type="Material" id=2]
 [ext_resource path="res://MainGame/Block.gd" type="Script" id=3]
+[ext_resource path="res://MainGame/TileMasks/02c.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 32, 32 )
@@ -94,7 +95,7 @@ shape = SubResource( 8 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 material = ExtResource( 2 )
-scale = Vector2( 0.5, 0.5 )
+scale = Vector2( 0.25, 0.5 )
 frames = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -102,6 +103,34 @@ anims/RESET = SubResource( 10 )
 anims/fade = SubResource( 11 )
 anims/flicker = SubResource( 9 )
 anims/wiggle = SubResource( 12 )
+
+[node name="UL" type="Sprite" parent="."]
+visible = false
+position = Vector2( -16, -16 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 32, 32 )
+
+[node name="UR" type="Sprite" parent="."]
+visible = false
+position = Vector2( 16, -16 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 32, 0, 32, 32 )
+
+[node name="BL" type="Sprite" parent="."]
+visible = false
+position = Vector2( -16, 16 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 0, 32, 32, 32 )
+
+[node name="BR" type="Sprite" parent="."]
+visible = false
+position = Vector2( 16, 16 )
+texture = ExtResource( 4 )
+region_enabled = true
+region_rect = Rect2( 32, 32, 32, 32 )
 
 [connection signal="mouse_entered" from="Center" to="." method="_on_Center_mouse_entered"]
 [connection signal="mouse_exited" from="Center" to="." method="_on_Center_mouse_exited"]

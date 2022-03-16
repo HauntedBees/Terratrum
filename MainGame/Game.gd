@@ -9,11 +9,14 @@ func _ready():
 	draw_level(lm.current_level)
 
 func draw_level(level:Array):
+	#var level_style := randi() % 84
+	#var tile_style := Vector2(level_style % 12, floor(level_style % 12))
 	for x in lm.width:
 		for y in lm.height:
 			var b:Block = level[x][y]
 			if b == null: continue
 			b.position = lm.grid_to_map(x, y)
+			#b.tile_style = tile_style
 			b.connect("debug_kill", self, "_debug_kill", [b])
 			bc.add_child(b)
 	player.scale = Vector2(lm.block_scale, lm.block_scale)

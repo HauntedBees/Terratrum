@@ -20,31 +20,31 @@ const COLOR_XREF = {
 }
 
 onready var sprite := $AnimatedSprite
+onready var corners := [$UL, $UR, $BL, $BR]
 onready var shader:ShaderMaterial = sprite.material
 
 var type := "red"
 var grid_pos := Vector2.ZERO
+var tile_style := Vector2(0, 1)
+var corner_vals := [false, false, false, false]
 var mask_offset := 0
 var dark_offset := 0
 var show_dark := false
 
-func calculate_mask_offset(above:Block, right:Block, below:Block, left:Block):
+func calculate_mask_offset(above:Block, right:Block, below:Block, left:Block, aboveleft:Block, aboveright:Block, belowleft:Block, belowright:Block):
 	if type == "air": return
 	var final_value := 0
-	var dark_value := 0
-	show_dark = true
-	if _is_valid(above):
-		final_value += 1
-		dark_value += 1
-	if _is_valid(right):
-		final_value += 2
-		show_dark = false
-	if _is_valid(below):
-		final_value += 4
-		dark_value += 2
+	if _is_valid(above): final_value += 1
+	if _is_valid(right): final_value += 2
+	if _is_valid(below): final_value += 4
 	if _is_valid(left): final_value += 8
 	mask_offset = final_value
-	dark_offset = dark_value
+	corner_vals = [
+		!_is_valid(aboveleft) && final_value & 1 == 1 && final_value & 8 == 8,
+		!_is_valid(aboveright) && final_value & 1 == 1 && final_value & 2 == 2,
+		!_is_valid(belowleft) && final_value & 4 == 4 && final_value & 8 == 8,
+		!_is_valid(belowright) && final_value & 4 == 4 && final_value & 2 == 2
+	]
 	
 	if is_inside_tree(): _set_shader()
 
@@ -60,11 +60,14 @@ func _ready():
 	sprite.material = shader
 	if type == "air": return
 	sprite.modulate = COLOR_XREF[type]
+	for c in corners: c.modulate = COLOR_XREF[type]
 	_set_shader()
 func _set_shader():
+	shader.set_shader_param("tile_offset", tile_style)
 	shader.set_shader_param("mask_offset", Vector2(mask_offset % 4, mask_offset / 4))
 	shader.set_shader_param("dark_offset", Vector2(dark_offset % 2, dark_offset / 2))
 	shader.set_shader_param("show_dark", 1.0 if show_dark else 0.0)
+	for i in corners.size(): corners[i].visible = corner_vals[i]
 
 func pop():
 	status = BlockStatus.POPPING # is prepop needed?

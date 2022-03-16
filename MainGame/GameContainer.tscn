@@ -113,21 +113,21 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -200.0
-margin_top = -208.0
-margin_right = -120.0
-margin_bottom = -128.0
-rect_scale = Vector2( 2, 2 )
+margin_left = -247.0
+margin_top = -300.0
+margin_right = -167.0
+margin_bottom = -220.0
+rect_scale = Vector2( 2.5, 2.5 )
 script = ExtResource( 2 )
 
 [node name="GASVirtualDPad" type="Control" parent="HUD/GASVirtualGamepad"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 25.0
-margin_top = -354.0
-margin_right = 186.0
-margin_bottom = -193.0
-rect_scale = Vector2( 2, 2 )
+margin_left = 14.0
+margin_top = -358.0
+margin_right = 175.0
+margin_bottom = -197.0
+rect_scale = Vector2( 1.75, 1.75 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
