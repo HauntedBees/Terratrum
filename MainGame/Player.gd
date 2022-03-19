@@ -86,7 +86,7 @@ func _get_actual_climb_height() -> int:
 		if front_block == null || above_block != null: break
 		possible_climb_height += 1
 	# if there is a block in the destination, the player can't climb
-	var goal:Block2 = lm.get_block_by_player(active_direction - Vector2(0, possible_climb_height))
+	var goal := lm.get_block_by_player(active_direction - Vector2(0, possible_climb_height))
 	if goal != null: return 0
 	return possible_climb_height
 
@@ -101,7 +101,6 @@ func _do_climb(delta:float):
 		position.x += step.z * amount
 		if (step.z > 0 && position.x >= step.x) || (step.z < 0 && position.x <= step.x):
 			forced_steps.remove(0)
-
 
 func _on_NearFloor_body_entered(body):
 	if near_floors.has(body): return

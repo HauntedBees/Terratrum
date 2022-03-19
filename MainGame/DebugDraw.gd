@@ -21,7 +21,7 @@ func _draw():
 			_draw_debug(x, y)
 
 func _draw_debug(x:int, y:int):
-	var b:Block2 = lm.get_block(x, y)
+	var b := lm.get_block(x, y)
 	if b == null: return
 	var sx := Vector2(0, 0)
 	match b.state:
@@ -33,9 +33,9 @@ func _draw_debug(x:int, y:int):
 		Block2.State.POPPED: sx = Vector2(8, 8)
 	draw_rect(Rect2(DX + x * BOX_SIZE + sx.x, DY + y * BOX_SIZE + sx.y, INFO_SIZE, INFO_SIZE), Color.black)
 
-func _get_color(b:Block2):
+func _get_color(b):
 	if b == null: return Color(0, 0, 0, 0)
 	if b.type == "air": return Color.white
 	var color:Color = b.COLOR_XREF[b.type]
-	if b.state == Block.BlockStatus.POPPING || b.state == Block.BlockStatus.POPPED: color.a *= 0.5
+	if b.state == Block2.State.POPPING || b.state == Block2.State.POPPED: color.a *= 0.5
 	return color

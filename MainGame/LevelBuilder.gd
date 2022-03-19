@@ -4,7 +4,6 @@ class_name LevelBuilder2
 onready var full_level_info: Levels.FullLevelInfo = SceneSwitcher.get_carried_scene_data()
 const piece = preload("res://MainGame/Block2.tscn")
 
-
 var current_potential_types := ["red", "blue", "green", "yellow"]
 var potential_types := ["red", "blue", "green", "yellow"]
 var air_every_x_rows := 5 # 5 = easy, 12 = hard
