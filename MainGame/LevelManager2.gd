@@ -343,7 +343,6 @@ func _process(delta:float):
 			var fell_info := _check_falling_block(x, y, b.type)
 			if fell_info.should_clear():
 				_pop_from_fall(x, y, b.type)
-			b.just_landed = false
 	if DEBUG:
 		print("B = %s" % [OS.get_ticks_msec() - o])
 		o = OS.get_ticks_msec()
@@ -445,7 +444,7 @@ func _check_falling_block(x:int, y:int, type:String) -> FallInfo:
 	if b == null || b.recurse_check || b.type != type: return FallInfo.new()
 	b.recurse_check = true
 	if b.state == Block2.State.FALLING: return FallInfo.new() # this seems redundant, they'll never be FALLING
-	var info := FallInfo.new(b.just_landed, 1)
+	var info := FallInfo.new(b.state == Block2.State.POSTFALL, 1)
 	info.merge(_check_falling_block(x - 1, y, type))
 	info.merge(_check_falling_block(x + 1, y, type))
 	info.merge(_check_falling_block(x, y - 1, type))
@@ -516,7 +515,6 @@ func _fall_to_none(x:int, y:int, type:String):
 	if b == null || b.recurse_check || b.type != type: return
 	b.recurse_check = true
 	if b.is_falling_or_been_popped(): return
-	b.just_landed = b.state == Block2.State.POSTFALL
 	b.state = Block2.State.NONE
 	b.wait_time = Consts.PREFALL_WAIT_TIME
 	if b.is_unpoppable_type(): return
@@ -524,7 +522,6 @@ func _fall_to_none(x:int, y:int, type:String):
 	_fall_to_none(x + 1, y, type)
 	_fall_to_none(x, y - 1, type)
 	_fall_to_none(x, y + 1, type)
-	return
 
 func _get_highest_wait_time(x:int, y:int, type:String) -> float:
 	var b:Block2 = get_block(x, y)
