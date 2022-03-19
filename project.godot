@@ -15,6 +15,11 @@ _global_script_classes=[ {
 "path": "res://MainGame/Block.gd"
 }, {
 "base": "Node2D",
+"class": "Block2",
+"language": "GDScript",
+"path": "res://MainGame/Block2.gd"
+}, {
+"base": "Node2D",
 "class": "BlockHandler",
 "language": "GDScript",
 "path": "res://code/game/BlockHandler.gd"
@@ -105,6 +110,11 @@ _global_script_classes=[ {
 "path": "res://MainGame/LevelManager.gd"
 }, {
 "base": "Node2D",
+"class": "LevelManager2",
+"language": "GDScript",
+"path": "res://MainGame/LevelManager2.gd"
+}, {
+"base": "Node2D",
 "class": "Menu",
 "language": "GDScript",
 "path": "res://code/Menu.gd"
@@ -131,6 +141,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Block": "",
+"Block2": "",
 "BlockHandler": "",
 "BlockOld": "",
 "CharSel": "",
@@ -149,6 +160,7 @@ _global_script_class_icons={
 "HUDText": "",
 "LevelBuilder": "",
 "LevelManager": "",
+"LevelManager2": "",
 "Menu": "",
 "MenuLevel": "",
 "Player": "",

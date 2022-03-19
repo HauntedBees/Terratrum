@@ -12,13 +12,16 @@ const BLOCK_SIZE := 64.0
 const FALL_TIME := 3.0
 const ACTION_TIME := 1.0 / FALL_TIME
 const POP_TIME := 0.25
-const POP_HOLD_TIME := POP_TIME * 0.25
+const PLAYER_POP_TIME := 0.3
+const POP_HOLD_TIME := POP_TIME * 0.75
 const WIGGLE_TIME := ACTION_TIME * 2
 const WALK_SPEED := 300 * BLOCK_SIZE
 const TIME_TO_TRIGGER_CLIMB := ACTION_TIME / 2.0
 const CLIMB_STEP_TIME := 2.0 / ACTION_TIME
 # will probably be used
 const DEATH_TIME := 1.0
+
+const PREFALL_WAIT_TIME := 0.25
 
 # score
 const CLEAR_MULTIPLIER := 10

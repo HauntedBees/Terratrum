@@ -4,7 +4,7 @@
 [ext_resource path="res://MainGame/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MainGame/DebugDraw.gd" type="Script" id=3]
 [ext_resource path="res://MainGame/Game.gd" type="Script" id=4]
-[ext_resource path="res://MainGame/LevelManager.gd" type="Script" id=5]
+[ext_resource path="res://MainGame/LevelManager2.gd" type="Script" id=5]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 4 )
@@ -23,3 +23,13 @@ script = ExtResource( 5 )
 
 [node name="DebugDraw" type="Node2D" parent="CanvasLayer"]
 script = ExtResource( 3 )
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+margin_left = 9.0
+margin_top = 7.0
+margin_right = 148.0
+margin_bottom = 72.0
+text = "Ass"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -45,7 +45,6 @@ func calculate_mask_offset(above:Block, right:Block, below:Block, left:Block, ab
 		!_is_valid(belowleft) && final_value & 4 == 4 && final_value & 8 == 8,
 		!_is_valid(belowright) && final_value & 4 == 4 && final_value & 2 == 2
 	]
-	
 	if is_inside_tree(): _set_shader()
 
 func _is_valid(b:Block) -> bool:

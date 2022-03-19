@@ -1,7 +1,7 @@
 extends KinematicBody2D
 class_name DigPlayer
 
-onready var lm:LevelManager = get_parent().get_node("LevelManager")
+onready var lm:LevelManager2 = get_parent().get_node("LevelManager")
 onready var model := $Viewport/character
 onready var camera := $Camera2D
 onready var camera_x:float = camera.global_position.x
@@ -16,6 +16,8 @@ var climb_limit := 0.0
 var forced_steps := []
 var on_floor := false
 var near_floors := []
+
+var is_digging := false
 
 class ForcedStep:
 	var new_pos:float
@@ -73,13 +75,13 @@ func _get_actual_climb_height() -> int:
 	var possible_climb_height := 0
 	for potential_height in range(1, climb_height + 1):
 		# if there aren't blocks to climb up, the player can't climb
-		var front_block := lm.get_block_by_player(self, active_direction - Vector2(0, potential_height - 1))
+		var front_block := lm.get_block_by_player(active_direction - Vector2(0, potential_height - 1))
 		# and if there are blocks above the player, the player can't climb
-		var above_block := lm.get_block_by_player(self, Vector2(0, -potential_height))
+		var above_block := lm.get_block_by_player(Vector2(0, -potential_height))
 		if front_block == null || above_block != null: break
 		possible_climb_height += 1
 	# if there is a block in the destination, the player can't climb
-	var goal:Block = lm.get_block_by_player(self, active_direction - Vector2(0, possible_climb_height))
+	var goal:Block2 = lm.get_block_by_player(active_direction - Vector2(0, possible_climb_height))
 	if goal != null: return 0
 	return possible_climb_height
 

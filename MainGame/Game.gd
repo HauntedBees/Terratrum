@@ -1,6 +1,6 @@
 extends Node2D
 
-onready var lm:LevelManager = $LevelManager
+onready var lm:LevelManager2 = $LevelManager
 onready var bc := $BlockContainer
 onready var player:DigPlayer = $Player
 
@@ -13,11 +13,11 @@ func draw_level(level:Array):
 	#var tile_style := Vector2(level_style % 12, floor(level_style % 12))
 	for x in lm.width:
 		for y in lm.height:
-			var b:Block = level[x][y]
+			var b = level[x][y]
 			if b == null: continue
 			b.position = lm.grid_to_map(x, y)
 			#b.tile_style = tile_style
-			b.connect("debug_kill", self, "_debug_kill", [b])
+			#b.connect("debug_kill", self, "_debug_kill", [b])
 			bc.add_child(b)
 	player.scale = Vector2(lm.block_scale, lm.block_scale)
 func _refresh_block(b:Block):
@@ -27,7 +27,6 @@ func _refresh_block(b:Block):
 func _process(_delta):
 	if GASInput.is_action_just_pressed("ui_accept"):
 		_player_drill()
-		print(lm.get_player_pos(player))
 	
 	if Input.is_action_just_pressed("ui_cancel"):
 		var f := File.new()
@@ -53,8 +52,9 @@ func _debug_kill(block:Block):
 func _player_drill():
 	if !player.can_dig(): return
 	player.drill_cooldown = Consts.POP_HOLD_TIME
-	var block:Block = lm.get_block_by_player(player, player.active_direction)
-	if block == null: return
-	debug_dels.append(block.name)
-	lm.pop(block, LevelManager.FallCause.PLAYER)
+	player.is_digging = true
+	#var block:Block = lm.get_block_by_player(player, player.active_direction)
+	#if block == null: return
+	#debug_dels.append(block.name)
+	#lm.pop(block, LevelManager.FallCause.PLAYER)
 	# TODO: scoring

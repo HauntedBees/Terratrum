@@ -3,6 +3,8 @@ class_name LevelManager
 
 const piece = preload("res://MainGame/Block.tscn")
 onready var full_level_info: Levels.FullLevelInfo = SceneSwitcher.get_carried_scene_data()
+onready var player = get_parent().get_node("Player")
+
 var current_potential_types := ["red", "blue", "green", "yellow"]
 var potential_types := ["red", "blue", "green", "yellow"]
 var difficulty_curve := []
@@ -22,6 +24,8 @@ var current_level := []
 var next_level := []
 var next_level_builder = null
 var level_seed := 0
+
+const ABOVE_LIMIT := 20
 
 func _ready():
 	var level_info := full_level_info.level
@@ -318,13 +322,26 @@ func _pop(x:int, y:int, type:String) -> Vector3:
 
 var lowest_y := 0
 var highest_y := 0
+var fuckin_kill_em := []
 func _physics_process(delta:float):
+	var camera_transform := get_viewport_transform()
+	var min_y := -(map_to_grid(camera_transform.origin).y + 2)
 	# 1. drop all the blocks that are falling
+	var limit := get_player_pos(player).y - ABOVE_LIMIT
+	if fuckin_kill_em.size() > 0:
+		fuckin_kill_em[0].queue_free()
+		fuckin_kill_em.remove(0)
 	var drop_range := Vector3(width, -1, lowest_y)
 	for y in range(highest_y - 1, lowest_y - 1, -1):
 		for x in width:
 			var b:Block = current_level[x][y]
 			if b == null: continue
+			if y < limit && b.status == Block.BlockStatus.NONE:
+				current_level[x][y] = null
+				fuckin_kill_em.append(b)
+				#b.queue_free()
+				continue
+			b.visible = y > min_y # this doesn't help
 			b.was_counted = false
 			if b.status == Block.BlockStatus.POPPING:
 				b.pop_time -= delta
