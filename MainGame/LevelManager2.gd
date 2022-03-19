@@ -360,7 +360,7 @@ func _process(delta:float):
 		var target_block_pos := get_player_target_pos(player.active_direction)
 		var target_block := get_block_v(target_block_pos)
 		if target_block != null && !target_block.is_falling_or_been_popped():
-			_reset_all(true, false)
+			_reset_all(true, false, true)
 			# TODO: handle score
 			# TODO: lower health/handle x blocks
 			_pop_from_action(target_block_pos.x, target_block_pos.y)
@@ -375,7 +375,7 @@ func _process(delta:float):
 	for y in _reverse_range():
 		for x in width:
 			var b:Block2 = current_level[x][y]
-			if b == null || b.is_falling_or_been_popped(): continue
+			if b == null || b.is_falling_or_been_popped() || b.lock_check: continue
 			var below:Block2 = get_block(x, y + 1)
 			if below == null:
 				if b.state == Block2.State.NONE:
@@ -413,7 +413,7 @@ func _process(delta:float):
 	if DEBUG:
 		print("E = %s" % [OS.get_ticks_msec() - o])
 		o = OS.get_ticks_msec()
-	_reset_all(true, false) # why false?
+	_reset_all(true, false, true) # why false?
 	if DEBUG:
 		print("reset = %s" % [OS.get_ticks_msec() - o])
 		o = OS.get_ticks_msec()
@@ -488,7 +488,7 @@ func _pop_from_fall(x:int, y:int, type:String):
 	_pop_from_fall(x, y - 1, type)
 	_pop_from_fall(x, y + 1, type)
 func _pop_from_action(x:int, y:int, reset := false):
-	if reset: _reset_all(true, false)
+	if reset: _reset_all(true, false, true)
 	var b:Block2 = get_block(x, y)
 	if b == null || b.state == Block2.State.POPPING || b.is_unpoppable_type(): return
 	_pop_block(x, y, b.type)
@@ -513,6 +513,7 @@ func _finish_fall(x:int, y:int, type:String):
 	if b.is_falling_or_been_popped(): return
 	b.state = Block2.State.POSTFALL
 	b.wait_time = Consts.PREFALL_WAIT_TIME
+	b.lock_check = true
 	if b.is_unpoppable_type(): return
 	_finish_fall(x - 1, y, type)
 	_finish_fall(x + 1, y, type)
@@ -525,6 +526,7 @@ func _fall_to_none(x:int, y:int, type:String):
 	if b.is_falling_or_been_popped(): return
 	b.state = Block2.State.NONE
 	b.wait_time = Consts.PREFALL_WAIT_TIME
+	b.lock_check = true
 	if b.is_unpoppable_type(): return
 	_fall_to_none(x - 1, y, type)
 	_fall_to_none(x + 1, y, type)
@@ -561,12 +563,12 @@ func _set_wait_time(x:int, y:int, type:String, wait_time:float):
 	_set_wait_time(x, y - 1, type, wait_time)
 	_set_wait_time(x, y + 1, type, wait_time)
 
-func _reset_all(recurse_check := true, pop_wait_check := true):
+func _reset_all(recurse_check := true, pop_wait_check := true, lock_check := true):
 	for y in height:
 		for x in width:
 			var b:Block2 = current_level[x][y]
 			if b == null: continue
-			b.reset_flags(recurse_check, pop_wait_check)
+			b.reset_flags(recurse_check, pop_wait_check, lock_check)
 
 class FallInfo:
 	var fell := false

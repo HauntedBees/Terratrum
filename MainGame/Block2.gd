@@ -23,7 +23,7 @@ onready var shader:ShaderMaterial = sprite.material
 
 var recurse_check := false
 var pop_wait_check := false
-var just_landed := false
+var lock_check := false
 
 func _ready():
 	shader = shader.duplicate()
@@ -32,9 +32,10 @@ func _ready():
 	sprite.modulate = COLOR_XREF[type]
 	_set_shader()
 
-func reset_flags(set_done := true, set_pop_wait_check := true):
-	if set_done: recurse_check = false
+func reset_flags(set_recurse_check := true, set_pop_wait_check := true, set_lock_check := true):
+	if set_recurse_check: recurse_check = false
 	if set_pop_wait_check: pop_wait_check = false
+	if set_lock_check: lock_check = false
 
 func is_falling_or_been_popped() -> bool:
 	return state == State.FALLING || state == State.POPPING || state == State.POPPED
