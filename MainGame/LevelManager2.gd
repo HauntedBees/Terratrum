@@ -15,7 +15,9 @@ var max_y := 0
 var min_y := 0
 const ABOVE_LIMIT := 15
 var kill_queue := []
+
 const DEBUG := false
+var debug_timer := -1.0
 
 func _ready():
 	current_level = lb.current_level
@@ -54,7 +56,7 @@ func _redraw_block(x:int, y:int, redraw_neighbors:bool):
 func _reverse_range() -> Array: return range(max_y, min_y - 1, -1)
 func _range() -> Array: return range(min_y, max_y + 1)
 func _process(delta:float):
-	var o := OS.get_ticks_msec()
+	_print_debug()
 	if power_saver: min_y = max(0, get_player_pos().y - ABOVE_LIMIT)
 	if kill_queue.size() > 0:
 		kill_queue[0].queue_free()
@@ -70,9 +72,7 @@ func _process(delta:float):
 				kill_queue.append(b)
 				#b.queue_free()
 			else: b.reset_flags()
-	if DEBUG:
-		print("A = %s" % [OS.get_ticks_msec() - o])
-		o = OS.get_ticks_msec()
+	_print_debug("A")
 	# B. check if blocks have finished falling and pop 4+groups that have landed
 	for y in _reverse_range():
 		for x in width:
@@ -81,9 +81,7 @@ func _process(delta:float):
 			var fell_info := _check_falling_block(x, y, b.type)
 			if fell_info.should_clear():
 				_pop_from_fall(x, y, b.type)
-	if DEBUG:
-		print("B = %s" % [OS.get_ticks_msec() - o])
-		o = OS.get_ticks_msec()
+	_print_debug("B")
 	# C. handle player digging action
 	if player.is_digging:
 		player.is_digging = false
@@ -94,13 +92,9 @@ func _process(delta:float):
 			# TODO: handle score
 			# TODO: lower health/handle x blocks
 			_pop_from_action(target_block_pos.x, target_block_pos.y)
-	if DEBUG:
-		print("C = %s" % [OS.get_ticks_msec() - o])
-		o = OS.get_ticks_msec()
+	_print_debug("C")
 	_reset_all()
-	if DEBUG:
-		print("reset = %s" % [OS.get_ticks_msec() - o])
-		o = OS.get_ticks_msec()
+	_print_debug("reset")
 	# D. handle setting blocks to fall
 	for y in _reverse_range():
 		for x in width:
@@ -126,13 +120,9 @@ func _process(delta:float):
 					_fall_to_none(x, y, b.type)
 			else:
 				_fall_to_none(x, y, b.type)
-	if DEBUG:
-		print("D = %s" % [OS.get_ticks_msec() - o])
-		o = OS.get_ticks_msec()
+	_print_debug("D")
 	_reset_all()
-	if DEBUG:
-		print("reset = %s" % [OS.get_ticks_msec() - o])
-		o = OS.get_ticks_msec()
+	_print_debug("reset")
 	# E. set wait time on PREFALL blocks
 	for y in _reverse_range():
 		for x in width:
@@ -140,13 +130,9 @@ func _process(delta:float):
 			if b == null || b.recurse_check || b.state != Block2.State.PREFALL: continue
 			var wait_time := _get_highest_wait_time(x, y, b.type)
 			_set_wait_time(x, y, b.type, wait_time)
-	if DEBUG:
-		print("E = %s" % [OS.get_ticks_msec() - o])
-		o = OS.get_ticks_msec()
+	_print_debug("E")
 	_reset_all(true, false, true) # why false?
-	if DEBUG:
-		print("reset = %s" % [OS.get_ticks_msec() - o])
-		o = OS.get_ticks_msec()
+	_print_debug("reset")
 	# F. make the blocks fall and pop
 	for y in _reverse_range():
 		for x in width:
@@ -174,8 +160,16 @@ func _process(delta:float):
 					b.wait_time -= delta
 					if b.wait_time <= 0:
 						b.state = Block2.State.POPPED
-	if DEBUG:
-		print("F = %s" % [OS.get_ticks_msec() - o])
+	_print_debug("F")
+
+func _print_debug(key:String = ""):
+	if !DEBUG: return
+	if key == "":
+		debug_timer = OS.get_ticks_msec()
+		return
+	var delta := OS.get_ticks_msec() - debug_timer
+	print("%s = %s" % [key, delta])
+	debug_timer = OS.get_ticks_msec()
 
 func _check_falling_block(x:int, y:int, type:String) -> FallInfo:
 	var b:Block2 = get_block(x, y)
