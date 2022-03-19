@@ -102,3 +102,6 @@ anims/RESET = SubResource( 8 )
 anims/fade = SubResource( 9 )
 anims/flicker = SubResource( 10 )
 anims/wiggle = SubResource( 11 )
+
+[connection signal="mouse_entered" from="Center" to="." method="_on_Center_mouse_entered"]
+[connection signal="mouse_exited" from="Center" to="." method="_on_Center_mouse_exited"]

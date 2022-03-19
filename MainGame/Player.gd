@@ -26,9 +26,14 @@ class ForcedStep:
 		dir = direction
 		new_pos = new_position
 
-func _process(_delta): camera.global_position.x = camera_x
+func _process(_delta):
+	camera.global_position.x = camera_x
+	if GASInput.is_action_just_pressed("ui_accept") && can_dig():
+		drill_cooldown = Consts.POP_HOLD_TIME
+		is_digging = true
 
-func can_dig() -> bool: return forced_steps.size() == 0 && drill_cooldown <= 0.0 && (on_floor || near_floors.size() > 0)
+func can_dig() -> bool:
+	return forced_steps.size() == 0 && drill_cooldown <= 0.0 && (on_floor || near_floors.size() > 0)
 
 func _physics_process(delta:float):
 	if drill_cooldown > 0.0:

@@ -109,8 +109,8 @@ func continue_making_level(level: Array, level_info, delayed: bool = true):
 		4: potential_types = ["red", "blue", "green", "yellow"]
 		3: potential_types = ["red", "blue", "green"]
 		2: potential_types = ["blue", "yellow"]
-	var top_chunk := _get_debug_top(7)
-	#var top_chunk:Array = [] if delayed else _get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
+	#var top_chunk := _get_debug_top(7)
+	var top_chunk:Array = [] if delayed else _get_level_top(level_info.colors) # "!delayed" is equivalent to "top of level"
 	var top_chunk_size := top_chunk.size()
 	var special_occasions := _get_air_sections()
 	for y in height:
@@ -449,6 +449,19 @@ func _check_falling_block(x:int, y:int, type:String) -> FallInfo:
 	info.merge(_check_falling_block(x, y - 1, type))
 	info.merge(_check_falling_block(x, y + 1, type))
 	return info
+
+func debug_pop(b:Block2):
+	var by := -1
+	var bx := -1
+	for y in height:
+		for x in width:
+			if current_level[x][y] == b:
+				bx = x
+				by = y
+				break
+		if by >= 0: break
+	if bx < 0: return
+	_pop_from_action(bx, by, true)
 
 func _pop_from_fall(x:int, y:int, type:String):
 	var b:Block2 = get_block(x, y)

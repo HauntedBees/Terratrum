@@ -3,6 +3,7 @@ class_name Block2
 
 enum State { NONE, PREFALL, FALLING, POSTFALL, POPPING, POPPED }
 
+onready var anim := $AnimationPlayer
 onready var sprite := $AnimatedSprite
 const COLOR_XREF = {
 	"red": Color(0.9, 0.4, 0.4),
@@ -22,6 +23,7 @@ onready var shader:ShaderMaterial = sprite.material
 
 var recurse_check := false
 var pop_wait_check := false
+
 
 func _ready():
 	shader = shader.duplicate()
@@ -59,4 +61,19 @@ func _set_shader():
 
 func pop():
 	$Center/CollisionShape2D.disabled = true
-	$AnimationPlayer.play("fade")
+	anim.play("fade")
+func wiggle():
+	anim.play("wiggle")
+func cancel_anim(): anim.stop(true)
+
+# Debug Stuff
+signal debug_kill
+var mouse := false
+func _on_Center_mouse_entered(): mouse = true
+func _on_Center_mouse_exited(): mouse = false
+func _input(e:InputEvent):
+	if mouse && e is InputEventMouseButton && e.button_index == 2 && e.pressed:
+		if Input.is_key_pressed(KEY_SHIFT):
+			print(type)
+		else:
+			emit_signal("debug_kill")

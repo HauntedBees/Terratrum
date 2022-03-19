@@ -21,7 +21,7 @@ const CLIMB_STEP_TIME := 2.0 / ACTION_TIME
 # will probably be used
 const DEATH_TIME := 1.0
 
-const PREFALL_WAIT_TIME := 0.25
+const PREFALL_WAIT_TIME := 1.0#0.25
 
 # score
 const CLEAR_MULTIPLIER := 10
