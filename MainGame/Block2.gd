@@ -4,7 +4,7 @@ class_name Block2
 enum State { NONE, PREFALL, FALLING, POSTFALL, POPPING, POPPED }
 
 onready var anim := $AnimationPlayer
-onready var sprite := $AnimatedSprite
+onready var sprite:AnimatedSprite = $AnimatedSprite
 const COLOR_XREF = {
 	"red": Color(0.9, 0.4, 0.4),
 	"green": Color(0.4, 0.9, 0.4),
@@ -25,6 +25,7 @@ var recurse_check := false
 var pop_wait_check := false
 var lock_check := false
 var just_landed := false
+onready var base_x := sprite.position.x
 
 func _ready():
 	shader = shader.duplicate()
@@ -32,6 +33,12 @@ func _ready():
 	if type == "air": return
 	sprite.modulate = COLOR_XREF[type]
 	_set_shader()
+
+func _process(delta):
+	if wait_time <= 0.0 || wait_time >= Consts.PREFALL_WAIT_TIME || state != State.PREFALL:
+		sprite.position.x = base_x
+	else:
+		sprite.position.x = base_x + 3 * sin(6 * wait_time * PI)
 
 func reset_flags(set_recurse_check := true, set_pop_wait_check := true, set_lock_check := true):
 	if set_recurse_check: recurse_check = false
@@ -64,9 +71,6 @@ func _set_shader():
 func pop():
 	$Center/CollisionShape2D.disabled = true
 	anim.play("fade")
-func wiggle():
-	anim.play("wiggle")
-func cancel_anim(): anim.stop(true)
 
 # Debug Stuff
 signal debug_kill
