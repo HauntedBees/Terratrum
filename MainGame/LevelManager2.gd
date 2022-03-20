@@ -9,6 +9,8 @@ var player_offset := Vector2(224, 0)
 
 var block_size := Consts.BLOCK_SIZE
 var block_scale := 1
+var score := 0
+var air_amount := 100.0
 
 var power_saver := true
 var max_y := 0
@@ -57,6 +59,7 @@ func _redraw_block(x:int, y:int, redraw_neighbors:bool):
 func _reverse_range() -> Array: return range(max_y, min_y - 1, -1)
 func _range() -> Array: return range(min_y, max_y + 1)
 func _process(delta:float):
+	air_amount -= delta * Consts.AIR_DECREASE_RATE
 	for k in player_popped.keys():
 		player_popped[k] -= delta
 		if player_popped[k] <= 0: player_popped.erase(k)

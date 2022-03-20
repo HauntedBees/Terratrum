@@ -22,6 +22,7 @@ const CLIMB_STEP_TIME := 2.0 / ACTION_TIME
 const DEATH_TIME := 1.0
 
 const PREFALL_WAIT_TIME := 1.0#0.25
+const AIR_DECREASE_RATE := 1.0 # higher = air depletes faster
 
 # score
 const CLEAR_MULTIPLIER := 10

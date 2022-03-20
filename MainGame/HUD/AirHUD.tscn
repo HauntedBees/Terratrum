@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Menu/Assets/AirBack.png" type="Texture" id=1]
+[ext_resource path="res://Menu/Assets/AirFront.png" type="Texture" id=2]
+[ext_resource path="res://Menu/Assets/AirMiddle.png" type="Texture" id=3]
+[ext_resource path="res://Menu/UIThemeSmall.tres" type="Theme" id=4]
+[ext_resource path="res://MainGame/HUD/AirHUD.gd" type="Script" id=5]
+
+[node name="AirHUD" type="TextureProgress"]
+margin_right = 128.0
+margin_bottom = 128.0
+value = 100.0
+rounded = true
+texture_under = ExtResource( 1 )
+texture_over = ExtResource( 2 )
+texture_progress = ExtResource( 3 )
+fill_mode = 5
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Key" type="Label" parent="."]
+margin_right = 128.0
+margin_bottom = 128.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+theme = ExtResource( 4 )
+text = "Air
+100%"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
