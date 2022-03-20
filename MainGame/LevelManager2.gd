@@ -176,7 +176,9 @@ func _check_falling_block(x:int, y:int, type:String) -> FallInfo:
 	if b == null || b.recurse_check || b.type != type: return FallInfo.new()
 	b.recurse_check = true
 	if b.state == Block2.State.FALLING: return FallInfo.new() # this seems redundant, they'll never be FALLING
-	var info := FallInfo.new(b.state == Block2.State.POSTFALL, 1)
+	#var info := FallInfo.new(b.state == Block2.State.POSTFALL, 1)
+	var info := FallInfo.new(b.just_landed, 1)
+	b.just_landed = false
 	info.merge(_check_falling_block(x - 1, y, type))
 	info.merge(_check_falling_block(x + 1, y, type))
 	info.merge(_check_falling_block(x, y - 1, type))
@@ -235,6 +237,8 @@ func _fall_to_none(x:int, y:int, type:String):
 	if b == null || b.recurse_check || b.type != type: return
 	b.recurse_check = true
 	if b.is_falling_or_been_popped(): return
+	if b.state == Block2.State.POSTFALL: b.just_landed = true
+	#b.just_landed = b.state == Block2.State.NONE
 	b.state = Block2.State.NONE
 	b.wait_time = Consts.PREFALL_WAIT_TIME
 	b.lock_check = true

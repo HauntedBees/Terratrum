@@ -24,6 +24,7 @@ onready var shader:ShaderMaterial = sprite.material
 var recurse_check := false
 var pop_wait_check := false
 var lock_check := false
+var just_landed := false
 
 func _ready():
 	shader = shader.duplicate()
