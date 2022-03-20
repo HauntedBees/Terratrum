@@ -23,13 +23,10 @@ uniform float show_dark = 0.0;
 
 void fragment() {
 	vec2 pixel_resolution = (1.0 / SCREEN_PIXEL_SIZE) / vec2(64.0, 32.0);
-	vec2 uv = UV * pixel_resolution;
-	vec2 i_uv = floor(uv);
-	vec2 f_uv = fract(uv);
-	float amount = -1.5 + 2.5 * completion;
-	float wave = max(0.0, i_uv.y / pixel_resolution.y - amount);
+	vec2 f_uv = fract(UV * pixel_resolution);
+	float amount = 1.5 - 2.5 * completion;
 	vec2 center = f_uv * 2.0 - 1.0;
-	float circle = 1.0 - step(wave, length(center));
+	float circle = 1.0 - step(amount, length(center));
 	
 	vec4 tile = texture(main_texture, (UV + tile_offset) / tile_grid).rgba;
 	vec4 mask = texture(mask_texture, (UV + mask_offset) / 4.0).rgba;
