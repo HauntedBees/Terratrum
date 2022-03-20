@@ -15,10 +15,10 @@ func _ready():
 	t.start()
 func _draw():
 	l.text = "%sFPS / [%s, %s]" % [Engine.get_frames_per_second(), lm.min_y, lm.max_y]
-	for y in lm.height:
-		for x in lm.width:
-			draw_rect(Rect2(DX + x * BOX_SIZE, DY + y * BOX_SIZE, BOX_SIZE, BOX_SIZE), _get_color(lm.get_block(x, y)))
-			_draw_debug(x, y)
+#	for y in lm.height:
+#		for x in lm.width:
+#			draw_rect(Rect2(DX + x * BOX_SIZE, DY + y * BOX_SIZE, BOX_SIZE, BOX_SIZE), _get_color(lm.get_block(x, y)))
+#			_draw_debug(x, y)
 
 func _draw_debug(x:int, y:int):
 	var b := lm.get_block(x, y)

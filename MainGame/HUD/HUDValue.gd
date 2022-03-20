@@ -1,5 +1,6 @@
 tool
 extends NinePatchRect
+class_name HUDValue
 
 onready var k := $Key
 onready var v := $Value

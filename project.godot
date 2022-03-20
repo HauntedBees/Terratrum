@@ -99,6 +99,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://code/HUDText.gd"
 }, {
+"base": "NinePatchRect",
+"class": "HUDValue",
+"language": "GDScript",
+"path": "res://MainGame/HUD/HUDValue.gd"
+}, {
 "base": "Node2D",
 "class": "LevelBuilder",
 "language": "GDScript",
@@ -168,6 +173,7 @@ _global_script_class_icons={
 "GASVirtualGizmo": "",
 "GASVirtualMovementControl": "",
 "HUDText": "",
+"HUDValue": "",
 "LevelBuilder": "",
 "LevelBuilder2": "",
 "LevelHandler": "",

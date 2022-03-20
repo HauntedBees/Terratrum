@@ -30,9 +30,11 @@ onready var base_x := sprite.position.x
 func _ready():
 	shader = shader.duplicate()
 	sprite.material = shader
-	if type == "air": return
-	sprite.modulate = COLOR_XREF[type]
-	_set_shader()
+	if type == "air":
+		$StaticBody2D/CollisionPolygon2D.disabled = true
+	else:
+		sprite.modulate = COLOR_XREF[type]
+		_set_shader()
 
 func _process(delta):
 	if wait_time <= 0.0 || wait_time >= Consts.PREFALL_WAIT_TIME || state != State.PREFALL:
