@@ -13,8 +13,9 @@ var block_scale := 1
 var power_saver := true
 var max_y := 0
 var min_y := 0
-const ABOVE_LIMIT := 15
+const ABOVE_LIMIT := 20
 var kill_queue := []
+var player_popped := {}
 
 const DEBUG := false
 var debug_timer := -1.0
@@ -56,6 +57,9 @@ func _redraw_block(x:int, y:int, redraw_neighbors:bool):
 func _reverse_range() -> Array: return range(max_y, min_y - 1, -1)
 func _range() -> Array: return range(min_y, max_y + 1)
 func _process(delta:float):
+	for k in player_popped.keys():
+		player_popped[k] -= delta
+		if player_popped[k] <= 0: player_popped.erase(k)
 	_print_debug()
 	if power_saver: min_y = max(0, get_player_pos().y - ABOVE_LIMIT)
 	if kill_queue.size() > 0:
@@ -202,6 +206,7 @@ func _pop_from_fall(x:int, y:int, type:String):
 	_pop_from_fall(x, y + 1, type)
 func _pop_from_action(x:int, y:int, reset := false):
 	if reset: _reset_all(true, false, true)
+	#player_popped = []
 	var b:Block2 = get_block(x, y)
 	if b == null || b.state == Block2.State.POPPING || b.is_unpoppable_type(): return
 	_pop_block(x, y, b.type)
@@ -211,6 +216,7 @@ func _pop_block(x:int, y:int, type:String):
 	b.recurse_check = true
 	b.state = Block2.State.POPPING
 	b.player_popped = true
+	player_popped[Vector2(x, y)] = 0.5
 	b.wait_time = Consts.PLAYER_POP_TIME
 	b.pop()
 	max_y = max(max_y, y)
@@ -260,6 +266,9 @@ func _get_highest_wait_time(x:int, y:int, type:String) -> float:
 		else:
 			var fall_time:float = Consts.PREFALL_WAIT_TIME if below.player_popped else 0.0
 			wait_time = max(wait_time, fall_time)
+	elif below == null && player_popped.has(Vector2(x, y + 1)):
+		player_popped.erase(Vector2(x, y + 1))
+		wait_time = max(wait_time,  Consts.PREFALL_WAIT_TIME)
 	if b.is_unpoppable_type(): return wait_time
 	wait_time = max(wait_time, _get_highest_wait_time(x - 1, y, type))
 	wait_time = max(wait_time, _get_highest_wait_time(x + 1, y, type))
