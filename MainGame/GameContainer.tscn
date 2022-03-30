@@ -83,6 +83,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/MarginContainer/Game/RightSide"]
+margin_top = 516.0
+margin_right = 200.0
+margin_bottom = 708.0
+size_flags_horizontal = 3
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AirHUD" parent="HUD/MarginContainer/Game/RightSide/HBoxContainer" instance=ExtResource( 16 )]
+margin_left = 4.0
+margin_right = 196.0
+margin_bottom = 192.0
+
 [node name="MarginContainer" type="MarginContainer" parent="HUD/MarginContainer/Game/RightSide"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -150,16 +165,6 @@ patch_margin_right = 32
 patch_margin_bottom = 32
 key = "Lives"
 val = "3"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HUD/MarginContainer/Game/RightSide/MarginContainer/VBoxContainer"]
-margin_top = 416.0
-margin_right = 180.0
-margin_bottom = 544.0
-alignment = 1
-
-[node name="AirHUD" parent="HUD/MarginContainer/Game/RightSide/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 16 )]
-margin_left = 26.0
-margin_right = 154.0
 
 [node name="GASVirtualGamepad" type="Control" parent="HUD"]
 modulate = Color( 1, 1, 1, 0.490196 )
