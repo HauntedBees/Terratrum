@@ -23,6 +23,7 @@ const DEATH_TIME := 1.0
 
 const PREFALL_WAIT_TIME := 1.0#0.25
 const AIR_DECREASE_RATE := 1.0 # higher = air depletes faster
+const AIR_INCREASE_AMOUNT := 20.0
 
 # score
 const CLEAR_MULTIPLIER := 10

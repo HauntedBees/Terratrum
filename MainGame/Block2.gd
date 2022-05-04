@@ -73,6 +73,11 @@ func _set_shader():
 func pop():
 	$Center/CollisionShape2D.disabled = true
 	anim.play("fade")
+func hide():
+	$Center/CollisionShape2D.disabled = true
+	visible = false
+
+func can_climb_through() -> bool: return type == "air"
 
 # Debug Stuff
 signal debug_kill

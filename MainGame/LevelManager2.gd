@@ -60,6 +60,17 @@ func _reverse_range() -> Array: return range(max_y, min_y - 1, -1)
 func _range() -> Array: return range(min_y, max_y + 1)
 func _process(delta:float):
 	air_amount -= delta * Consts.AIR_DECREASE_RATE
+	_drop_and_pop_blocks(delta)
+
+func _handle_air():
+	var player_pos := get_player_pos()
+	var block_at_player := get_block_v(player_pos)
+	if block_at_player == null: return
+	if block_at_player.type != "air" || block_at_player.player_popped: return
+	_destroy_block(player_pos.x, player_pos.y)
+	air_amount = min(100.0, air_amount + Consts.AIR_INCREASE_AMOUNT)
+
+func _drop_and_pop_blocks(delta:float):
 	for k in player_popped.keys():
 		player_popped[k] -= delta
 		if player_popped[k] <= 0: player_popped.erase(k)
@@ -89,7 +100,7 @@ func _process(delta:float):
 			if fell_info.should_clear():
 				_pop_from_fall(x, y, b.type)
 	_print_debug("B")
-	# C. handle player digging action
+	# C. handle player digging action and air gathering
 	if player.is_digging:
 		player.is_digging = false
 		var target_block_pos := get_player_target_pos(player.active_direction)
@@ -99,6 +110,7 @@ func _process(delta:float):
 			# TODO: handle score
 			# TODO: lower health/handle x blocks
 			_pop_from_action(target_block_pos.x, target_block_pos.y)
+	_handle_air()
 	_print_debug("C")
 	_reset_all()
 	_print_debug("reset")
@@ -227,6 +239,16 @@ func _pop_block(x:int, y:int, type:String):
 	_pop_block(x + 1, y, type)
 	_pop_block(x, y - 1, type)
 	_pop_block(x, y + 1, type)
+func _destroy_block(x:int, y:int):
+	var b:Block2 = get_block(x, y)
+	if b == null || b.recurse_check || b.state == Block2.State.FALLING: return
+	b.recurse_check = true
+	b.state = Block2.State.POPPING
+	b.player_popped = true
+	player_popped[Vector2(x, y)] = 0.5
+	b.wait_time = Consts.PLAYER_POP_TIME
+	max_y = max(max_y, y)
+	b.hide()
 
 func _finish_fall(x:int, y:int, type:String):
 	var b:Block2 = get_block(x, y)
